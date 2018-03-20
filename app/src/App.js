@@ -30,17 +30,17 @@ var myLayout = new GoldenLayout({
         content:[{
             type:'react-component',
             component: 'aceComponent',
-            props: { label: 'A' }
+            props: { file: 'FileA' }
         },{
             type: 'column',
             content:[{
                 type:'react-component',
                 component: 'aceComponent',
-                props: { label: 'B' }
+                props: { file: 'FileA' }
             },{
                 type:'react-component',
                 component: 'aceComponent',
-                props: { label: 'C' }
+                props: { file: 'FileB' }
             }]
         }]
     }]
@@ -49,18 +49,18 @@ var myLayout = new GoldenLayout({
 
 class AceComponent extends React.Component {
     componentWillMount() {
-	this.props.glEventHub.on( 'text_changed', this.setValue, this );
+	this.props.glEventHub.on( this.props.file, this.setValue, this );
 	this.props.glContainer.on( 'resize', function(){
 	    window.dispatchEvent(new Event('resize'));
 	});
     }
 
     componentWillUnmount() {
-	this.props.glEventHub.off( 'text_changed', this.setValue, this );
+	this.props.glEventHub.off( this.props.file, this.setValue, this );
     }
     
     valChanged(newValue) {
-	this.props.glEventHub.emit('text_changed', newValue);
+	this.props.glEventHub.emit( this.props.file, newValue);
     }
     
     setValue(newValue) {
@@ -78,7 +78,7 @@ class AceComponent extends React.Component {
             mode="ocaml"
             theme="monokai"
             onChange={(n) => this.valChanged(n)}
-            name={this.props.label}
+            name={ this.props.file}
 	    width="100%"
 	    height="100%"
 	    value={ val }
@@ -100,8 +100,8 @@ myLayout.init();
 
 class App extends Component {
   render() {
-    return (
-      <div className="App">
+    return ""
+     /* <div className="App">
         <header className="App-header">
           <img src={logo} className="App-logo" alt="logo" />
           <h1 className="App-title">Welcome to React</h1>
@@ -110,9 +110,9 @@ class App extends Component {
           Pouet
         </p>
       </div>
-    );
+     */
+    ;
   }
 }
 
-export default App;
-
+export default App
