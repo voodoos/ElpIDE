@@ -1,12 +1,17 @@
 import React, { Component } from 'react';
+import ReactDOM from 'react-dom';
 import GoldenLayout from 'golden-layout';
 import CreateReactClass from 'create-react-class';
 import logo from './logo.svg';
 import './App.css';
-//import ReactDOM from 'react-dom'
 
-//window.React = React
-//window.ReactDOM = ReactDOM
+import 'golden-layout/dist/goldenlayout.min.js'
+import 'golden-layout/src/css/goldenlayout-base.css'
+import 'golden-layout/src/css/goldenlayout-dark-theme.css'
+
+window.React = React
+window.ReactDOM = ReactDOM
+
 var myLayout = new GoldenLayout({
     content: [{
         type: 'row',
