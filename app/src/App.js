@@ -1,28 +1,23 @@
 import React, { Component } from 'react';
 import ReactDOM from 'react-dom';
 import GoldenLayout from 'golden-layout';
-import logo from './logo.svg';
+
 import './App.css';
 
-// Import Brace and the AceEditor Component
-//import brace from 'brace';
-import AceEditor from 'react-ace';
+import AceComponent from './components/ace.jsx'
+import MenuComponent from './components/menu.jsx'
 
-// Import a Mode (language)
-import 'brace/mode/ocaml';
-
-// Import a Theme (okadia, github, xcode etc)
-import 'brace/theme/monokai';
-
-import 'brace/ext/language_tools';
-import 'brace/ext/searchbox';
 
 import 'golden-layout/dist/goldenlayout.min.js'
 import 'golden-layout/src/css/goldenlayout-base.css'
 import 'golden-layout/src/css/goldenlayout-dark-theme.css'
 
+import 'semantic-ui-css/semantic.min.css'
+import './ui.css'
+
 window.React = React
 window.ReactDOM = ReactDOM
+
 
 var myLayout = new GoldenLayout({
     content: [{
@@ -30,89 +25,46 @@ var myLayout = new GoldenLayout({
         content:[{
             type:'react-component',
             component: 'aceComponent',
+	    title: 'FileA',
             props: { file: 'FileA' }
         },{
             type: 'column',
             content:[{
                 type:'react-component',
                 component: 'aceComponent',
+		title: 'FileA',
                 props: { file: 'FileA' }
             },{
                 type:'react-component',
                 component: 'aceComponent',
+		title: 'FileB',
                 props: { file: 'FileB' }
             }]
         }]
     }]
-});
+}, '#gl_container');
 
-
-class AceComponent extends React.Component {
-    componentWillMount() {
-	this.props.glEventHub.on( this.props.file, this.setValue, this );
-	this.props.glContainer.on( 'resize', function(){
-	    window.dispatchEvent(new Event('resize'));
-	});
-    }
-
-    componentWillUnmount() {
-	this.props.glEventHub.off( this.props.file, this.setValue, this );
-    }
-    
-    valChanged(newValue) {
-	this.props.glEventHub.emit( this.props.file, newValue);
-    }
-    
-    setValue(newValue) {
-	this.setState({ value: newValue });
-    }
-    
-    render() {
-	var val = "tata";
-	if( this.state ) {
-	    val = this.state.value;
-	}
-	
-	return (
-                <AceEditor
-            mode="ocaml"
-            theme="monokai"
-            onChange={(n) => this.valChanged(n)}
-            name={ this.props.file}
-	    width="100%"
-	    height="100%"
-	    value={ val }
-	    setOptions={{
-		enableBasicAutocompletion: true,
-		enableLiveAutocompletion: true,
-		enableSnippets: false,
-		showLineNumbers: true,
-		tabSize: 4,
-	    }}
-                />
-        );
-    }
-}
 
 myLayout.registerComponent( 'aceComponent', AceComponent );
 
 myLayout.init();
+myLayout.on('initialised',
+	    () => window.addEventListener('resize',
+					  () => myLayout.updateSize()
+					 )
+	   );
+
 
 class App extends Component {
-  render() {
-    return ""
-     /* <div className="App">
-        <header className="App-header">
-          <img src={logo} className="App-logo" alt="logo" />
-          <h1 className="App-title">Welcome to React</h1>
-        </header>
-        <p className="App-intro">
-          Pouet
-        </p>
-      </div>
-     */
-    ;
-  }
+    render() {
+	return (
+		<div id="App" className="App">
+		<div id="navbar">
+		  <MenuComponent />
+		</div>
+		<div id="gl_container"></div>
+		</div>);
+    }
 }
 
 export default App
