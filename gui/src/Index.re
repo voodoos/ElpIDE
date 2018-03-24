@@ -15,15 +15,6 @@
 [%%raw {|require('golden-layout/src/css/goldenlayout-base.css')|}];
 [%%raw {|require('golden-layout/src/css/goldenlayout-dark-theme.css')|}];
 */
-
-/*
-
-var React = require('react');
-var ReactDOM = require('react-dom');
-
-window.React = React;
-window.ReactDOM = ReactDOM;
-
 */
 
 
