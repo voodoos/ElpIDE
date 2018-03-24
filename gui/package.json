@@ -17,6 +17,7 @@
   "dependencies": {
     "golden-layout": "^1.5.9",
     "react": "^16.2.0",
+    "react-ace": "^5.9.0",
     "react-dom": "^16.2.0",
     "reason-react": ">=0.3.4"
   },

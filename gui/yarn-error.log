@@ -31,6 +31,7 @@ npm manifest:
     "author": "",
     "license": "MIT",
     "dependencies": {
+      "golden-layout": "^1.5.9",
       "react": "^16.2.0",
       "react-dom": "^16.2.0",
       "reason-react": ">=0.3.4"
@@ -2009,6 +2010,12 @@ Lockfile:
       pify "^2.0.0"
       pinkie-promise "^2.0.0"
   
+  golden-layout@^1.5.9:
+    version "1.5.9"
+    resolved "https://registry.yarnpkg.com/golden-layout/-/golden-layout-1.5.9.tgz#a39bc1f6a67e6f886b797c016dd924e9426ba77f"
+    dependencies:
+      jquery "*"
+  
   got@^7.0.0:
     version "7.1.0"
     resolved "https://registry.yarnpkg.com/got/-/got-7.1.0.tgz#05450fd84094e6bbea56f451a43a9c289166385a"
@@ -2552,6 +2559,10 @@ Lockfile:
     dependencies:
       has-to-string-tag-x "^1.2.0"
       is-object "^1.0.1"
+  
+  jquery@*:
+    version "3.3.1"
+    resolved "https://registry.yarnpkg.com/jquery/-/jquery-3.3.1.tgz#958ce29e81c9790f31be7792df5d4d95fc57fbca"
   
   js-tokens@^3.0.0, js-tokens@^3.0.2:
     version "3.0.2"
