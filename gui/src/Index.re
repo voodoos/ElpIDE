@@ -1,23 +1,30 @@
 
+
+[@bs.new][@bs.module] external react  :
+  unit => unit =
+  "react";
+
+
+[%%raw "var React = require('react')"];
+[%%raw "var ReactDOM = require('react-dom')"];
+[%%raw "window.React = React"];
+[%%raw "window.ReactDOM = ReactDOM"];
+
 /*
-
-[@bs.module] external myJSReactClass : ReasonReact.reactClass =
-  "react-ace";
-
-let make = (~message: string, ~theme: option(string)=?, children) =>
-  ReasonReact.wrapJsForReason(
-  ~reactClass=myJSReactClass,
-  ~props={"name": message,
-          "theme": Js.Nullable.fromOption(theme)},
-  children
-);
-
-
-
-
+[%%raw {|require('golden-layout/dist/goldenlayout.min.js')|}];
+[%%raw {|require('golden-layout/src/css/goldenlayout-base.css')|}];
+[%%raw {|require('golden-layout/src/css/goldenlayout-dark-theme.css')|}];
 */
 
+/*
 
+var React = require('react');
+var ReactDOM = require('react-dom');
+
+window.React = React;
+window.ReactDOM = ReactDOM;
+
+*/
 
 
 /* Initiallizing the Golden Layout */
@@ -27,18 +34,28 @@ let config =
   Js_dict.fromList(
     [("type", string("row")),
      ("content", array(
-      [|  |]
+      [| object_(
+       Js_dict.fromList(
+        [("type", string("react-component")),
+         ("component", string("ace"))]
+        )
+       )|]
     ))]
   )
 )
 );
 
 let glayout = GoldenLayout.create_gl(config, "body");
-GoldenLayout.init_gl(glayout);
+
+
+GoldenLayout.registerComponent(glayout, "ace", Ace.default);
+
+GoldenLayout.init(glayout);
+
 
 ReactDOMRe.renderToElementWithId(
   <AceEditor
-    mode="ocaml"
+    mode="ocaml" 
     theme="monokai"
     name="test"
     /*
@@ -55,5 +72,5 @@ ReactDOMRe.renderToElementWithId(
 }}*/
     />, "index1");
 
-ReactDOMRe.renderToElementWithId(<Component2 greeting="Hello!" />, "index2");
+ReactDOMRe.renderToElementWithId(<Ace message="bababa" />, "index2");
 

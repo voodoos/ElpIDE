@@ -15,6 +15,7 @@
   "author": "",
   "license": "MIT",
   "dependencies": {
+    "css-loader": "^0.28.11",
     "golden-layout": "^1.5.9",
     "react": "^16.2.0",
     "react-ace": "^5.9.0",

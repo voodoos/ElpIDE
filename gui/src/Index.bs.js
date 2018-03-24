@@ -5,8 +5,29 @@ var Js_dict = require("bs-platform/lib/js/js_dict.js");
 var ReactDOMRe = require("reason-react/src/ReactDOMRe.js");
 var ReasonReact = require("reason-react/src/ReasonReact.js");
 var GoldenLayout = require("golden-layout");
+var Ace$ReactTemplate = require("./components/ace.bs.js");
 var AceEditor$ReactTemplate = require("./bindings/AceEditor.bs.js");
-var Component2$ReactTemplate = require("./Component2.bs.js");
+
+var React = require('react')
+;
+
+var ReactDOM = require('react-dom')
+;
+
+window.React = React
+;
+
+window.ReactDOM = ReactDOM
+;
+
+require('golden-layout/dist/goldenlayout.min.js')
+;
+
+require('golden-layout/src/css/goldenlayout-base.css')
+;
+
+require('golden-layout/src/css/goldenlayout-dark-theme.css')
+;
 
 var config = Js_dict.fromList(/* :: */[
       /* tuple */[
@@ -16,7 +37,19 @@ var config = Js_dict.fromList(/* :: */[
       /* :: */[
         /* tuple */[
           "content",
-          /* array */[]
+          /* array */[Js_dict.fromList(/* :: */[
+                  /* tuple */[
+                    "type",
+                    "react-component"
+                  ],
+                  /* :: */[
+                    /* tuple */[
+                      "component",
+                      "ace"
+                    ],
+                    /* [] */0
+                  ]
+                ])]
         ],
         /* [] */0
       ]
@@ -24,12 +57,14 @@ var config = Js_dict.fromList(/* :: */[
 
 var glayout = new GoldenLayout(config, "body");
 
+glayout.registerComponent("ace", Ace$ReactTemplate.$$default);
+
 glayout.init();
 
 ReactDOMRe.renderToElementWithId(ReasonReact.element(/* None */0, /* None */0, AceEditor$ReactTemplate.make("ocaml", "monokai", "test", /* array */[])), "index1");
 
-ReactDOMRe.renderToElementWithId(ReasonReact.element(/* None */0, /* None */0, Component2$ReactTemplate.make("Hello!", /* array */[])), "index2");
+ReactDOMRe.renderToElementWithId(ReasonReact.element(/* None */0, /* None */0, Ace$ReactTemplate.make("bababa", /* array */[])), "index2");
 
 exports.config = config;
 exports.glayout = glayout;
-/* config Not a pure module */
+/*  Not a pure module */

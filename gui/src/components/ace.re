@@ -1,10 +1,10 @@
 /* This is the basic component. */
-let component = ReasonReact.statelessComponent("Page");
+let component = ReasonReact.statelessComponent("Ace");
 
 /* Your familiar handleClick from ReactJS. This mandatorily takes the payload,
    then the `self` record, which contains state (none here), `handle`, `reduce`
    and other utilities */
-let handleClick = (_event, _self) => Js.log("clicked!");
+let handleClick = (_event, _self) => Js.log("clickedtoto!");
 
 /* `make` is the function that mandatorily takes `children` (if you want to use
    `JSX). `message` is a named argument, which simulates ReactJS props. Usage:
@@ -21,3 +21,10 @@ let make = (~message, _children) => {
       (ReasonReact.stringToElement(message))
     </div>,
 };
+
+let default =
+  ReasonReact.wrapReasonForJs(
+  ~component,
+  (jsProps) => make(~message=jsProps##message,
+                    [||])
+);

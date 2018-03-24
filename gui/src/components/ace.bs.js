@@ -5,10 +5,10 @@ var Curry = require("bs-platform/lib/js/curry.js");
 var React = require("react");
 var ReasonReact = require("reason-react/src/ReasonReact.js");
 
-var component = ReasonReact.statelessComponent("Page");
+var component = ReasonReact.statelessComponent("Ace");
 
 function handleClick(_, _$1) {
-  console.log("clicked!");
+  console.log("clickedtoto!");
   return /* () */0;
 }
 
@@ -22,7 +22,14 @@ function make(message, _) {
   return newrecord;
 }
 
+var $$default = ReasonReact.wrapReasonForJs(component, (function (jsProps) {
+        return make(jsProps.message, /* array */[]);
+      }));
+
 exports.component = component;
 exports.handleClick = handleClick;
 exports.make = make;
+exports.$$default = $$default;
+exports.default = $$default;
+exports.__esModule = true;
 /* component Not a pure module */
