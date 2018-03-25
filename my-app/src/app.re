@@ -40,7 +40,18 @@ let config =
          ("component", string("ace")),
          ("props", object_(
           Js_dict.fromList(
-           [("message", string("POUET"))]
+           [("file", string("POUET1"))]
+         )
+        ))]
+        )
+     ),
+       object_(
+       Js_dict.fromList(
+        [("type", string("react-component")),
+         ("component", string("ace")),
+         ("props", object_(
+          Js_dict.fromList(
+           [("file", string("POUET2"))]
          )
         ))]
         )
@@ -53,6 +64,13 @@ let config =
 let glayout = GoldenLayout.create_gl(config, "#gl_container");
 
 
-GoldenLayout.registerComponent(glayout, "ace", Ace.default);
+GoldenLayout.registerComponent(glayout, "ace", Ace.rjs);
 
 GoldenLayout.init(glayout);
+
+/* TODO : un-dirty the following... */
+[%%raw {|glayout.on('initialised',
+	    () => window.addEventListener('resize',
+					  () => glayout.updateSize()
+					 )
+	   )|}];

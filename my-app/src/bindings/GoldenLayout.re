@@ -13,4 +13,3 @@ type golden;
 [@bs.send] external registerComponent :
   golden => string => ReasonReact.reactClass => unit =
   "registerComponent";
-

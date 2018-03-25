@@ -1,3 +1,5 @@
+
+
 /* This is the basic component. */
 let component = ReasonReact.statelessComponent("Ace");
 
@@ -14,32 +16,36 @@ let handleClick = (_event, _self) => Js.log("clickedtoto!");
    Which desugars to
 
    `ReasonReact.element(Page.make(~message="hello", [||]))` */
-let make = (~message, _children) => {
+let make = (~file, _children) => {
   ...component,
-  render: self =>
+  render: (_self) =>
     <AceEditor
       mode="ocaml" 
     theme="monokai"
-    name="test"
+    name={ file }
+    width="100%"
+    height="100%"
+    setOptions={Js.Json.(object_(
+    Js_dict.fromList(
+      [("enableBasicAutocompletion", boolean(Js.true_)),
+       ("enableLiveAutocompletion", boolean(Js.true_)),
+       ("enableSnippets", boolean(Js.false_)),
+       ("showLineNumbers", boolean(Js.true_)),
+       ("tabSize", number(4.))]
+      )
+  )
+    )
+}
+    
   /*
-     onChange={(n) => this.valChanged(n)}
-     name={ this.props.file}
-     width="100%"
-     height="100%"
-     setOptions={{
-     enableBasicAutocompletion: true,
-     enableLiveAutocompletion: true,
-     enableSnippets: false,
-     showLineNumbers: true,
-     tabSize: 4,
-     }}*/
+     onChange={(n) => this.valChanged(n)}}*/
     /> ,
 };
 
 /* We need a way to give this component to goldenlayout : */
-let default =
+let rjs =
   ReasonReact.wrapReasonForJs(
   ~component,
-  (jsProps) => make(~message=jsProps##message,
+  (jsProps) => make(~file=jsProps##file,
                     [||])
 );
