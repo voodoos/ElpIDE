@@ -1,8 +1,11 @@
 type golden;
 
+/*
+
 [%%raw {|require('golden-layout/dist/goldenlayout.min.js')|}];
 [%%raw {|require('golden-layout/dist/goldenlayout-base.js')|}];
 [%%raw {|require('golden-layout/dist/goldenlayout-dark-theme.js')|}];
+ */
 
 [@bs.new] [@bs.module] external create_gl  :
   Js.Json.t => string => golden =
