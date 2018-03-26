@@ -1,7 +1,9 @@
+type state = {value: string};
 
+type action = Change(string);
 
 /* This is the basic component. */
-let component = ReasonReact.statelessComponent("Ace");
+let component = ReasonReact.reducerComponent("Ace");
 
 /* Your familiar handleClick from ReactJS. This mandatorily takes the payload,
    then the `self` record, which contains state (none here), `handle`, `reduce`
@@ -18,34 +20,40 @@ let handleClick = (_event, _self) => Js.log("clickedtoto!");
    `ReasonReact.element(Page.make(~message="hello", [||]))` */
 let make = (~file, _children) => {
   ...component,
-  render: (_self) =>
+
+  initialState: () => {value: "InitialVal"},
+
+  reducer: (action, state) =>
+    switch (action) {
+    | Change(newVal) => ReasonReact.Update({ value: newVal })
+    },
+
+  render: self =>
     <AceEditor
-      mode="ocaml" 
-    theme="monokai"
-    name={ file }
-    width="100%"
-    height="100%"
-    setOptions={Js.Json.(object_(
-    Js_dict.fromList(
-      [("enableBasicAutocompletion", boolean(Js.true_)),
-       ("enableLiveAutocompletion", boolean(Js.true_)),
-       ("enableSnippets", boolean(Js.false_)),
-       ("showLineNumbers", boolean(Js.true_)),
-       ("tabSize", number(4.))]
-      )
-  )
-    )
-}
-    
-  /*
-     onChange={(n) => this.valChanged(n)}}*/
-    /> ,
+      mode="ocaml"
+      theme="monokai"
+      name=file
+      width="100%"
+      height="100%"
+      value=self.state.value
+      setOptions=Js.Json.(
+                   object_(
+                     Js_dict.fromList([
+                       ("enableBasicAutocompletion", boolean(Js.true_)),
+                       ("enableLiveAutocompletion", boolean(Js.true_)),
+                       ("enableSnippets", boolean(Js.false_)),
+                       ("showLineNumbers", boolean(Js.true_)),
+                       ("tabSize", number(4.)),
+                     ]),
+                   )
+                 )
+      /*
+       onChange={(n) => this.valChanged(n)}}*/
+    />,
 };
 
 /* We need a way to give this component to goldenlayout : */
 let rjs =
-  ReasonReact.wrapReasonForJs(
-  ~component,
-  (jsProps) => make(~file=jsProps##file,
-                    [||])
-);
+  ReasonReact.wrapReasonForJs(~component, jsProps =>
+    make(~file=jsProps##file, [||])
+  );
