@@ -18,10 +18,10 @@ let handleClick = (_event, _self) => Js.log("clickedtoto!");
    Which desugars to
 
    `ReasonReact.element(Page.make(~message="hello", [||]))` */
-let make = (~file, _children) => {
+let make = (~file, ~value, _children) => {
   ...component,
 
-  initialState: () => {value: "InitialVal"},
+  initialState: () => { Js.log(value); {value: value} },
 
   reducer: (action, state) =>
     switch (action) {
@@ -53,7 +53,8 @@ let make = (~file, _children) => {
 };
 
 /* We need a way to give this component to goldenlayout : */
-let rjs =
+let default =
   ReasonReact.wrapReasonForJs(~component, jsProps =>
-    make(~file=jsProps##file, [||])
+    make(~file=jsProps##file,
+         ~value=jsProps##value, [||])
   );

@@ -44,13 +44,14 @@ let config =
       make_row([|
         make_react_component(
           "ace",
-          [("value", Js.Json.string("A"))],
-          [("file", Js.Json.string("POUET1"))],
+          [],
+          [("toto", Js.Json.string("POUET1"))],
         ),
         make_react_component(
           "ace",
           [],
-          [("file", Js.Json.string("POUET2"))],
+          [("toto", Js.Json.string("POUET2")),
+           ("value", Js.Json.string("B"))],
         ),
       |]),
     |])
@@ -75,9 +76,11 @@ let glayout = switch glSavedState {
               | Some(state) => Js.log("fromLSconf");GoldenLayout.create_gl(Js.Json.parseExn(state), "#gl_container");
               };
 
-GoldenLayout.registerComponent(glayout, "ace", Ace.rjs);
+
+GoldenLayout.registerComponent(glayout, "ace", Ace.default);
 
 GoldenLayout.init(glayout);
+
 
 /* TODO : un-dirty the following... */
 %raw

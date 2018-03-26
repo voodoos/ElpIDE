@@ -1,6 +1,11 @@
 type golden;
 
 /*
+  [@@bs unwrap] may be a way to make a nice type (polymorphic) for config !
+  "Polymorphic variants with [@bs.unwrap] will "unwrap" the variant at the call site so that the JavaScript function is called with the underlying value."
+*/
+
+/*
 
  [%%raw {|require('golden-layout/dist/goldenlayout.min.js')|}];
  [%%raw {|require('golden-layout/dist/goldenlayout-base.js')|}];
