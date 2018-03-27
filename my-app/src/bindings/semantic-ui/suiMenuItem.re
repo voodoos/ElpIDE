@@ -4,8 +4,8 @@ external suiMenuItem : ReasonReact.reactClass =
 
 let make =
     (
-      ~header: bool,
-      children 
+      ~header=true,
+      children
     ) =>
   ReasonReact.wrapJsForReason(
     ~reactClass=suiMenuItem,

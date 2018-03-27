@@ -4,12 +4,14 @@ external suiMenu : ReasonReact.reactClass = "Menu";
 let make =
     (
       ~className: string,
+      ~inverted=false,
       children
     ) =>
   ReasonReact.wrapJsForReason(
     ~reactClass=suiMenu,
     ~props={
-      "className": className
+      "className": className,
+      "inverted": inverted
     },
     children
   );

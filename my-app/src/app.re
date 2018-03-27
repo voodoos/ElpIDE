@@ -32,10 +32,11 @@ let make = (~message, _children) => {
   render: _self =>
     <div id="app">
       <div id="navbar">
-        <SuiMenu className="header">
+        <SuiMenu className="header" inverted=true>
           <SuiMenuItem header=true>
             (ReasonReact.stringToElement(message))
           </SuiMenuItem>
+          <SuiMenuItem></SuiMenuItem>
         </SuiMenu>
       </div>
       <div id="gl_container" />
