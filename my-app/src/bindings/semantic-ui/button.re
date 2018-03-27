@@ -7,15 +7,17 @@ external suiButtonGroup : ReasonReact.reactClass =
   
 let make =
     (
-      ~className: string,
+      ~className="",
       ~inverted=false,
+      ~icon=false,
       children
     ) =>
   ReasonReact.wrapJsForReason(
     ~reactClass=suiButton,
     ~props={
       "className": className,
-      "inverted": inverted
+      "inverted": inverted,
+      "icon": icon
     },
     children
   );
@@ -24,13 +26,15 @@ let make =
 module Group = {
   let make =
   (
-    ~header=true,
+    ~className="",
+    ~inverted=false,
     children
   ) =>
   ReasonReact.wrapJsForReason(
     ~reactClass=suiButtonGroup,
     ~props={
-      "header": header
+      "className": className,
+      "inverted": inverted
     },
     children
   );

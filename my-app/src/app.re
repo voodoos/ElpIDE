@@ -1,5 +1,6 @@
 [%bs.raw {|require('./css/app.css')|}];
 [%bs.raw {|require('semantic-ui-css/semantic.min.css')|}];
+[%bs.raw {|require('./css/ui.css')|}];
 
 %raw
 {|require('golden-layout/dist/goldenlayout.min.js')|};
@@ -36,7 +37,16 @@ let make = (~message, _children) => {
           <Menu.Item header=true>
             (ReasonReact.stringToElement(message))
           </Menu.Item>
-          <Menu.Item></Menu.Item>
+          <Menu.Item>
+            <Button.Group>
+              <Button icon=true>
+                <Icon name="file outline" />
+              </Button>
+              <Button icon=true>
+                <Icon name="play" />
+              </Button>
+            </Button.Group>
+          </Menu.Item>
         </Menu>
       </div> 
       <div id="gl_container" />
