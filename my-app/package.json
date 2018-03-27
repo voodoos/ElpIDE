@@ -6,7 +6,8 @@
     "bs-platform": "^2.2.3",
     "golden-layout": "^1.5.9",
     "react-ace": "^5.9.0",
-    "reason-scripts": "0.8.0"
+    "reason-scripts": "0.8.0",
+    "semantic-ui-react": "^0.79.0"
   },
   "scripts": {
     "start": "react-scripts start",
