@@ -1,4 +1,5 @@
-[%bs.raw {|require('./app.css')|}];
+[%bs.raw {|require('./css/app.css')|}];
+[%bs.raw {|require('semantic-ui-css/semantic.min.css')|}];
 
 %raw
 {|require('golden-layout/dist/goldenlayout.min.js')|};
@@ -31,7 +32,11 @@ let make = (~message, _children) => {
   render: _self =>
     <div id="app">
       <div id="navbar">
-        <h2> (ReasonReact.stringToElement(message)) </h2>
+        <SuiMenu className="header">
+          <SuiMenuItem header=true>
+            (ReasonReact.stringToElement(message))
+          </SuiMenuItem>
+        </SuiMenu>
       </div>
       <div id="gl_container" />
     </div>,
@@ -59,18 +64,6 @@ let config = {
   )
 };
 
-/*
-var myLayout,
-    savedState = localStorage.getItem( 'savedState' );
-
-if( savedState !== null ) {
-    myLayout = new GoldenLayout( JSON.parse( savedState ) );
-} else {
-    myLayout = new GoldenLayout( config );
-}
-
-*/
-
 let glSavedState = Dom.Storage.getItem("glSavedState", Dom.Storage.localStorage);
 
 /* If the state of the layout is saved in local storage we resume it */
@@ -78,7 +71,6 @@ let glayout = switch glSavedState {
               | None => Js.log("newconf"); GoldenLayout.create_gl(config, "#gl_container");
               | Some(state) => Js.log("fromLSconf");GoldenLayout.create_gl(Js.Json.parseExn(state), "#gl_container");
               };
-
 
 GoldenLayout.registerComponent(glayout, "ace", Editor.default);
 
