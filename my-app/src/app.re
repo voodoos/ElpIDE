@@ -23,6 +23,7 @@
 
 [@bs.module] external logo : string = "./logo.svg";
 
+
 let component = ReasonReact.statelessComponent("App");
 
 let make = (~message, _children) => {
@@ -37,25 +38,26 @@ let make = (~message, _children) => {
 };
 
 /* Initiallizing the Golden Layout */
-let config =
-  /* We locally open the GoldenLayout module for convenience */
+let config = {
   GoldenLayout.(
     make_config([|
       make_row([|
         make_react_component(
           "ace",
           [],
-          [("toto", Js.Json.string("POUET1"))],
+          [("file", Js.Json.string("POUET1")),
+           ("value", Js.Json.string("Contenu Pouet 1"))],
         ),
         make_react_component(
           "ace",
           [],
-          [("toto", Js.Json.string("POUET2")),
-           ("value", Js.Json.string("B"))],
+          [("file", Js.Json.string("POUET2")),
+           ("value", Js.Json.string("COntenu Pouet 2"))],
         ),
       |]),
     |])
-  );
+  )
+};
 
 /*
 var myLayout,
@@ -71,13 +73,14 @@ if( savedState !== null ) {
 
 let glSavedState = Dom.Storage.getItem("glSavedState", Dom.Storage.localStorage);
 
+/* If the state of the layout is saved in local storage we resume it */
 let glayout = switch glSavedState {
               | None => Js.log("newconf"); GoldenLayout.create_gl(config, "#gl_container");
               | Some(state) => Js.log("fromLSconf");GoldenLayout.create_gl(Js.Json.parseExn(state), "#gl_container");
               };
 
 
-GoldenLayout.registerComponent(glayout, "ace", Ace.default);
+GoldenLayout.registerComponent(glayout, "ace", Editor.default);
 
 GoldenLayout.init(glayout);
 

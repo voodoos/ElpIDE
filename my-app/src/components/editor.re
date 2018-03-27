@@ -3,7 +3,7 @@ type state = {value: string};
 type action = Change(string);
 
 /* This is the basic component. */
-let component = ReasonReact.reducerComponent("Ace");
+let component = ReasonReact.reducerComponent("Editor");
 
 /* Your familiar handleClick from ReactJS. This mandatorily takes the payload,
    then the `self` record, which contains state (none here), `handle`, `reduce`
@@ -28,7 +28,7 @@ let make = (~file, ~value, _children) => {
     | Change(newVal) => ReasonReact.Update({ value: newVal })
     },
 
-  render: self =>
+    render: self =>
     <AceEditor
       mode="ocaml"
       theme="monokai"
