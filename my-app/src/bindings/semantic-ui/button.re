@@ -10,14 +10,16 @@ let make =
       ~className="",
       ~inverted=false,
       ~icon=false,
+      ~onClick={() => ()},
       children
     ) =>
   ReasonReact.wrapJsForReason(
     ~reactClass=suiButton,
     ~props={
       "className": className,
-      "inverted": inverted,
-      "icon": icon
+      "inverted": Tools.from_bool(inverted),
+      "icon": Tools.from_bool(icon),
+      "onClick": onClick
     },
     children
   );
@@ -34,7 +36,7 @@ module Group = {
     ~reactClass=suiButtonGroup,
     ~props={
       "className": className,
-      "inverted": inverted
+      "inverted": Tools.from_bool(inverted)
     },
     children
   );

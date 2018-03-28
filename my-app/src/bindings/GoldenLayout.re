@@ -29,7 +29,8 @@ let make_row = content =>
     object_(
       Js_dict.fromList([
         ("type", string("row")),
-        ("content", array(content)),
+        ("isClosable", boolean(Js.false_)),
+        ("content", array(content))
       ]),
     )
   );
@@ -39,7 +40,8 @@ let make_column = content =>
     object_(
       Js_dict.fromList([
         ("type", string("column")),
-        ("content", array(content)),
+        ("isClosable", boolean(Js.false_)),
+        ("content", array(content))
       ]),
     )
   );
@@ -51,7 +53,7 @@ let make_react_component = (name, state, props) =>
         ("type", string("react-component")),
         ("component", string(name)),
         ("componentState", object_(Js_dict.fromList(state))),
-        ("props", object_(Js_dict.fromList(props))),
+        ("props", object_(Js_dict.fromList(props)))
       ]),
     )
   );

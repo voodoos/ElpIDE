@@ -15,7 +15,7 @@ let make =
     ~reactClass=suiMenu,
     ~props={
       "className": className,
-      "inverted": inverted
+      "inverted": Tools.from_bool(inverted)
     },
     children
   );
@@ -24,13 +24,13 @@ let make =
 module Item = {
   let make =
   (
-    ~header=true,
+    ~header=false,
     children
   ) =>
   ReasonReact.wrapJsForReason(
     ~reactClass=suiMenuItem,
     ~props={
-      "header": header
+      "header": Tools.from_bool(header)
     },
     children
   );

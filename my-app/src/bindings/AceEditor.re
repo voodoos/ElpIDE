@@ -30,6 +30,7 @@ let make =
       "height": height,
       "value": value,
       "setOptions": setOptions,
+      "editorProps": {"$blockScrolling": "Infinity"},
     },
     children,
   );

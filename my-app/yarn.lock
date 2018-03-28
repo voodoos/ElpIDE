@@ -1267,9 +1267,9 @@ browserslist@^2.1.2, browserslist@^2.5.1:
     caniuse-lite "^1.0.30000792"
     electron-to-chromium "^1.3.30"
 
-bs-jest@^0.3.2:
-  version "0.3.2"
-  resolved "https://registry.yarnpkg.com/bs-jest/-/bs-jest-0.3.2.tgz#b13cef06a965988a404fd74cac351f3b5bce53b1"
+"bs-jest@https://github.com/glennsl/bs-jest.git#v0.4.2":
+  version "0.4.2"
+  resolved "https://github.com/glennsl/bs-jest.git#fa1c020a5a3b263e89bec8ca10e181dd205e4e3b"
   dependencies:
     jest "^22.0.4"
 

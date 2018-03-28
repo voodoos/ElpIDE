@@ -23,7 +23,7 @@ let make = (~file, ~value, _children) => {
 
   initialState: () => { Js.log(value); {value: value} },
 
-  reducer: (action, state) =>
+  reducer: (action, _state) =>
     switch (action) {
     | Change(newVal) => ReasonReact.Update({ value: newVal })
     },

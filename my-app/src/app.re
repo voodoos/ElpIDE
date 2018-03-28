@@ -39,7 +39,7 @@ let make = (~message, _children) => {
           </Menu.Item>
           <Menu.Item>
             <Button.Group>
-              <Button icon=true>
+              <Button icon=true onClick={ () => Js.log("totoClick") }>
                 <Icon name="file outline" />
               </Button>
               <Button icon=true>
