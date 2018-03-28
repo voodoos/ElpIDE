@@ -9,13 +9,15 @@ let make =
     (
       ~className: string,
       ~inverted=false,
+      ~borderless=false,
       children
     ) =>
   ReasonReact.wrapJsForReason(
     ~reactClass=suiMenu,
     ~props={
       "className": className,
-      "inverted": Js.Boolean.to_js_boolean(inverted)
+      "inverted": Js.Boolean.to_js_boolean(inverted),
+      "borderless": Js.Boolean.to_js_boolean(borderless)
     },
     children
   );

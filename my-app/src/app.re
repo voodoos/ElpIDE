@@ -34,12 +34,12 @@ let make = (~message, _children) => {
   SemanticUi.(
     <div id="app">
       <div id="navbar">
-        <Menu className="header" inverted=true>
+        <Menu className="header" inverted=false borderless=true>
           <Menu.Item header=true>
             (ReasonReact.stringToElement(message))
           </Menu.Item>
           <Menu.Item>
-            <Button.Group basic=true inverted=true>
+            <Button.Group basic=true inverted=false >
               <Button icon=true onClick={ () => Js.log("totoClick") }>
                 <Icon name="file outline" />
               </Button>
