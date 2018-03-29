@@ -1,4 +1,5 @@
 open Tools;
+open Sui_enums;
 
 [@bs.module "semantic-ui-react"]
 external suiButton : ReasonReact.reactClass = "Button";
@@ -13,6 +14,7 @@ external suiButtonGroup : ReasonReact.reactClass =
   ~className: string=?, 
   ~inverted: Js.boolean=?, 
   ~icon: Js.boolean=?, 
+  ~color: string=?, 
   ~onClick: (unit => unit)=?, 
   unit
   ) => _ = "";
@@ -32,6 +34,7 @@ let make =
       ~inverted=?,
       ~icon=?,
       ~onClick=?,
+      ~color=?,
       children
     ) =>
   ReasonReact.wrapJsForReason(
@@ -40,6 +43,7 @@ let make =
       ~className?, /* There is punning hapenning here (~className=?className) */
       ~inverted=?toJsOptionBool(inverted),
       ~icon=?toJsOptionBool(icon),
+      ~color=?toColor(color),
       ~onClick?,
       ()
     ),

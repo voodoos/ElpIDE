@@ -3,3 +3,11 @@
 
 # vscode
 .vscode
+
+
+# yarn
+yarn-error.log
+
+# old versions
+gui/
+react_app/

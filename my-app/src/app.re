@@ -71,12 +71,12 @@ let make = (~message, _children) => {
             (ReasonReact.stringToElement(message))
           </Menu.Item>
           <Menu.Item>
-            <Button.Group basic=true inverted=false >
+            <Button.Group inverted=false >
               <Button icon=true onClick={ () => 
               Js.log((glayout##root##contentItems)[0]##addChild(GoldenLayout.make_react_component("ace", [], []))) /*[0]##addChild(GoldenLayout.make_react_component("ace", [], []));*/}>
                 <Icon name="file outline" />
               </Button>
-              <Button icon=true>
+              <Button color=`olive icon=true>
                 <Icon name="play" />
               </Button>
             </Button.Group>
