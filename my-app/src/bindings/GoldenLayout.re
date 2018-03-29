@@ -1,4 +1,4 @@
-type golden;
+
 
 /*
   [@@bs unwrap] may be a way to make a nice type (polymorphic) for config !
@@ -11,6 +11,17 @@ type golden;
  [%%raw {|require('golden-layout/dist/goldenlayout-base.js')|}];
  [%%raw {|require('golden-layout/dist/goldenlayout-dark-theme.js')|}];
   */
+
+
+type contentItem = {.
+  "addChild": [@bs.meth] (Js.Json.t) => unit, /* TODO : not the exact spec */
+  "contentItems": array(contentItem),
+  "getItemsById": [@bs.meth] (string) => array(contentItem) 
+};
+type golden = {.
+  "root": contentItem
+};
+
 [@bs.new] [@bs.module]
 external create_gl : (Js.Json.t, string) => golden = "golden-layout";
 
@@ -20,15 +31,18 @@ external create_gl : (Js.Json.t, string) => golden = "golden-layout";
 external registerComponent : (golden, string, ReasonReact.reactClass) => unit =
   "registerComponent";
 
-/* Some utility functions to create config for gl */
+/*
+  Some utility functions to create config for gl 
+*/
 let make_config = content =>
   Js.Json.(object_(Js_dict.fromList([("content", array(content))])));
 
-let make_row = content =>
+let make_row = (id, content) =>
   Js.Json.(
     object_(
       Js_dict.fromList([
         ("type", string("row")),
+        ("id", string("main")),
         ("isClosable", boolean(Js.false_)),
         ("content", array(content))
       ]),

@@ -28,37 +28,12 @@
 
 let component = ReasonReact.statelessComponent("App");
 
-let make = (~message, _children) => {
-  ...component,
-  render: _self =>
-  SemanticUi.(
-    <div id="app">
-      <div id="navbar">
-        <Menu className="header" inverted=false borderless=true>
-          <Menu.Item header=true>
-            (ReasonReact.stringToElement(message))
-          </Menu.Item>
-          <Menu.Item>
-            <Button.Group basic=true inverted=false >
-              <Button icon=true onClick={ () => Js.log("totoClick") }>
-                <Icon name="file outline" />
-              </Button>
-              <Button icon=true>
-                <Icon name="play" />
-              </Button>
-            </Button.Group>
-          </Menu.Item>
-        </Menu>
-      </div> 
-      <div id="gl_container" />
-    </div>),
-};
 
 /* Initiallizing the Golden Layout */
 let config = {
   GoldenLayout.(
     make_config([|
-      make_row([|
+      make_row("main", [|
         make_react_component(
           "ace",
           [],
@@ -84,9 +59,43 @@ let glayout = switch glSavedState {
               | Some(state) => Js.log("fromLSconf");GoldenLayout.create_gl(Js.Json.parseExn(state), "#gl_container");
               };
 
+
+let make = (~message, _children) => {
+  ...component,
+  render: _self =>
+  SemanticUi.(
+    <div id="app">
+      <div id="navbar">
+        <Menu className="header" inverted=false borderless=true>
+          <Menu.Item header=true>
+            (ReasonReact.stringToElement(message))
+          </Menu.Item>
+          <Menu.Item>
+            <Button.Group basic=true inverted=false >
+              <Button icon=true onClick={ () => 
+              Js.log((glayout##root##contentItems)[0]##addChild(GoldenLayout.make_react_component("ace", [], []))) /*[0]##addChild(GoldenLayout.make_react_component("ace", [], []));*/}>
+                <Icon name="file outline" />
+              </Button>
+              <Button icon=true>
+                <Icon name="play" />
+              </Button>
+            </Button.Group>
+          </Menu.Item>
+        </Menu>
+      </div> 
+      <div id="gl_container" />
+    </div>),
+};
+
 GoldenLayout.registerComponent(glayout, "ace", Editor.default);
 
 GoldenLayout.init(glayout);
+
+
+%raw
+{| window.glayout = glayout;
+|};
+
 
 
 /* TODO : un-dirty the following... */

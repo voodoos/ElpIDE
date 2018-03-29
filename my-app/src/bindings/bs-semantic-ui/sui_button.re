@@ -1,45 +1,74 @@
+open Tools;
+
 [@bs.module "semantic-ui-react"]
 external suiButton : ReasonReact.reactClass = "Button";
 
 [@bs.module "semantic-ui-react"][@bs.scope "Button"]
 external suiButtonGroup : ReasonReact.reactClass = 
   "Group";
+
+/* Using BS Special Creation Function help us with optionnal properties */
+/* See https://khoanguyen.me/writing-reason-react-bindings-the-right-way */
+[@bs.obj] external makeButtonProps : (
+  ~className: string=?, 
+  ~inverted: Js.boolean=?, 
+  ~icon: Js.boolean=?, 
+  ~onClick: (unit => unit)=?, 
+  unit
+  ) => _ = "";
+
+[@bs.obj] external makeButtonGroupProps : (
+  ~className: string=?, 
+  ~inverted: Js.boolean=?, 
+  ~basic: Js.boolean=?,
+  unit
+  ) => _ = "";
   
+
+/* Bindings for *Button* */
 let make =
     (
-      ~className="",
-      ~inverted=false,
-      ~icon=false,
-      ~onClick={() => ()},
+      ~className=?,
+      ~inverted=?,
+      ~icon=?,
+      ~onClick=?,
       children
     ) =>
   ReasonReact.wrapJsForReason(
     ~reactClass=suiButton,
-    ~props={
-      "className": className,
-      "inverted": Js.Boolean.to_js_boolean(inverted),
-      "icon": Js.Boolean.to_js_boolean(icon),
-      "onClick": onClick
-    },
+    ~props=makeButtonProps(
+      ~className?, /* There is punning hapenning here (~className=?className) */
+      ~inverted=?toJsOptionBool(inverted),
+      ~icon=?toJsOptionBool(icon),
+      ~onClick?,
+      ()
+    ),
     children
   );
 
-
+/* Bindings for *Button.Group* */
 module Group = {
   let make =
   (
-    ~className="",
-    ~inverted=false,
-    ~basic=false,
+    ~className=?,
+    ~inverted=?,
+    ~basic=?,
     children
   ) =>
   ReasonReact.wrapJsForReason(
     ~reactClass=suiButtonGroup,
-    ~props={
-      "className": className,
-      "inverted": Js.Boolean.to_js_boolean(inverted), 
-      "basic": Js.Boolean.to_js_boolean(basic)
-    },
+    ~props=makeButtonGroupProps(
+      ~className?, /* There is punning hapenning here (~className=?className) */
+      ~inverted=?toJsOptionBool(inverted),
+      ~basic=?toJsOptionBool(basic),
+      ()
+    ),
     children
   );
 }
+
+
+/* Bindings for *Button.Content* */
+
+
+/* Bindings for *Button.Or* */
