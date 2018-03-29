@@ -12,7 +12,7 @@ let make =
     ~reactClass=suiIcon,
     ~props={
       "className": className,
-      "inverted": Tools.to_js_bool(inverted),
+      "inverted": Js.Boolean.to_js_boolean(inverted),
       "name": name
     },
     children

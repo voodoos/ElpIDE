@@ -1,5 +1,4 @@
 open Sui_tools;
-open Sui_enums;
 
 [@bs.module "semantic-ui-react"]
 external suiButton : ReasonReact.reactClass = "Button";
