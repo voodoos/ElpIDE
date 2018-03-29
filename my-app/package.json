@@ -19,6 +19,7 @@
   },
   "devDependencies": {
     "bs-jest": "https://github.com/glennsl/bs-jest.git#v0.4.2",
+    "bs-semantic-ui-react": "https://github.com/voodoos/bs-semantic-ui-react",
     "react": "^16.2.0",
     "react-dom": "^16.2.0",
     "reason-react": ">=0.3.4"

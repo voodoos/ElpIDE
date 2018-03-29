@@ -1284,6 +1284,12 @@ bs-platform@^2.2.3:
   version "2.2.3"
   resolved "https://registry.yarnpkg.com/bs-platform/-/bs-platform-2.2.3.tgz#d905ae10a5f3621e6a739041dfa0b58483a2174f"
 
+"bs-semantic-ui-react@https://github.com/voodoos/bs-semantic-ui-react":
+  version "0.1.0"
+  resolved "https://github.com/voodoos/bs-semantic-ui-react#0cff236f87252898919282166adf8d0b5531f2cb"
+  dependencies:
+    semantic-ui-react "^0.79.0"
+
 bser@1.0.2:
   version "1.0.2"
   resolved "https://registry.yarnpkg.com/bser/-/bser-1.0.2.tgz#381116970b2a6deea5646dd15dd7278444b56169"
