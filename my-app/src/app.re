@@ -72,7 +72,7 @@ let make = (~message, _children) => {
           </Menu.Item>
           <Menu.Item>
             <Button.Group inverted=false >
-              <Button icon=true onClick={ () => 
+              <Button icon=true onClick={ _e => 
               Js.log((glayout##root##contentItems)[0]##addChild(GoldenLayout.make_react_component("ace", [], []))) /*[0]##addChild(GoldenLayout.make_react_component("ace", [], []));*/}>
                 <Icon name="file outline" />
               </Button>

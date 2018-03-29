@@ -10,40 +10,85 @@ external suiButtonGroup : ReasonReact.reactClass =
 /* Using BS Special Creation Function help us with optionnal properties */
 /* See https://khoanguyen.me/writing-reason-react-bindings-the-right-way */
 [@bs.obj] external makeButtonProps : (
-  ~className: string=?, 
-  ~inverted: Js.boolean=?, 
-  ~icon: Js.boolean=?, 
-  ~color: string=?, 
-  ~onClick: (unit => unit)=?, 
-  unit
-  ) => _ = "";
-
-[@bs.obj] external makeButtonGroupProps : (
-  ~className: string=?, 
-  ~inverted: Js.boolean=?, 
+  ~active: Js.boolean=?, 
+  /* TODO: animated, as */
+  ~attached: string=?,
   ~basic: Js.boolean=?,
+  ~circular: Js.boolean=?,
+  ~className: string=?, 
+  ~color: string=?, 
+  ~compact: Js.boolean=?,
+  /* TODO: content */
+  ~disabled: Js.boolean=?,
+  ~floated: string=?,
+  ~fluid: Js.boolean=?,
+  ~icon: Js.boolean=?, 
+  ~inverted: Js.boolean=?, 
+  /* TODO: label, labelPosition */
+  ~loading: Js.boolean=?, 
+  ~negative: Js.boolean=?, 
+  ~primary: Js.boolean=?, 
+  ~secondary: Js.boolean=?, 
+  ~size: string=?,
+  /* TODO: tabIndex */
+  ~toggle: Js.boolean=?, 
+      
+  ~onClick: ReactEventRe.Mouse.t => unit=?,
+  ~onMouseUp: ReactEventRe.Mouse.t => unit=?,
+  ~onMouseDown: ReactEventRe.Mouse.t => unit=?,
   unit
   ) => _ = "";
-  
 
 /* Bindings for *Button* */
 let make =
     (
+      ~active=?,
+      ~attached=?,
+      ~basic=?,
+      ~circular=?,
       ~className=?,
-      ~inverted=?,
-      ~icon=?,
-      ~onClick=?,
       ~color=?,
+      ~compact=?,
+      ~disabled=?,
+      ~floated=?,
+      ~fluid=?,
+      ~icon=?,
+      ~inverted=?,
+      ~loading=?,
+      ~negative=?,
+      ~primary=?,
+      ~secondary=?,
+      ~size=?,
+      ~toggle=?,
+      ~onClick=?,
+      ~onMouseUp=?,
+      ~onMouseDown=?,
       children
     ) =>
   ReasonReact.wrapJsForReason(
     ~reactClass=suiButton,
     ~props=makeButtonProps(
+      ~active=?toJsOptionBool(active),
+      ~attached=?toJsOptionAttached(attached),
+      ~basic=?toJsOptionBool(basic),
+      ~circular=?toJsOptionBool(circular),
       ~className?, /* There is punning hapenning here (~className=?className) */
-      ~inverted=?toJsOptionBool(inverted),
-      ~icon=?toJsOptionBool(icon),
       ~color=?toJsOptionColor(color),
+      ~compact=?toJsOptionBool(compact),
+      ~disabled=?toJsOptionBool(disabled),
+      ~floated=?toJsOptionFloated(floated),
+      ~fluid=?toJsOptionBool(fluid),
+      ~icon=?toJsOptionBool(icon),
+      ~inverted=?toJsOptionBool(inverted),
+      ~loading=?toJsOptionBool(loading),
+      ~negative=?toJsOptionBool(negative),
+      ~primary=?toJsOptionBool(primary),
+      ~secondary=?toJsOptionBool(secondary),
+      ~size=?toJsOptionSize(size),
+      ~toggle=?toJsOptionBool(toggle),
       ~onClick?,
+      ~onMouseUp?,
+      ~onMouseDown?,
       ()
     ),
     children
@@ -51,6 +96,15 @@ let make =
 
 /* Bindings for *Button.Group* */
 module Group = {
+
+
+  [@bs.obj] external makeButtonGroupProps : (
+    ~className: string=?, 
+    ~inverted: Js.boolean=?, 
+    ~basic: Js.boolean=?,
+    unit
+    ) => _ = "";
+
   let make =
   (
     ~className=?,
