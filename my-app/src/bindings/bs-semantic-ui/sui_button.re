@@ -34,8 +34,6 @@ external suiButtonGroup : ReasonReact.reactClass =
   ~toggle: Js.boolean=?, 
       
   ~onClick: ReactEventRe.Mouse.t => unit=?,
-  ~onMouseUp: ReactEventRe.Mouse.t => unit=?,
-  ~onMouseDown: ReactEventRe.Mouse.t => unit=?,
   unit
   ) => _ = "";
 
@@ -87,8 +85,6 @@ let make =
       ~size=?toJsOptionSize(size),
       ~toggle=?toJsOptionBool(toggle),
       ~onClick?,
-      ~onMouseUp?,
-      ~onMouseDown?,
       ()
     ),
     children
