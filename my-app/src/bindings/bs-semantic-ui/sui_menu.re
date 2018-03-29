@@ -1,24 +1,41 @@
+open Sui_tools;
+
 [@bs.module "semantic-ui-react"]
 external suiMenu : ReasonReact.reactClass = "Menu";
 
 [@bs.module "semantic-ui-react"][@bs.scope "Menu"]
 external suiMenuItem : ReasonReact.reactClass = 
   "Item";
+
+/* Using BS Special Creation Function help us with optionnal properties */
+/* See https://khoanguyen.me/writing-reason-react-bindings-the-right-way */
+[@bs.obj] external makeMenuProps : (
+  ~className: string=?, 
+  ~inverted: Js.boolean=?, 
+  ~borderless: Js.boolean=?, 
+  unit
+  ) => _ = "";
+
+[@bs.obj] external makeMenuItemProps : (
+  ~header: Js.boolean=?, 
+  unit
+  ) => _ = "";
   
 let make =
     (
-      ~className: string,
-      ~inverted=false,
-      ~borderless=false,
+      ~className=?,
+      ~inverted=?,
+      ~borderless=?,
       children
     ) =>
   ReasonReact.wrapJsForReason(
     ~reactClass=suiMenu,
-    ~props={
-      "className": className,
-      "inverted": Js.Boolean.to_js_boolean(inverted),
-      "borderless": Js.Boolean.to_js_boolean(borderless)
-    },
+    ~props=makeMenuProps(
+      ~className?,
+      ~inverted=?toJsOptionBool(inverted),
+      ~borderless=?toJsOptionBool(borderless),
+      ()
+    ),
     children
   );
 
@@ -26,14 +43,15 @@ let make =
 module Item = {
   let make =
   (
-    ~header=false,
+    ~header=?,
     children
   ) =>
   ReasonReact.wrapJsForReason(
     ~reactClass=suiMenuItem,
-    ~props={
-      "header": Js.Boolean.to_js_boolean(header)
-    },
+    ~props=makeMenuItemProps(
+      ~header=?toJsOptionBool(header),
+      ()
+    ),
     children
   );
 }

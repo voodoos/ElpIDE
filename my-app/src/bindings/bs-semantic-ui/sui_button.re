@@ -1,4 +1,4 @@
-open Tools;
+open Sui_tools;
 open Sui_enums;
 
 [@bs.module "semantic-ui-react"]
@@ -43,7 +43,7 @@ let make =
       ~className?, /* There is punning hapenning here (~className=?className) */
       ~inverted=?toJsOptionBool(inverted),
       ~icon=?toJsOptionBool(icon),
-      ~color=?toColor(color),
+      ~color=?toJsOptionColor(color),
       ~onClick?,
       ()
     ),

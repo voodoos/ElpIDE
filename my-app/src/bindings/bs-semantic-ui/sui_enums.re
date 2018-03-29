@@ -23,4 +23,3 @@ type color = [
 ];
 
 
-let toColor = (c) => Js.Option.map([@bs](a => colorToJs(a)), c);
