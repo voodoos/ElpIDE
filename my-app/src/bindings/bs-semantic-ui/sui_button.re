@@ -59,8 +59,6 @@ let make =
       ~size=?,
       ~toggle=?,
       ~onClick=?,
-      ~onMouseUp=?,
-      ~onMouseDown=?,
       children
     ) =>
   ReasonReact.wrapJsForReason(
