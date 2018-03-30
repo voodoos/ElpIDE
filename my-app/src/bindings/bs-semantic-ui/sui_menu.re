@@ -3,9 +3,6 @@ open Sui_tools;
 [@bs.module "semantic-ui-react"]
 external suiMenu : ReasonReact.reactClass = "Menu";
 
-[@bs.module "semantic-ui-react"][@bs.scope "Menu"]
-external suiMenuItem : ReasonReact.reactClass = 
-  "Item";
 
 /* Using BS Special Creation Function help us with optionnal properties */
 /* See https://khoanguyen.me/writing-reason-react-bindings-the-right-way */
@@ -86,25 +83,126 @@ let make =
 
 
 module Item = {
+  [@bs.module "semantic-ui-react"][@bs.scope "Menu"]
+  external suiMenuItem : ReasonReact.reactClass = 
+    "Item";
+
   [@bs.obj] external makeMenuItemProps : (
+    ~active: Js.boolean=?, 
     ~as_: string=?, /* TODO: Can also be a function ! */
+    ~className: string=?, 
+    ~color: string=?, 
+    ~content: string=?, /* TODO: is this only string ? */
+    ~disabled: Js.boolean=?,
+    /* TODO: fitted */
     ~header: Js.boolean=?, 
+    /* TODO: icon */
+    ~index: js=?,
+    ~link: Js.boolean=?,
+    ~name: string=?, 
+    ~onClick: (ReactEventRe.Synthetic.t,  Js.t(Js.Types.obj_val)) => unit=?,  
+    ~position: string=?,
+    unit
+    ) => _ = "";
+
+  let make =
+  (
+    ~active=?,
+    ~as_=?,
+    ~className=?,
+    ~color=?,
+    ~content=?,
+    ~disabled=?,
+    ~header=?,
+    ~index=?,
+    ~link=?,
+    ~name=?,
+    ~onClick=?,
+    ~position=?,
+    children
+  ) =>
+  ReasonReact.wrapJsForReason(
+    ~reactClass=suiMenuItem,
+    ~props=makeMenuItemProps(
+      ~active=?fromBool(active),
+      ~as_?,
+      ~className?,
+      ~color=?fromColor(color),
+      ~content?,
+      ~disabled=?fromBool(disabled),
+      ~header=?fromBool(header),
+      ~index=?fromNum(index),
+      ~link=?fromBool(link),
+      ~position=?fromLeftOrRight(position),
+      ~name?,
+      ~onClick?,
+      ()
+    ),
+    children
+  );
+};
+
+module Header = {
+  [@bs.module "semantic-ui-react"][@bs.scope "Menu"]  
+  external suiMenuHeader : ReasonReact.reactClass = 
+    "Header";
+
+  [@bs.obj] external makeProps : (
+    ~as_: string=?, /* TODO: Can also be a function ! */
+    ~className: string=?, 
+    ~content: string=?, /* TODO: is this only string ? */
     unit
     ) => _ = "";
 
   let make =
   (
     ~as_=?,
-    ~header=?,
+    ~className=?,
+    ~content=?,
     children
   ) =>
   ReasonReact.wrapJsForReason(
-    ~reactClass=suiMenuItem,
-    ~props=makeMenuItemProps(
+    ~reactClass=suiMenuHeader,
+    ~props=makeProps(
       ~as_?,
-      ~header=?fromBool(header),
+      ~className?,
+      ~content?,
       ()
     ),
     children
   );
-}
+};
+
+module Menu = {
+  [@bs.module "semantic-ui-react"][@bs.scope "Menu"]  
+  external suiMenuMenu : ReasonReact.reactClass = 
+    "Menu";
+
+  [@bs.obj] external makeProps : (
+    ~as_: string=?, /* TODO: Can also be a function ! */
+    ~className: string=?, 
+    ~content: string=?, /* TODO: is this only string ? */
+    ~position: string=?,
+    unit
+    ) => _ = "";
+
+  let make =
+  (
+    ~as_=?,
+    ~className=?,
+    ~content=?,
+    ~position=?,
+    children
+  ) =>
+  ReasonReact.wrapJsForReason(
+    ~reactClass=suiMenuMenu,
+    ~props=makeProps(
+      ~as_?,
+      ~className?,
+      ~content?,
+      ~position=?fromLeftOrRight(position),
+      ()
+    ),
+    children
+  );
+};

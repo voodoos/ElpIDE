@@ -42,3 +42,10 @@ let toNumOrStringAux = (bORe) =>
     | `String(s) => jsOfString(s)
     };
 let fromNumOrString = (b) => Js.Option.map([@bs](a => toNumOrStringAux(a)), b);
+
+let fromNumAux = (bORe) =>
+    switch bORe {
+    | `Int(i) => jsOfInt(i)
+    | `Float(f) => jsOfFloat(f)
+    };
+let fromNum = (b) => Js.Option.map([@bs](a => fromNumAux(a)), b);

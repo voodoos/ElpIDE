@@ -85,11 +85,11 @@ let make =
       ~className?, /* There is punning hapenning here (~className=?className) */
       ~color=?fromColor(color),
       ~compact=?fromBool(compact),
+      ~content?,
       ~disabled=?fromBool(disabled),
       ~floated=?fromLeftOrRight(floated),
       ~fluid=?fromBool(fluid),
       ~icon=?fromBool(icon),
-      ~content?,
       ~inverted=?fromBool(inverted),
       ~labelPosition=?fromLeftOrRight(labelPosition),
       ~loading=?fromBool(loading),
