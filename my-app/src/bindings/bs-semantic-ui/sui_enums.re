@@ -17,13 +17,18 @@ type size = [
 ];
 
 [@bs.deriving jsConverter]
-type attached = [
+type allDir = [
   | `left | `right | `top | `bottom
 ];
 
 [@bs.deriving jsConverter]
-type floated = [
+type leftOrRight = [
   | `left | `right
+];
+
+[@bs.deriving jsConverter]
+type topOrBottom = [
+  | `top | `bottom
 ];
 
 [@bs.deriving jsConverter]

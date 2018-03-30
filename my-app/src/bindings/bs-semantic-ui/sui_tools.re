@@ -16,12 +16,9 @@ let fromBool = makeJsOptionMap(Js.Boolean.to_js_boolean);
 /* For color enums props */
 let fromColor = makeJsOptionMap(colorToJs);
 
-/* For attached enums props */
-let fromAttached = makeJsOptionMap(attachedToJs);
-/* equivalent to : let toJsOptionAttached = (c) => Js.Option.map([@bs](a => attachedToJs(a)), c); */
-
-/* For floated enums props */
-let fromFloated = makeJsOptionMap(floatedToJs);
+let fromAllDir = makeJsOptionMap(allDirToJs);
+let fromLeftOrRight = makeJsOptionMap(leftOrRightToJs);
+let fromTopOrBottom = makeJsOptionMap(topOrBottomToJs);
 
 /* For size enums props */
 let fromSize = makeJsOptionMap(sizeToJs);
