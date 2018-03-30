@@ -9,6 +9,9 @@ let make = (~brand, ~glayout, _children) => {
         (glayout##root##contentItems)[0]##addChild(GoldenLayout.make_react_component("ace", [], []))
     };
 
+    let onClickPlay = (_e, _d) =>
+        Js.log("Let's rock");
+
     {
     ...component,
 
@@ -24,7 +27,7 @@ let make = (~brand, ~glayout, _children) => {
                 <Button icon=true onClick=onClickNew>
                   <Icon name="file outline" />
                 </Button>
-                <Button color=`olive icon=true>
+                <Button color=`olive icon=true onClick=onClickPlay>
                   <Icon name="play" />
                 </Button>
               </Button.Group>
