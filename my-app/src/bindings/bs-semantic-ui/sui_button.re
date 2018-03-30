@@ -9,6 +9,7 @@ external suiButtonGroup : ReasonReact.reactClass =
 
 /* Using BS Special Creation Function help us with optionnal properties */
 /* See https://khoanguyen.me/writing-reason-react-bindings-the-right-way */
+
 [@bs.obj] external makeButtonProps : (
   ~active: Js.boolean=?, 
   ~animated: Sui_tools.js=?,
@@ -67,25 +68,25 @@ let make =
   ReasonReact.wrapJsForReason(
     ~reactClass=suiButton,
     ~props=makeButtonProps(
-      ~active=?toJsOptionBool(active),
-      ~attached=?toJsOptionAttached(attached),
+      ~active=?toBool(active),
+      ~attached=?toAttached(attached),
       ~animated=?toAnimBut(animated),
-      ~basic=?toJsOptionBool(basic),
-      ~circular=?toJsOptionBool(circular),
+      ~basic=?toBool(basic),
+      ~circular=?toBool(circular),
       ~className?, /* There is punning hapenning here (~className=?className) */
-      ~color=?toJsOptionColor(color),
-      ~compact=?toJsOptionBool(compact),
-      ~disabled=?toJsOptionBool(disabled),
-      ~floated=?toJsOptionFloated(floated),
-      ~fluid=?toJsOptionBool(fluid),
-      ~icon=?toJsOptionBool(icon),
-      ~inverted=?toJsOptionBool(inverted),
-      ~loading=?toJsOptionBool(loading),
-      ~negative=?toJsOptionBool(negative),
-      ~primary=?toJsOptionBool(primary),
-      ~secondary=?toJsOptionBool(secondary),
-      ~size=?toJsOptionSize(size),
-      ~toggle=?toJsOptionBool(toggle),
+      ~color=?toColor(color),
+      ~compact=?toBool(compact),
+      ~disabled=?toBool(disabled),
+      ~floated=?toFloated(floated),
+      ~fluid=?toBool(fluid),
+      ~icon=?toBool(icon),
+      ~inverted=?toBool(inverted),
+      ~loading=?toBool(loading),
+      ~negative=?toBool(negative),
+      ~primary=?toBool(primary),
+      ~secondary=?toBool(secondary),
+      ~size=?toSize(size),
+      ~toggle=?toBool(toggle),
       ~onClick?,
       ()
     ),
@@ -114,8 +115,8 @@ module Group = {
     ~reactClass=suiButtonGroup,
     ~props=makeButtonGroupProps(
       ~className?, /* There is punning hapenning here (~className=?className) */
-      ~inverted=?toJsOptionBool(inverted),
-      ~basic=?toJsOptionBool(basic),
+      ~inverted=?toBool(inverted),
+      ~basic=?toBool(basic),
       ()
     ),
     children

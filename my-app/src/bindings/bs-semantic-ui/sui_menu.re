@@ -32,8 +32,8 @@ let make =
     ~reactClass=suiMenu,
     ~props=makeMenuProps(
       ~className?,
-      ~inverted=?toJsOptionBool(inverted),
-      ~borderless=?toJsOptionBool(borderless),
+      ~inverted=?toBool(inverted),
+      ~borderless=?toBool(borderless),
       ()
     ),
     children
@@ -49,7 +49,7 @@ module Item = {
   ReasonReact.wrapJsForReason(
     ~reactClass=suiMenuItem,
     ~props=makeMenuItemProps(
-      ~header=?toJsOptionBool(header),
+      ~header=?toBool(header),
       ()
     ),
     children
