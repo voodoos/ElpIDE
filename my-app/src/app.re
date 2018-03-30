@@ -63,28 +63,10 @@ let glayout = switch glSavedState {
 let make = (~message, _children) => {
   ...component,
   render: _self =>
-  SemanticUi.(
     <div id="app">
-      <div id="navbar">
-        <Menu className="header" inverted=false borderless=true>
-          <Menu.Item header=true>
-            (ReasonReact.stringToElement(message))
-          </Menu.Item>
-          <Menu.Item>
-            <Button.Group inverted=false >
-              <Button icon=true onClick={ _e => 
-              Js.log((glayout##root##contentItems)[0]##addChild(GoldenLayout.make_react_component("ace", [], []))) /*[0]##addChild(GoldenLayout.make_react_component("ace", [], []));*/}>
-                <Icon name="file outline" />
-              </Button>
-              <Button color=`olive icon=true>
-                <Icon name="play" />
-              </Button>
-            </Button.Group>
-          </Menu.Item>
-        </Menu>
-      </div> 
+      <Toolbar brand=message glayout /> 
       <div id="gl_container" />
-    </div>),
+    </div>,
 };
 
 GoldenLayout.registerComponent(glayout, "ace", Editor.default);
@@ -108,7 +90,11 @@ GoldenLayout.init(glayout);
      
 %raw
 {|glayout.on( 'stateChanged', function(){
-      var state = JSON.stringify( glayout.toConfig() );
-      localStorage.setItem( 'glSavedState', state );
+    if(glayout.isInitialised 
+        && (glayout.openPopouts.every(function(popout) { return popout.isInitialised })))   {
+        var state = JSON.stringify( glayout.toConfig() );
+        localStorage.setItem( 'glSavedState', state );
+  }
+      
   });
 |}

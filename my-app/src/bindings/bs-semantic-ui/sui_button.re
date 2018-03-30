@@ -11,7 +11,8 @@ external suiButtonGroup : ReasonReact.reactClass =
 /* See https://khoanguyen.me/writing-reason-react-bindings-the-right-way */
 [@bs.obj] external makeButtonProps : (
   ~active: Js.boolean=?, 
-  /* TODO: animated, as */
+  ~animated: Sui_tools.js=?,
+  /* TODO: as */
   ~attached: string=?,
   ~basic: Js.boolean=?,
   ~circular: Js.boolean=?,
@@ -32,8 +33,9 @@ external suiButtonGroup : ReasonReact.reactClass =
   ~size: string=?,
   /* TODO: tabIndex */
   ~toggle: Js.boolean=?, 
+ 
       
-  ~onClick: ReactEventRe.Mouse.t => unit=?,
+  ~onClick: (ReactEventRe.Synthetic.t,  Js.t(Js.Types.obj_val)) => unit=?,
   unit
   ) => _ = "";
 
@@ -42,6 +44,7 @@ let make =
     (
       ~active=?,
       ~attached=?,
+      ~animated=?,
       ~basic=?,
       ~circular=?,
       ~className=?,
@@ -66,6 +69,7 @@ let make =
     ~props=makeButtonProps(
       ~active=?toJsOptionBool(active),
       ~attached=?toJsOptionAttached(attached),
+      ~animated=?toAnimBut(animated),
       ~basic=?toJsOptionBool(basic),
       ~circular=?toJsOptionBool(circular),
       ~className?, /* There is punning hapenning here (~className=?className) */

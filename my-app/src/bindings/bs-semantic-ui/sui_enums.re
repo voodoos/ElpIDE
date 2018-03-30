@@ -50,3 +50,9 @@ type floated = [
   | `left
   | `right
 ];
+
+[@bs.deriving jsConverter]
+type animButton = [
+  | `fade
+  | `vertical
+];
