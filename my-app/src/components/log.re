@@ -33,7 +33,17 @@ let make = _children => {
     },
   render: self => {
     let txt = "Pouet la console " ++ stringOfLogLevel(self.state.level);
-    <div> (ReasonReact.stringToElement(txt)) </div>;
+    <div className="p-console fullpanel">
+      SemanticUi.(
+        <Table>
+          <Table.Body>
+            <Table.Row>
+              <Table.Cell> (ReasonReact.stringToElement(txt)) </Table.Cell>
+            </Table.Row>
+          </Table.Body>
+        </Table>
+      )
+    </div>;
   },
 };
 

@@ -1,5 +1,7 @@
 [%bs.raw {|require('./css/app.css')|}];
 
+[%bs.raw {|require('./css/panels.css')|}];
+
 [%bs.raw {|require('semantic-ui-css/semantic.min.css')|}];
 
 [%bs.raw {|require('./css/ui.css')|}];
@@ -44,14 +46,7 @@ let config =
               ("value", Js.Json.string("Contenu Pouet 1")),
             ],
           ),
-          make_react_component(
-            "ace",
-            [],
-            [
-              ("file", Js.Json.string("POUET2")),
-              ("value", Js.Json.string("COntenu Pouet 2")),
-            ],
-          ),
+          make_react_component("log", [], []),
         |],
       ),
     |])
