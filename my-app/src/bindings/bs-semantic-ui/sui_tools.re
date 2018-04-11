@@ -67,7 +67,8 @@ let fromNum = b => Js.Option.map((. a) => fromNumAux(a), b);
 
 let fromBoolOrVeryAux = bORe =>
   switch (bORe) {
-  | `Bool(b) => jsOfBool(Js.Boolean.to_js_boolean(b))
+  | `True => jsOfBool(Js.true_)
+  | `False => jsOfBool(Js.true_)
   | `Very => jsOfString("very")
   };
 
