@@ -1,8 +1,16 @@
 .fullpanel {
     width: 100%;
     height: 100%;
+
+    display: flex;
+    flex-direction: column-reverse;
+    overflow: auto;
 }
 
 .p-console {
+    margin-top: auto;
+
     color: white;
+
+    background-color: #F6F6F6;
 }

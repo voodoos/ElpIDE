@@ -23,11 +23,27 @@ type state = {
 type action =
   | Change(logLevel);
 
+/* The sub-component for log rows */
+module Row = {
+  let component = ReasonReact.statelessComponent("Row");
+
+  let make = (~lvl, ~text, _children) => {
+    ...component, /* spread the template's other defaults into here  */
+    render: _self => {
+      SemanticUi.(
+      <Table.Row> <Table.Cell> text </Table.Cell> </Table.Row>
+    );
+    } 
+  };
+};
+
+/* The main log component */
 let component = ReasonReact.reducerComponent("Log");
 
 let handleClick = (_event, _self) => Js.log("clickedlog");
 
-let make = _children => {
+let make = (~glContainer, ~glEventHub : GoldenLayout.eventEmitter, _children) => {
+  /* glEventHub and glContainer are props given by Golden Layout */
   ...component,
   initialState: () => {
     Js.log("Log level initially set to: Info");
@@ -47,29 +63,24 @@ let make = _children => {
     },
   render: self => {
     /* Auxilliary that renders the rows of the log table */
-    let rec renderMessages = {
-      /* Auxilliary function that renders one row of the log table */
-      let renderOne = (key, text) =>
-        SemanticUi.(
-          <Table.Row key> <Table.Cell> text </Table.Cell> </Table.Row>
-        );
+    let rec renderMessages = 
       (~acc=[], messages) =>
         switch (messages) {
         | [] => Array.of_list(acc) /* We need an Array of Children, not a list */
         | [message, ...rest] =>
           renderMessages(
             ~acc=[
-              renderOne(string_of_int(List.length(acc)), message.text),
+              <Row key=(string_of_int(List.length(acc))) text=(message.text) lvl=(message.lvl) />,
               ...acc,
             ],
             rest,
           )
         };
-    };
-    /* The log is a table */
+    glEventHub##on("testEvent", (_j) => Js.log("totoEvent"));
+    /* The log is a basic table */
     <div className="p-console fullpanel">
       SemanticUi.(
-        <Table>
+        <Table basic=`True compact=`Very>
           <Table.Body> (renderMessages(self.state.messages)) </Table.Body>
         </Table>
       )
@@ -78,4 +89,7 @@ let make = _children => {
 };
 
 /* We need a way to give this component to goldenlayout : */
-let default = ReasonReact.wrapReasonForJs(~component, jsProps => make([||]));
+let default =
+  ReasonReact.wrapReasonForJs(~component, jsProps =>
+    make(~glContainer=jsProps##glContainer, ~glEventHub=jsProps##glEventHub, [||])
+  );
