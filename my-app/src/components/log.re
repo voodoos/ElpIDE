@@ -76,6 +76,14 @@ let make = (~glContainer, ~glEventHub, _children) => {
   initialState: () => {
     let level = Info;
     Js.log("Log level initially set to: Info");
+    Js.log(glContainer);
+    let gls: {. "reasonState": string} = glContainer##_config##componentState;
+    Js.log(Js.Obj.keys(gls));
+    if (Array.length(Js.Obj.keys(gls)) > 0) {
+      Js.log(gls);
+    } else {
+      Js.log("c nul");
+    };
     {
       level,
       messages: [|
