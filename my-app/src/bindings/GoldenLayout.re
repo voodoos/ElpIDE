@@ -15,9 +15,10 @@ type contentItem = {
   "getItemsById": [@bs.meth] (string => array(contentItem)),
 };
 
-type eventEmitter = {
+type eventEmitter('a) = {
   .
-  "on": [@bs.meth] ((string, Js.Json.t => unit) => unit),
+  "on": [@bs.meth] ((string, Js.t('a) => unit) => unit),
+  "unbind": [@bs.meth] (string => unit) /* TODO : inexact : http://golden-layout.com/docs/EventEmitter.html#unbind(%20eventName,%20callback,%20context%20) */
 };
 
 type golden = {. "root": contentItem};

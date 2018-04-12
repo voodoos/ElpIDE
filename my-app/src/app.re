@@ -68,18 +68,20 @@ let glayout =
 
 let make = (~message, _children) => {
   ...component,
+  didMount: self => {
+    /** Here we initialize the GoldenLayout
+      */
+    GoldenLayout.registerComponent(glayout, "ace", Editor.default);
+    GoldenLayout.registerComponent(glayout, "log", Log.default);
+    GoldenLayout.init(glayout);
+    ReasonReact.NoUpdate;
+  },
   render: _self =>
     <div id="app">
       <Toolbar brand=message glayout />
       <div id="gl_container" />
     </div>,
 };
-
-GoldenLayout.registerComponent(glayout, "ace", Editor.default);
-
-GoldenLayout.registerComponent(glayout, "log", Log.default);
-
-GoldenLayout.init(glayout);
 
 %raw
 {| window.glayout = glayout;
