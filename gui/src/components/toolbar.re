@@ -1,29 +1,19 @@
-
 let component = ReasonReact.statelessComponent("Toolbar");
 
-
-
-let make = (~brand, ~glayout, _children) => {
-
-    let onClickNew = (_e, _d) => {
-        (glayout##root##contentItems)[0]##addChild(GoldenLayout.make_react_component("ace", [], []))
-    };
-
-    let onClickPlay = (_e, _d) =>
-        Js.log("Let's rock");
-
-    {
+let make = (~brand, _children) => {
+  let onClickNew = (_e, _d) => Js.log("clicked");
+  let onClickPlay = (_e, _d) => Js.log("Let's rock");
+  {
     ...component,
-
     render: _self =>
-    SemanticUi.(
+      SemanticUi.(
         <div id="navbar">
           <Menu className="header" inverted=false borderless=true>
             <Menu.Item header=true>
               (ReasonReact.stringToElement(brand))
             </Menu.Item>
             <Menu.Item>
-              <Button.Group inverted=false >
+              <Button.Group inverted=false>
                 <Button icon=true onClick=onClickNew>
                   <Icon name="file outline" />
                 </Button>
@@ -33,6 +23,7 @@ let make = (~brand, ~glayout, _children) => {
               </Button.Group>
             </Menu.Item>
           </Menu>
-        </div> ),
-    }
+        </div>
+      ),
   };
+};

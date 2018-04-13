@@ -74,24 +74,17 @@ let component = ReasonReact.reducerComponent("Log");
 
 let handleClick = (_event, _self) => Js.log("clickedlog");
 
-let make = (~glContainer, ~glEventHub, _children) => {
-  /* glEventHub and glContainer are props given by Golden Layout */
+let make = _children => {
   ...component,
   initialState: () => {
-    /* GoldenLayout has it's own persistence mecanism (relaying on localstorage) */
-    let gls = glContainer##_config##componentState;
-    if (Array.length(Js.Obj.keys(gls)) > 0) {
-      glContainer##_config##componentState##reasonState;
-    } else {
-      let level = Info;
-      Js.log("Log level initially set to: Info");
-      {
-        level,
-        messages: [|
-          {lvl: Info, text: "Message initial"},
-          {lvl: Info, text: "Message 2"},
-        |],
-      };
+    let level = Info;
+    Js.log("Log level initially set to: Info");
+    {
+      level,
+      messages: [|
+        {lvl: Info, text: "Message initial"},
+        {lvl: Info, text: "Message 2"},
+      |],
     };
   },
   reducer: (action, state) =>
@@ -105,18 +98,8 @@ let make = (~glContainer, ~glEventHub, _children) => {
         messages: Array.append(state.messages, [|{lvl, text}|]),
       })
     },
-  didMount: self => {
-    /** The GoldenLayout EventHub is used to send and receive message from and to
-      * the various components off the App. This is not in sync with ReactJs
-      * philosophy but allows for communication to work accross windows
-      */
-    glEventHub##on("logMessage", j => {
-      Js.log(j);
-      self.send(NewMessage(Info, j##text));
-    });
-    ReasonReact.NoUpdate;
-  },
-  willUnmount: _self => glEventHub##unbind("logMessage"),
+  didMount: _self => ReasonReact.NoUpdate,
+  willUnmount: _self => (),
   render: self =>
     /* The log is a basic table */
     <div className="p-console fullpanel">
@@ -125,11 +108,4 @@ let make = (~glContainer, ~glEventHub, _children) => {
 };
 
 /* We need a way to give this component to goldenlayout : */
-let default =
-  ReasonReact.wrapReasonForJs(~component, jsProps =>
-    make(
-      ~glContainer=jsProps##glContainer,
-      ~glEventHub=jsProps##glEventHub,
-      [||],
-    )
-  );
+let default = ReasonReact.wrapReasonForJs(~component, _jsProps => make([||]));
