@@ -4,7 +4,7 @@
   "private": true,
   "dependencies": {
     "bs-platform": "^2.2.3",
-    "golden-layout": "^1.5.9",
+    "golden-layout": "https://github.com/voodoos/golden-layout#modern",
     "react-ace": "^5.9.0",
     "reason-scripts": "0.8.0",
     "semantic-ui-css": "^2.3.1",
