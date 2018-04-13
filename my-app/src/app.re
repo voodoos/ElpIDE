@@ -68,7 +68,7 @@ let glayout =
 
 let make = (~message, _children) => {
   ...component,
-  didMount: self => {
+  didMount: _self => {
     /** Here we initialize the GoldenLayout
       */
     GoldenLayout.registerComponent(glayout, "ace", Editor.default);

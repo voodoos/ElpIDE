@@ -74,22 +74,20 @@ let make = (~glContainer, ~glEventHub, _children) => {
   /* glEventHub and glContainer are props given by Golden Layout */
   ...component,
   initialState: () => {
-    let level = Info;
-    Js.log("Log level initially set to: Info");
-    Js.log(glContainer);
-    let gls: {. "reasonState": string} = glContainer##_config##componentState;
-    Js.log(Js.Obj.keys(gls));
+    /* GoldenLayout has it's own persistence mecanism (relaying on localstorage) */
+    let gls = glContainer##_config##componentState;
     if (Array.length(Js.Obj.keys(gls)) > 0) {
-      Js.log(gls);
+      glContainer##_config##componentState##reasonState;
     } else {
-      Js.log("c nul");
-    };
-    {
-      level,
-      messages: [|
-        {lvl: Info, text: "Message initial"},
-        {lvl: Info, text: "Message 2"},
-      |],
+      let level = Info;
+      Js.log("Log level initially set to: Info");
+      {
+        level,
+        messages: [|
+          {lvl: Info, text: "Message initial"},
+          {lvl: Info, text: "Message 2"},
+        |],
+      };
     };
   },
   reducer: (action, state) =>
