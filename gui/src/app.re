@@ -26,5 +26,16 @@ let make = (~message, _children) => {
   ...component,
   didMount: _self => ReasonReact.NoUpdate,
   render: _self =>
-    <div id="app"> <Toolbar brand=message /> <div id="gl_container" /> </div>,
+    <div id="app">
+      <Toolbar brand=message />
+      <SplitPane className="main-split" split=`vertical defaultSize=200>
+        <Pane initialSize="200px">
+          (ReasonReact.stringToElement("toto"))
+        </Pane>
+        <SplitPane className="right-split" split=`horizontal>
+          <div> (ReasonReact.stringToElement("tata")) </div>
+          <div> (ReasonReact.stringToElement("titi")) </div>
+        </SplitPane>
+      </SplitPane>
+    </div>,
 };
