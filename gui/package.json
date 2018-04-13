@@ -1,30 +1,27 @@
 {
-  "name": "gui",
+  "name": "my-app",
   "version": "0.1.0",
-  "scripts": {
-    "build": "bsb -make-world",
-    "start": "bsb -make-world -w",
-    "clean": "bsb -clean-world",
-    "test": "echo \"Error: no test specified\" && exit 1",
-    "webpack": "webpack -w",
-    "webpack:production": "NODE_ENV=production webpack"
-  },
-  "keywords": [
-    "BuckleScript"
-  ],
-  "author": "",
-  "license": "MIT",
+  "private": true,
   "dependencies": {
-    "css-loader": "^0.28.11",
-    "golden-layout": "^1.5.9",
-    "react": "^16.2.0",
+    "bs-platform": "^2.2.3",
+    "golden-layout": "https://github.com/voodoos/golden-layout#modern",
     "react-ace": "^5.9.0",
-    "react-dom": "^16.2.0",
-    "reason-react": ">=0.3.4"
+    "reason-scripts": "0.8.0",
+    "semantic-ui-css": "^2.3.1",
+    "semantic-ui-react": "^0.79.0"
+  },
+  "scripts": {
+    "start": "react-scripts start",
+    "build": "react-scripts build",
+    "test": "react-scripts test --env=jsdom",
+    "eject": "react-scripts eject",
+    "prepare": "npm link bs-platform"
   },
   "devDependencies": {
-    "bs-platform": "^2.2.3",
-    "webpack": "^4.0.1",
-    "webpack-cli": "^2.0.10"
+    "bs-jest": "https://github.com/glennsl/bs-jest.git#v0.4.2",
+    "bs-semantic-ui-react": "https://github.com/voodoos/bs-semantic-ui-react",
+    "react": "^16.2.0",
+    "react-dom": "^16.2.0",
+    "reason-react": ">=0.3.4"
   }
 }
