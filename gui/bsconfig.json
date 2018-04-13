@@ -1,11 +1,12 @@
 {
   "name": "reason-scripts",
   "sources": {
-    "dir" : "src",
-    "subdirs" : true
+    "dir": "src",
+    "subdirs": true
   },
   "bs-dependencies": [
     "reason-react",
+    "bs-react-split-pane",
     "bs-jest"
   ],
   "reason": {

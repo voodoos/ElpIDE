@@ -4,6 +4,7 @@
   "private": true,
   "dependencies": {
     "bs-platform": "^2.2.3",
+    "bs-react-split-pane": "https://github.com/voodoos/bs-react-split-pane",
     "react-ace": "^5.9.0",
     "react-split-pane": "^2.0.0",
     "reason-scripts": "0.8.0",

@@ -1292,6 +1292,12 @@ bs-platform@^2.2.3:
   version "2.2.3"
   resolved "https://registry.yarnpkg.com/bs-platform/-/bs-platform-2.2.3.tgz#d905ae10a5f3621e6a739041dfa0b58483a2174f"
 
+"bs-react-split-pane@https://github.com/voodoos/bs-react-split-pane":
+  version "0.1.0"
+  resolved "https://github.com/voodoos/bs-react-split-pane#a10ddb612a7f894bd190e073232a71e0422843ad"
+  dependencies:
+    react-split-pane "^2.0.0"
+
 "bs-semantic-ui-react@https://github.com/voodoos/bs-semantic-ui-react":
   version "0.1.0"
   resolved "https://github.com/voodoos/bs-semantic-ui-react#0cff236f87252898919282166adf8d0b5531f2cb"
