@@ -41,7 +41,11 @@ module List = {
     let make = (~lvl, ~text, _children) => {
       ...component, /* spread the template's other defaults into here  */
       render: _self =>
-        SemanticUi.(<Table.Row> <Table.Cell> text </Table.Cell> </Table.Row>),
+        SemanticUi.(
+          <Table.Row warning=(lvl == Warning) error=(lvl == Error)>
+            <Table.Cell> text </Table.Cell>
+          </Table.Row>
+        ),
     };
   };
   /* The List component */
