@@ -38,7 +38,7 @@ external registerComponent : (golden, string, ReasonReact.reactClass) => unit =
 let make_config = content =>
   Js.Json.(object_(Js_dict.fromList([("content", array(content))])));
 
-let make_row = (id, content) =>
+let make_row = (_id, content) =>
   Js.Json.(
     object_(
       Js_dict.fromList([
