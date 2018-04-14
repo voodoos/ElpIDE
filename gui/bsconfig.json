@@ -1,19 +1,27 @@
 {
-  "name": "reason-scripts",
+  "name": "elpide",
+  "reason": {
+    "react-jsx": 2
+  },
   "sources": {
     "dir": "src",
     "subdirs": true
+  },
+  "package-specs": {
+    "module": "commonjs",
+    "in-source": true
   },
   "bs-dependencies": [
     "reason-react",
     "bs-react-split-pane",
     "bs-jest"
   ],
-  "reason": {
-    "react-jsx": 2
-  },
   "bsc-flags": [
     "-bs-super-errors"
   ],
+  "warnings": {
+    "error": "+101"
+  },
+  "suffix": ".bs.js",
   "refmt": 3
 }

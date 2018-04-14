@@ -1,26 +1,24 @@
 {
-  "name": "my-app",
+  "name": "elpide",
   "version": "0.1.0",
-  "private": true,
+  "repository": "https://github.com/voodoos/ElpIDE",
+  "author": "voodoos",
+  "license": "MIT",
   "dependencies": {
     "bs-platform": "^2.2.3",
     "bs-react-split-pane": "https://github.com/voodoos/bs-react-split-pane",
     "react-ace": "^5.9.0",
     "react-split-pane": "^2.0.0",
-    "reason-scripts": "0.8.0",
     "semantic-ui-css": "^2.3.1",
     "semantic-ui-react": "^0.79.0"
   },
   "scripts": {
-    "start": "react-scripts start",
-    "build": "react-scripts build",
-    "test": "react-scripts test --env=jsdom",
-    "eject": "react-scripts eject",
-    "prepare": "npm link bs-platform"
+    "start": "(bsb -w &) && parcel public/index.html"
   },
   "devDependencies": {
     "bs-jest": "https://github.com/glennsl/bs-jest.git#v0.4.2",
     "bs-semantic-ui-react": "https://github.com/voodoos/bs-semantic-ui-react",
+    "bsb-js": "^1.0.2",
     "react": "^16.2.0",
     "react-dom": "^16.2.0",
     "reason-react": ">=0.3.4"
