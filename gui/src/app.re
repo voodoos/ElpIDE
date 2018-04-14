@@ -20,22 +20,42 @@
 
 [@bs.module] external logo : string = "./logo.svg";
 
-let component = ReasonReact.statelessComponent("App");
+
+type state = {
+  /* The following is a dummy to trigger re-rendering when layout is dragged */
+  layout_update: int
+};
+
+type action =
+  | LayoutChange
+;
+
+let component = ReasonReact.reducerComponent("App");
 
 let make = (~message, _children) => {
   ...component,
+  initialState: () => {
+    {
+      layout_update: 0
+    };
+  },
+  reducer: (action, state) =>
+    switch (action) {
+    | LayoutChange =>
+      ReasonReact.Update({...state, layout_update: (state.layout_update + 1)}); 
+    },
   didMount: _self => ReasonReact.NoUpdate,
-  render: _self =>
+  render: self => {
     <div id="app">
       <Toolbar brand=message />
-      <SplitPane className="main-split" split=`vertical defaultSize=200>
+      <SplitPane className="main-split" split=`vertical defaultSize=200  onDragFinished=(() => self.send(LayoutChange))>
         <Pane initialSize="200px">
           (ReasonReact.stringToElement("toto"))
         </Pane>
-        <SplitPane className="right-split" split=`horizontal>
-          <div> (ReasonReact.stringToElement("tata")) </div>
+        <SplitPane className="right-split" split=`horizontal onDragFinished=(() => self.send(LayoutChange))>
+          <Pane> <Editor file="Testfile" value="testval" /> </Pane>
           <div> (ReasonReact.stringToElement("titi")) </div>
         </SplitPane>
       </SplitPane>
-    </div>,
+    </div>},
 };

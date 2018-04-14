@@ -18,6 +18,7 @@ let make =
       ~height: string,
       ~value: string,
       ~setOptions: Js.Json.t,
+      ~onChange: string => unit,
       children,
     ) =>
   ReasonReact.wrapJsForReason(
@@ -31,6 +32,7 @@ let make =
       "value": value,
       "setOptions": setOptions,
       "editorProps": {"$blockScrolling": "Infinity"},
+      "onChange": onChange,
     },
     children,
   );

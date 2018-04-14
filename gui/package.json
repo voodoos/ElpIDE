@@ -8,7 +8,7 @@
     "bs-platform": "^2.2.3",
     "bs-react-split-pane": "https://github.com/voodoos/bs-react-split-pane",
     "react-ace": "^5.9.0",
-    "react-split-pane": "^2.0.0",
+    "react-split-pane": "https://github.com/voodoos/react-split-pane#v2",
     "semantic-ui-css": "^2.3.1",
     "semantic-ui-react": "^0.79.0"
   },
@@ -21,6 +21,6 @@
     "bsb-js": "^1.0.2",
     "react": "^16.2.0",
     "react-dom": "^16.2.0",
-    "reason-react": ">=0.3.4"
+    "reason-react": "^0.3.4"
   }
 }

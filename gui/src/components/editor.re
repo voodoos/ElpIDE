@@ -1,4 +1,5 @@
-type state = {value: string};
+type state = {value: string,
+  editorRef: ref(option(ReasonReact.reactRef))};
 
 type action =
   | Change(string);
@@ -8,18 +9,33 @@ let component = ReasonReact.reducerComponent("Editor");
 
 let handleClick = (_event, _self) => Js.log("clickedtoto!");
 
+let setEditorRef = (theRef, {ReasonReact.state}) => {
+  state.editorRef := Js.Nullable.to_opt(theRef);
+};
+
+
 let make = (~file, ~value, _children) => {
   ...component,
   initialState: () => {
     Js.log(value);
-    {value: value};
+    {value: value, editorRef: ref(None)};
   },
-  reducer: (action, _state) =>
+  reducer: (action, state) =>
     switch (action) {
-    | Change(newVal) => ReasonReact.Update({value: newVal})
+    | Change(newVal) => ReasonReact.Update({...state, value: newVal})
     },
-  render: self =>
+  didUpdate: ({oldSelf, newSelf}) => { 
+    /* We need to resize the editor when the layout is changed */
+  Js.log("editor render3");
+  switch (newSelf.state.editorRef^) {
+    | None => ()
+    | Some(r) => ReasonReact.refToJsObj(r)##editor##resize() /* Unsafe magic*/
+    }
+  },
+  render: self => {
     <AceEditor
+      ref={self.handle(setEditorRef)}
+      onChange=(v => self.send(Change(v)))
       mode="ocaml"
       theme="monokai"
       name=file
@@ -37,13 +53,11 @@ let make = (~file, ~value, _children) => {
                      ]),
                    )
                  )
-      /*
-       onChange={(n) => this.valChanged(n)}}*/
-    />,
+    />},
 };
 
-/* We need a way to give this component to goldenlayout : */
+/* We need a way to give this component to goldenlayout : 
 let default =
   ReasonReact.wrapReasonForJs(~component, jsProps =>
-    make(~file=jsProps##file, ~value=jsProps##value, [||])
-  );
+    make(~file=jsProps##file, ~value=jsProps##value, ~value=jsProps##value, [||])
+  );*/
