@@ -15,14 +15,30 @@ type message = {
   text: string,
 };
 
+let message = (lvl, text) => {lvl, text};
+
 type state = {
   level: logLevel,
   messages: array(message),
 };
 
-type action =
-  | Change(logLevel)
-  | NewMessage(logLevel, string);
+module State = {
+  type t = {
+    level: logLevel,
+    messages: array(message),
+  };
+  let initialState = {
+    let level = Info;
+    Js.log("Log level initially set to: Info");
+    {
+      level,
+      messages: [|
+        {lvl: Info, text: "Message initial test"},
+        {lvl: Info, text: "Message 2 test"},
+      |],
+    };
+  };
+};
 
 /**
  * <Log>
@@ -70,42 +86,17 @@ module List = {
 };
 
 /* The main log component */
-let component = ReasonReact.reducerComponent("Log");
+let component = ReasonReact.statelessComponent("Log");
 
 let handleClick = (_event, _self) => Js.log("clickedlog");
 
-let make = _children => {
+let make = (~level, ~messages, _children) => {
   ...component,
-  initialState: () => {
-    let level = Info;
-    Js.log("Log level initially set to: Info");
-    {
-      level,
-      messages: [|
-        {lvl: Info, text: "Message initial"},
-        {lvl: Info, text: "Message 2"},
-      |],
-    };
-  },
-  reducer: (action, state) =>
-    switch (action) {
-    | Change(lvl) =>
-      Js.log("Log level set to " ++ stringOfLogLevel(lvl) ++ ".");
-      ReasonReact.Update({...state, level: lvl}); /* ...state means other state fields are unchanged */
-    | NewMessage(lvl, text) =>
-      ReasonReact.Update({
-        ...state,
-        messages: Array.append(state.messages, [|{lvl, text}|]),
-      })
-    },
   didMount: _self => ReasonReact.NoUpdate,
   willUnmount: _self => (),
-  render: self =>
+  render: _self =>
     /* The log is a basic table */
-    <div className="p-console fullpanel">
-      <List messages=self.state.messages />
-    </div>,
+    <div className="p-console fullpanel"> <List messages /> </div>,
 };
-
-/* We need a way to give this component to goldenlayout : */
-let default = ReasonReact.wrapReasonForJs(~component, _jsProps => make([||]));
+/* We need a way to give this component to goldenlayout :
+   let default = ReasonReact.wrapReasonForJs(~component, _jsProps => make([||]));*/
