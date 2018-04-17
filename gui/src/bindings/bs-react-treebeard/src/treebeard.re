@@ -35,9 +35,10 @@ let makeNode = (~id=?, ~toggled=?, ~active=?, ~loading=?, ~children=[||], name) 
     "children": array(data),
   };
 */
-let make = (~data: data, children) =>
+let make = (~data: data, ~onToggle: option((data, bool) => unit)=?, children) =>
     ReasonReact.wrapJsForReason(
     ~reactClass=treebeard,
-    ~props={"data": data},
+    ~props={"data": data,
+            "onToggle": Js.Nullable.fromOption(onToggle)},
     children,
   );

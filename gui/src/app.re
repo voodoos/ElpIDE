@@ -68,6 +68,7 @@ let make = (~message, _children) => {
             Treebeard.makeNode( "leaf1"),
             Treebeard.makeNode( "leaf2")
               |]))
+            onToggle=((_n, _t) => Js.log("togllle"))
             
           />
         </Pane>
