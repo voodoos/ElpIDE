@@ -17,11 +17,6 @@ type message = {
 
 let message = (lvl, text) => {lvl, text};
 
-type state = {
-  level: logLevel,
-  messages: array(message),
-};
-
 module State = {
   type t = {
     level: logLevel,
@@ -65,38 +60,61 @@ module List = {
     };
   };
   /* The List component */
+  /* wondering about Js.Nullable.to_opt? See the note below */
   let component = ReasonReact.statelessComponent("List");
   let make = (~messages, _children) => {
     ...component, /* spread the template's other defaults into here  */
-    render: _self =>
-      SemanticUi.(
-        <Table basic=`True compact=`Very>
-          <Table.Body>
-            (
-              Array.mapi(
-                (k, m) =>
-                  <Row key=(string_of_int(k)) lvl=m.lvl text=m.text />,
-                messages,
+    render: self =>
+      <div>
+        SemanticUi.(
+          <Table basic=`True compact=`Very>
+            <Table.Body>
+              (
+                Array.mapi(
+                  (k, m) =>
+                    <Row key=(string_of_int(k)) lvl=m.lvl text=m.text />,
+                  messages,
+                )
               )
-            )
-          </Table.Body>
-        </Table>
-      ),
+            </Table.Body>
+          </Table>
+        )
+      </div>,
   };
 };
 
 /* The main log component */
-let component = ReasonReact.statelessComponent("Log");
+type state = {bottomRef: ref(option(Dom.element))};
+
+type action = int;
+
+let component = ReasonReact.reducerComponent("Log");
 
 let handleClick = (_event, _self) => Js.log("clickedlog");
 
+let setBottomRef = (theRef, {ReasonReact.state}) =>
+  /* We need a ref to the div marking the bottom of the console to keep it scrolled */
+  state.bottomRef := Js.Nullable.toOption(theRef);
+
 let make = (~level, ~messages, _children) => {
   ...component,
-  didMount: _self => ReasonReact.NoUpdate,
+  initialState: () => {bottomRef: ref(None)},
+  reducer: (_action: action, _state) => ReasonReact.NoUpdate,
+  didUpdate: ({oldSelf, newSelf}) =>
+    /* Scrolling to bottom on update
+     * Thanks to the Bottom div */
+    switch (newSelf.state.bottomRef^) {
+    | Some(r) =>
+      ReactDOMRe.domElementToObj(r)##scrollIntoView({"behavior": "smooth"})
+    | _ => ()
+    },
   willUnmount: _self => (),
-  render: _self =>
+  render: self =>
     /* The log is a basic table */
-    <div className="p-console fullpanel"> <List messages /> </div>,
+    <div className="p-console fullpanel">
+      <List messages />
+      <div ref=(self.handle(setBottomRef)) />
+    </div>,
 };
 /* We need a way to give this component to goldenlayout :
    let default = ReasonReact.wrapReasonForJs(~component, _jsProps => make([||]));*/
