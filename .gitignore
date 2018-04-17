@@ -7,7 +7,5 @@
 
 # yarn
 yarn-error.log
-
-# old versions
-gui/
-react_app/
+yarn.lock
+.cache
