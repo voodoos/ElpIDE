@@ -56,9 +56,20 @@ let make = (~message, _children) => {
         className="main-split"
         split=`vertical
         defaultSize=200
-        onDragFinished=(() => self.send(LayoutChange))>
+        onDragFinished=(
+          () => {
+            self.send(LayoutChange);
+            self.send(LogMessage(Log.message(Info, "totoro")));
+          }
+        )>
         <Pane initialSize="200px">
-          (ReasonReact.stringToElement("toto"))
+          <Treebeard
+            data=(Treebeard.makeNode("root", ~toggled=true, ~children=[| 
+            Treebeard.makeNode( "leaf1"),
+            Treebeard.makeNode( "leaf2")
+              |]))
+            
+          />
         </Pane>
         <SplitPane
           className="right-split"
@@ -72,3 +83,15 @@ let make = (~message, _children) => {
       </SplitPane>
     </div>,
 };
+
+/*
+
+            {
+              name: "root",
+              toggled: Some(true),
+              children: [|
+                {name: "sub1", toggled: None, children: [||]},
+                {name: "sub2", toggled: None, children: [||]},
+              |],
+            }
+            */

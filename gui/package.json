@@ -7,6 +7,7 @@
   "dependencies": {
     "react-ace": "^5.9.0",
     "react-split-pane": "https://github.com/voodoos/react-split-pane#v2",
+    "react-treebeard": "^2.1.0",
     "semantic-ui-css": "^2.3.1",
     "semantic-ui-react": "^0.79.0"
   },
@@ -14,16 +15,16 @@
     "start": "(bsb -w &) && parcel public/index.html"
   },
   "devDependencies": {
+    "babel-plugin-add-module-exports": "^0.2.1",
+    "babel-plugin-transform-object-assign": "^6.22.0",
+    "babel-plugin-transform-object-rest-spread": "^6.26.0",
+    "babel-preset-es2015": "^6.24.1",
+    "babel-preset-react": "^6.24.1",
     "bs-jest": "https://github.com/glennsl/bs-jest.git#v0.4.2",
     "bs-platform": "^2.2.3",
     "bs-react-split-pane": "https://github.com/voodoos/bs-react-split-pane",
     "bs-semantic-ui-react": "https://github.com/voodoos/bs-semantic-ui-react",
     "bsb-js": "^1.0.2",
-    "reason-react": "^0.3.4",
-    "babel-plugin-add-module-exports": "^0.2.1",
-    "babel-plugin-transform-object-assign": "^6.22.0",
-    "babel-plugin-transform-object-rest-spread": "^6.26.0",
-    "babel-preset-es2015": "^6.24.1",
-    "babel-preset-react": "^6.24.1"
+    "reason-react": "^0.3.4"
   }
 }
