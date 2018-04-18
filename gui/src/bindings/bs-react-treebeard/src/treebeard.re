@@ -18,15 +18,39 @@ let fromBool = makeJsOptionMap(Js.Boolean.to_js_boolean);
 ~children: array(data)=?, unit) => data = "";
 
 /* For convenience, use this function to build data props */
-let makeNode = (~id=?, ~toggled=?, ~active=?, ~loading=?, ~children=[||], name) => {
+let makeNode = (~id=?, ~toggled=?, ~active=?, ~loading=?, ~children=?, name) => {
     makeNodeExt(~id?, 
     ~name=name, 
     ~toggled=?fromBool(toggled), 
     ~active=?fromBool(active), 
     ~loading=?fromBool(loading), 
-    ~children, 
+    ~children?, 
     ())
 };
+
+let setActive = (node: data, active: bool) =>
+    makeNodeExt(
+        ~id=?Js.Undefined.toOption(node##id),
+        ~name=node##name,
+        ~toggled=?Js.Undefined.toOption(node##toggled),
+        ~loading=?Js.Undefined.toOption(node##loading),
+        ~children=?Js.Undefined.toOption(node##children),
+        ~active=Js.Boolean.to_js_boolean(active),
+        ()
+    )
+;
+
+let setToggled = (node: data, toggled: bool) =>
+    makeNodeExt(
+        ~id=?Js.Undefined.toOption(node##id),
+        ~name=node##name,
+        ~active=?Js.Undefined.toOption(node##active),
+        ~loading=?Js.Undefined.toOption(node##loading),
+        ~children=?Js.Undefined.toOption(node##children),
+        ~toggled=Js.Boolean.to_js_boolean(toggled),
+        ()
+    )
+;
 
 /*let makeNode = (~name: string, ~toggled: bool=?, ~children: array(bool)) =>
 {

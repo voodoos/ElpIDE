@@ -62,16 +62,7 @@ let make = (~message, _children) => {
             self.send(LogMessage(Log.message(Info, "totoro")));
           }
         )>
-        <Pane initialSize="200px">
-          <Treebeard
-            data=(Treebeard.makeNode("root", ~toggled=true, ~children=[| 
-            Treebeard.makeNode( "leaf1"),
-            Treebeard.makeNode( "leaf2")
-              |]))
-            onToggle=((_n, _t) => Js.log("togllle"))
-            
-          />
-        </Pane>
+        <Pane initialSize="200px"> <FileBrowser /> </Pane> 
         <SplitPane
           className="right-split"
           split=`horizontal
@@ -87,6 +78,14 @@ let make = (~message, _children) => {
 
 /*
 
+          <Treebeard
+            data=(Treebeard.makeNode("root", ~toggled=true, ~children=[| 
+            Treebeard.makeNode( "leaf1"),
+            Treebeard.makeNode( "leaf2")
+              |]))
+            onToggle=((_n, _t) => Js.log("togllle"))
+            
+          />
             {
               name: "root",
               toggled: Some(true),
