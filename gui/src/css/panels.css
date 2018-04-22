@@ -7,6 +7,10 @@
     overflow: auto;
 }
 
+.scroll {
+    overflow: auto;
+}
+
 .p-console {
     margin-top: auto;
 

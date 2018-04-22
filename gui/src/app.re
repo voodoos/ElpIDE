@@ -46,7 +46,6 @@ let make = (~message, _children) => {
     switch self.ReasonReact.state.elpi {
     | Some(e) => {
         e##compile(self.ReasonReact.state.editors);
-        e##queryAll("world A.");
       }
     | None => ()
     }
@@ -149,11 +148,11 @@ let make = (~message, _children) => {
               className="bottom-right-split"
               split=`vertical
               onDragFinished=(() => self.send(LayoutChange))>
-                <Pane>
+                <Pane className="scroll">
                   <Log level=self.state.log.level messages=self.state.log.messages />
                 </Pane>
-                <Pane>
-                  <Querier messages=self.state.answers />
+                <Pane className="scroll">
+                  <Querier elpi=self.state.elpi messages=self.state.answers />
                 </Pane>
               </SplitPane>
             </Pane>
