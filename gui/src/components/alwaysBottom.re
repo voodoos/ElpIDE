@@ -12,6 +12,14 @@ let make = (~className, children: array(ReasonReact.reactElement)) => {
   ...component,
   initialState: () => {bottomRef: ref(None)},
   reducer: (_action: action, _state) => ReasonReact.NoUpdate,
+  willUpdate: ({oldSelf, newSelf}) =>
+    /* Scrolling to bottom on update ugly-fix...
+     * Thanks to the Bottom div */
+    switch (newSelf.state.bottomRef^) {
+    | Some(r) =>
+      ReactDOMRe.domElementToObj(r)##scrollIntoView({"behavior": "smooth"}) /* unsafe */
+    | _ => ()
+    },
   didUpdate: ({oldSelf, newSelf}) =>
     /* Scrolling to bottom on update
      * Thanks to the Bottom div */
