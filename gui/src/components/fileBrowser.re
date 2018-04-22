@@ -1,63 +1,41 @@
-type state = {
-  cursor: option(Treebeard.data),
-  data: Treebeard.data,
+type node = {
+  handle: int,
+  name: string,
+  children: list(node),
 };
 
+let test = {
+  handle: 1,
+  name: "root",
+  children: [
+    {handle: 2, name: "child1", children: []},
+    {handle: 3, name: "child2", children: []},
+  ],
+};
+
+let rec stringOfNode = node =>
+  switch (node.children) {
+  | [] => node.name
+  | [child, ...tail] =>
+    node.name
+    ++ stringOfNode(child)
+    ++ "\n"
+    ++ stringOfNode({...node, children: tail})
+  };
+
+type state = {active: node};
+
 type action =
-  | SetCursor(Treebeard.data);
+  | SetActive(node);
 
 let component = ReasonReact.reducerComponent("FileBrowser");
 
-let make = _children => {
+let make = (~data, _children) => {
   ...component,
-  initialState: () => {
-    cursor: None,
-    data:
-      Treebeard.makeNode(
-        "root",
-        ~toggled=false,
-        ~children=[|
-          Treebeard.makeNode("leaf1"),
-          Treebeard.makeNode("leaf2"),
-        |],
-      ),
-  },
+  initialState: () => {active: data},
   reducer: (action, state) =>
     switch (action) {
-    | SetCursor(cursor) =>
-      Js.log("changiiing");
-      ReasonReact.Update({...state, cursor: Some(cursor)});
+    | SetActive(node) => ReasonReact.Update({active: node})
     },
-  render: self => {
-    let change = (node: Treebeard.data, toggled) => {
-      /*self.handle(
-          (couple, self) => {
-        let (node, toggled) = couple;*/
-      switch (self.state.cursor) {
-      | None => ()
-      | Some(node) =>
-        self.send(SetCursor(Treebeard.setActive(node, false)))
-      };
-      let tnode =
-        switch (Js.Undefined.toOption(node##children)) {
-        | None => node
-        | Some(_) => Treebeard.setToggled(node, toggled)
-        };
-      self.send(SetCursor(Treebeard.setActive(tnode, true)));
-      /*
-       if(this.state.cursor){this.state.cursor.active = false;}
-       node.active = true;
-       if(node.children){ node.toggled = toggled; }
-       this.setState({ cursor: node });
-       */
-      Js.log(node);
-      Js.log(toggled);
-      Js.log(self.state.cursor);
-      /*},
-        (node, toggled),
-        )*/
-    };
-    let data = self.state.data;
-    <Treebeard data onToggle=change />;
-  },
+  render: self => ReasonReact.stringToElement(stringOfNode(data)),
 };

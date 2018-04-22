@@ -1,0 +1,271 @@
+open Sui_tools;
+
+[@bs.module "semantic-ui-react"]
+external react : ReasonReact.reactClass = "List";
+
+/* Using BS Special Creation Function help us with optionnal properties */
+/* See https://khoanguyen.me/writing-reason-react-bindings-the-right-way */
+[@bs.obj]
+external makeProps :
+  (
+    ~animated: Js.boolean=?,
+    ~as_: string=?, /* TODO: Can also be a function ! */
+    ~bulleted: Js.boolean=?,
+    ~celled: Js.boolean=?,
+    ~className: string=?,
+    ~content: ReasonReact.reactElement=?,
+    ~divided: Js.boolean=?,
+    ~floated: string=?,
+    ~horizontal: Js.boolean=?,
+    ~inverted: Js.boolean=?,
+    ~items: array(ReasonReact.reactElement)=?,
+    ~link: Js.boolean=?,
+    /* TODO: onItemClick */
+    ~ordered: Js.boolean=?,
+    ~relaxed: js=?,
+    ~selection: Js.boolean=?,
+    ~size: string=?,
+    ~verticalAlign: string=?,
+    unit
+  ) =>
+  _ =
+  "";
+
+let make =
+    (
+      ~animated=?,
+      ~as_=?,
+      ~bulleted=?,
+      ~celled=?,
+      ~className=?,
+      ~content=?,
+      ~divided=?,
+      ~floated=?,
+      ~horizontal=?,
+      ~inverted=?,
+      ~items=?,
+      ~link=?,
+      ~ordered=?,
+      ~relaxed=?,
+      ~selection=?,
+      ~size=?,
+      ~verticalAlign=?,
+      children,
+    ) =>
+  ReasonReact.wrapJsForReason(
+    ~reactClass=react,
+    ~props=
+      makeProps(
+        ~animated=?fromBool(animated),
+        ~as_?,
+        ~bulleted=?fromBool(bulleted),
+        ~celled=?fromBool(celled),
+        ~className?,
+        ~content?,
+        ~divided=?fromBool(divided),
+        ~floated=?fromLeftOrRight(floated),
+        ~horizontal=?fromBool(horizontal),
+        ~inverted=?fromBool(inverted),
+        ~items?,
+        ~link=?fromBool(link),
+        ~ordered=?fromBool(ordered),
+        ~relaxed=?fromBoolOrVery(relaxed),
+        ~selection=?fromBool(selection),
+        ~size=?fromSize(size),
+        ~verticalAlign=?fromTopOrMiddleOrBottom(verticalAlign),
+        (),
+      ),
+    children,
+  );
+
+module Description = {
+  [@bs.module "semantic-ui-react"] [@bs.scope "List"]
+  external react : ReasonReact.reactClass = "Description";
+  [@bs.obj]
+  external makeProps :
+    (
+      ~as_: string=?, /* TODO: Can also be a function ! */
+      ~className: string=?,
+      ~content: ReasonReact.reactElement=?,
+      unit
+    ) =>
+    _ =
+    "";
+  let make = (~as_=?, ~className=?, ~content=?, children) =>
+    ReasonReact.wrapJsForReason(
+      ~reactClass=react,
+      ~props=makeProps(~as_?, ~className?, ~content?, ()),
+      children,
+    );
+};
+
+module Header = {
+  [@bs.module "semantic-ui-react"] [@bs.scope "List"]
+  external react : ReasonReact.reactClass = "Header";
+  [@bs.obj]
+  external makeProps :
+    (
+      ~as_: string=?, /* TODO: Can also be a function ! */
+      ~className: string=?,
+      ~content: ReasonReact.reactElement=?,
+      unit
+    ) =>
+    _ =
+    "";
+  let make = (~as_=?, ~className=?, ~content=?, children) =>
+    ReasonReact.wrapJsForReason(
+      ~reactClass=react,
+      ~props=makeProps(~as_?, ~className?, ~content?, ()),
+      children,
+    );
+};
+
+module Icon = {
+  [@bs.module "semantic-ui-react"] [@bs.scope "List"]
+  external react : ReasonReact.reactClass = "Icon";
+  [@bs.obj]
+  external makeProps :
+    (
+      ~className: string=?,
+      ~name: string=?,
+      ~size: string=?,
+      ~verticalAlign: string=?,
+      unit
+    ) =>
+    _ =
+    "";
+  let make = (~className=?, ~name=?, ~size=?, ~verticalAlign=?, children) =>
+    ReasonReact.wrapJsForReason(
+      ~reactClass=react,
+      ~props=
+        makeProps(
+          ~className?,
+          ~name?,
+          ~size=?fromSize(size),
+          ~verticalAlign=?fromTopOrMiddleOrBottom(verticalAlign),
+          (),
+        ),
+      children,
+    );
+};
+
+module Content = {
+  [@bs.module "semantic-ui-react"] [@bs.scope "List"]
+  external react : ReasonReact.reactClass = "Content";
+  [@bs.obj]
+  external makeProps :
+    (
+      ~as_: string=?, /* TODO: Can also be a function ! */
+      ~className: string=?,
+      ~content: ReasonReact.reactElement=?,
+      ~description: ReasonReact.reactElement=?,
+      ~floated: string=?,
+      ~header: ReasonReact.reactElement=?,
+      ~verticalAlign: string=?,
+      unit
+    ) =>
+    _ =
+    "";
+  let make =
+      (
+        ~as_=?,
+        ~className=?,
+        ~content=?,
+        ~description=?,
+        ~floated=?,
+        ~header=?,
+        ~verticalAlign=?,
+        children,
+      ) =>
+    ReasonReact.wrapJsForReason(
+      ~reactClass=react,
+      ~props=
+        makeProps(
+          ~as_?,
+          ~className?,
+          ~content?,
+          ~description?,
+          ~floated=?fromLeftOrRight(floated),
+          ~header?,
+          ~verticalAlign=?fromTopOrMiddleOrBottom(verticalAlign),
+          (),
+        ),
+      children,
+    );
+};
+
+module Item = {
+  [@bs.module "semantic-ui-react"] [@bs.scope "List"]
+  external react : ReasonReact.reactClass = "Item";
+  [@bs.obj]
+  external makeProps :
+    (
+      ~active: Js.boolean=?,
+      ~as_: string=?, /* TODO: Can also be a function ! */
+      ~className: string=?,
+      ~content: ReasonReact.reactElement=?,
+      ~description: ReasonReact.reactElement=?,
+      ~disabled: Js.boolean=?,
+      ~header: ReasonReact.reactElement=?,
+      ~icon: string=?,
+      ~image: ReasonReact.reactElement=?,
+      /* TODO: onClick */
+      ~value: string=?,
+      unit
+    ) =>
+    _ =
+    "";
+  let make =
+      (
+        ~active=?,
+        ~as_=?,
+        ~className=?,
+        ~content=?,
+        ~description=?,
+        ~disabled=?,
+        ~header=?,
+        ~icon=?,
+        ~image=?,
+        ~value=?,
+        children,
+      ) =>
+    ReasonReact.wrapJsForReason(
+      ~reactClass=react,
+      ~props=
+        makeProps(
+          ~active=?fromBool(active),
+          ~as_?,
+          ~className?,
+          ~content?,
+          ~description?,
+          ~disabled=?fromBool(disabled),
+          ~header?,
+          ~icon?,
+          ~image?,
+          ~value?,
+          (),
+        ),
+      children,
+    );
+};
+
+module List = {
+  [@bs.module "semantic-ui-react"] [@bs.scope "List"]
+  external react : ReasonReact.reactClass = "List";
+  [@bs.obj]
+  external makeProps :
+    (
+      ~as_: string=?, /* TODO: Can also be a function ! */
+      ~className: string=?,
+      /* TODO: content */
+      unit
+    ) =>
+    _ =
+    "";
+  let make = (~as_=?, ~className=?, children) =>
+    ReasonReact.wrapJsForReason(
+      ~reactClass=react,
+      ~props=makeProps(~as_?, ~className?, ()),
+      children,
+    );
+};

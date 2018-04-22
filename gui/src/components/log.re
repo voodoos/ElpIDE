@@ -10,12 +10,20 @@ let stringOfLogLevel = lvl =>
   | Error => "Error"
   };
 
+let logLevelOfString = lvl =>
+  switch (lvl) {
+  | "warning" => Warning
+  | "error" => Error
+  | _ => Info
+  };
+
 type message = {
   lvl: logLevel,
+  prefix: string,
   text: string,
 };
 
-let message = (lvl, text) => {lvl, text};
+let message = (lvl, prefix, text) => {lvl, prefix, text};
 
 module State = {
   type t = {
@@ -28,8 +36,8 @@ module State = {
     {
       level,
       messages: [|
-        {lvl: Info, text: "Message initial test"},
-        {lvl: Info, text: "Message 2 test"},
+        {lvl: Info, prefix: "", text: "Message initial test"},
+        {lvl: Info, prefix: "", text: "Message 2 test"},
       |],
     };
   };
@@ -49,14 +57,19 @@ module List = {
   /* The sub-component for log rows */
   module Row = {
     let component = ReasonReact.statelessComponent("Row");
-    let make = (~lvl, ~text, _children) => {
+    let make = (~lvl, ~prefix, ~text, _children) => {
       ...component, /* spread the template's other defaults into here  */
-      render: _self =>
+      render: _self => {
+        let txt = switch prefix {
+        | "" => text
+        | pre => "[" ++ pre ++ "] " ++ text
+        };
         SemanticUi.(
           <Table.Row warning=(lvl == Warning) error=(lvl == Error)>
-            <Table.Cell> text </Table.Cell>
+            <Table.Cell> txt </Table.Cell>
           </Table.Row>
-        ),
+        )
+      },
     };
   };
   /* The List component */
@@ -72,7 +85,7 @@ module List = {
               (
                 Array.mapi(
                   (k, m) =>
-                    <Row key=(string_of_int(k)) lvl=m.lvl text=m.text />,
+                    <Row key=(string_of_int(k)) lvl=m.lvl prefix=m.prefix text=m.text />,
                   messages,
                 )
               )
