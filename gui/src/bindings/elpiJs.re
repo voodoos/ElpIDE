@@ -8,7 +8,7 @@ type elpi = {.
 external create :
   (
     (string, string, string) => unit,
-    (array(string), array(string)) => unit
+    (array({. "arg": string, "ass": string})) => unit
   ) =>
   elpi =
   "default";

@@ -4,6 +4,21 @@ type state = {value: string,
 type action =
   | Change(string);
 
+
+module State = {
+  type t = {.
+    "name": string,
+    "content": string,
+  };
+  let initialState = {
+    {
+      "name": "test.elpi",
+      "content": "world \"hello\".\nworld \"pussycat\"."
+    };
+  };
+};
+
+
 /* This is the basic component. */
 let component = ReasonReact.reducerComponent("Editor");
 

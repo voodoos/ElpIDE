@@ -1,8 +1,8 @@
 let component = ReasonReact.statelessComponent("Toolbar");
 
-let make = (~brand, _children) => {
+let make = (~brand, ~onClickPlay, _children) => {
   let onClickNew = (_e, _d) => Js.log("clicked");
-  let onClickPlay = (_e, _d) => Js.log("Let's rock");
+  let onClickPlay = (_e, _d) => onClickPlay();
   {
     ...component,
     render: _self =>

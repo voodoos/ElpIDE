@@ -19,7 +19,7 @@ let logLevelOfString = lvl =>
 
 type message = {
   lvl: logLevel,
-  prefix: string,
+  prefix: list(string),
   text: string,
 };
 
@@ -36,8 +36,8 @@ module State = {
     {
       level,
       messages: [|
-        {lvl: Info, prefix: "", text: "Message initial test"},
-        {lvl: Info, prefix: "", text: "Message 2 test"},
+        {lvl: Info, prefix: [], text: "Message initial test"},
+        {lvl: Info, prefix: [], text: "Message 2 test"},
       |],
     };
   };
@@ -60,10 +60,9 @@ module List = {
     let make = (~lvl, ~prefix, ~text, _children) => {
       ...component, /* spread the template's other defaults into here  */
       render: _self => {
-        let txt = switch prefix {
-        | "" => text
-        | pre => "[" ++ pre ++ "] " ++ text
-        };
+        let prefix = List.map((p) => "[" ++ p ++ "]", prefix);
+        let txt = String.concat("", prefix) ++ " " ++ text;
+        
         SemanticUi.(
           <Table.Row warning=(lvl == Warning) error=(lvl == Error)>
             <Table.Cell> txt </Table.Cell>
@@ -99,7 +98,6 @@ module List = {
 /* The main log component */
 let component = ReasonReact.statelessComponent("Log");
 
-let handleClick = (_event, _self) => Js.log("clickedlog");
 
 let make = (~level, ~messages, _children) => {
   ...component,
