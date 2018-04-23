@@ -18,7 +18,7 @@ let make = (~brand, ~onClickPlay, _children) => {
                 <Button icon=true onClick=onClickNew>
                   <Icon name="file outline" />
                 </Button>
-                <Button color=`olive icon=true onClick=onClickPlay>
+                <Button color=`blue icon=true onClick=onClickPlay>
                   <Icon name="settings" />
                 </Button>
               </Button.Group>
