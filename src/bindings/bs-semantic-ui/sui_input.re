@@ -25,6 +25,9 @@ external makeProps :
     ~tabIndex: js=?,
     ~transparent: Js.boolean=?,
     ~type_: string=?,
+
+    /* Usual <input props */
+    
     unit
   ) =>
   _ =

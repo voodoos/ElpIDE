@@ -132,7 +132,7 @@ module Group = {
     );
 };
 
-/* TODO : The following doesn't have the expected behavior */
+/* TODO
 
 module Button = {
   [@bs.module "semantic-ui-react"] [@bs.scope "Form"]
@@ -273,3 +273,4 @@ module TextArea = {
       children,
     );
 };
+*/
