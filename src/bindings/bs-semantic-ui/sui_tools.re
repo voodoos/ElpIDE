@@ -80,3 +80,12 @@ let fromEqualAux = a =>
   };
 
 let fromEqual = b => Js.Option.map((. a) => fromEqualAux(a), b);
+
+
+let fromComponentOrStringAux = a =>
+  switch (a) {
+  | `Comp(r) => r
+  | `String(s) => jsOfString(s)
+  };
+
+let fromComponentOrString = b => Js.Option.map((. a) => fromComponentOrStringAux(a), b);

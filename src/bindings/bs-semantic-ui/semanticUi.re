@@ -12,6 +12,8 @@ module Icon = Sui_icon;
 module List = Sui_list;
 
 /* Collections */
+module Form = Sui_form;
+
 module Menu = Sui_menu;
 
 module Table = Sui_table;
