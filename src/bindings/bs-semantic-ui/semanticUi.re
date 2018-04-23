@@ -9,6 +9,8 @@ module Button = Sui_button;
 
 module Icon = Sui_icon;
 
+module Input = Sui_input;
+
 module List = Sui_list;
 
 /* Collections */

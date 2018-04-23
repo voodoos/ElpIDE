@@ -58,6 +58,11 @@ let make = (~elpi, ~messages, _children) => {
             onChange=(self.handle(change))
           />
         </form>
+        SemanticUi.(
+          <Form>
+            <Form.Input />
+          </Form>
+        )
       </div>,
   };
 };

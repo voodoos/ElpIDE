@@ -132,6 +132,8 @@ module Group = {
     );
 };
 
+/* TODO : The following doesn't have the expected behavior */
+
 module Button = {
   [@bs.module "semantic-ui-react"] [@bs.scope "Form"]
   external sui : ReasonReact.reactClass = "Button";

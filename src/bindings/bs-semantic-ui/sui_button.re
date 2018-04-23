@@ -43,8 +43,6 @@ external makeButtonProps :
   ) =>
   _ =
   "";
-
-/* Bindings for *Button* */
 let make =
     (
       ~active=?,

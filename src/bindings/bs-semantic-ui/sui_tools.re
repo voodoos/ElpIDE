@@ -57,6 +57,14 @@ let toNumOrStringAux = bORe =>
 
 let fromNumOrString = b => Js.Option.map((. a) => toNumOrStringAux(a), b);
 
+let fromBoolOrStringAux = bORe =>
+  switch (bORe) {
+  | `Bool(b) => jsOfBool(Js.Boolean.to_js_boolean(b))
+  | `String(s) => jsOfString(s)
+  };
+
+let fromBoolOrString = b => Js.Option.map((. a) => fromBoolOrStringAux(a), b);
+
 let fromNumAux = bORe =>
   switch (bORe) {
   | `Int(i) => jsOfInt(i)
