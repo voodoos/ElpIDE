@@ -33,7 +33,7 @@ let make = (~elpi, ~messages, _children) => {
   };
   {
     ...component,
-    initialState: () => {input_val: "world A."},
+    initialState: () => {input_val: "After build enter query here"},
     retainedProps: {
       messages: messages,
     },
