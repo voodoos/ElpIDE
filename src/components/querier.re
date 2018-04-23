@@ -8,12 +8,18 @@ let answer = argsassignements => {
 };
 
 /* The main log component */
-type state = {input_val: string};
+type state = {
+  input_val: string,
+  history: array(string),
+  pos/* in history */: int,
+};
 
 type retainedProps = {messages: array(Log.message)};
 
 type action =
-  | SetVal(string);
+  | SetVal(string)
+  | Back 
+;
 
 let component = ReasonReact.reducerComponentWithRetainedProps("Querier");
 
@@ -33,13 +39,17 @@ let make = (~elpi, ~messages, _children) => {
   };
   {
     ...component,
-    initialState: () => {input_val: ""},
+    initialState: () => {
+      input_val: "",
+      history: [||],
+      pos: 0
+    },
     retainedProps: {
       messages: messages,
     },
-    reducer: (action, _state) =>
+    reducer: (action, state) =>
       switch (action) {
-      | SetVal(v) => ReasonReact.Update({input_val: v})
+      | SetVal(v) => ReasonReact.Update({...state, input_val: v})
     },
     shouldUpdate: ({oldSelf, newSelf}) =>
       oldSelf.state.input_val !== newSelf.state.input_val
