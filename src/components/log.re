@@ -32,14 +32,7 @@ module State = {
   };
   let initialState = {
     let level = Info;
-    Js.log("Log level initially set to: Info");
-    {
-      level,
-      messages: [|
-        {lvl: Info, prefix: [], text: "Message initial test"},
-        {lvl: Info, prefix: [], text: "Message 2 test"},
-      |],
-    };
+    {level, messages: [||]};
   };
 };
 

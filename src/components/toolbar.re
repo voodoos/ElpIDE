@@ -5,6 +5,7 @@ let make = (~brand, ~onClickPlay, _children) => {
   let onClickPlay = (_e, _d) => onClickPlay();
   {
     ...component,
+    shouldUpdate: _s => false,
     render: _self =>
       SemanticUi.(
         <div id="navbar">
@@ -18,7 +19,7 @@ let make = (~brand, ~onClickPlay, _children) => {
                   <Icon name="file outline" />
                 </Button>
                 <Button color=`olive icon=true onClick=onClickPlay>
-                  <Icon name="play" />
+                  <Icon name="settings" />
                 </Button>
               </Button.Group>
             </Menu.Item>

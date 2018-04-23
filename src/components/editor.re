@@ -20,25 +20,23 @@ let component = ReasonReact.reducerComponent("Editor");
 let handleClick = (_event, _self) => Js.log("clickedtoto!");
 
 let setEditorRef = (theRef, {ReasonReact.state}) =>
-  state.editorRef := Js.Nullable.to_opt(theRef);
+  state.editorRef := Js.Nullable.toOption(theRef);
 
 let make = (~file, ~value, ~onChange, _children) => {
   ...component,
   initialState: () => {editorRef: ref(None)},
   reducer: ((), _s) => ReasonReact.NoUpdate,
-  didUpdate: ({oldSelf, newSelf}) => {
+  didUpdate: ({oldSelf, newSelf}) =>
     /* We need to resize the editor when the layout is changed */
-    Js.log("editor render3");
     switch (newSelf.state.editorRef^) {
     | None => ()
     | Some(r) => ReasonReact.refToJsObj(r)##editor##resize() /* Unsafe magic*/
-    };
-  },
+    },
   render: self =>
     <AceEditor
       ref=(self.handle(setEditorRef))
       onChange
-      mode="ocaml"
+      mode="prolog"
       theme="monokai"
       name=file
       width="100%"

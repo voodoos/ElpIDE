@@ -1,7 +1,7 @@
 [@bs.module "react-ace"]
 external reactAceEditor : ReasonReact.reactClass = "default";
 
-[%bs.raw {|require('brace/mode/ocaml')|}];
+[%bs.raw {|require('brace/mode/prolog.js')|}];
 
 [%bs.raw {|require('brace/theme/monokai')|}];
 
@@ -31,7 +31,9 @@ let make =
       "height": height,
       "value": value,
       "setOptions": setOptions,
-      "editorProps": {"$blockScrolling": "Infinity"},
+      "editorProps": {
+        "$blockScrolling": "Infinity",
+      },
       "onChange": onChange,
     },
     children,

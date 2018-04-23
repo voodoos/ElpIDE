@@ -4,7 +4,6 @@ let answer = argsassignements => {
       argass => argass##arg ++ ": " ++ argass##ass,
       Array.to_list(argsassignements),
     );
-  Js.log(String.concat("\n", l));
   Log.message(Log.Info, [], String.concat("\n", l));
 };
 
@@ -34,7 +33,7 @@ let make = (~elpi, ~messages, _children) => {
   };
   {
     ...component,
-    initialState: () => {input_val: "ini"},
+    initialState: () => {input_val: "world A."},
     retainedProps: {
       messages: messages,
     },

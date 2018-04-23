@@ -42,17 +42,13 @@ let make = (~message, _children) => {
   /** Callback used when the "run" button is pressed
    *  It asks Elpi to compile all the files.
    */
-  let clickPlay = (event, self) =>
+  let clickPlay = (_event, self) =>
     switch (self.ReasonReact.state.elpi) {
     | Some(e) => e##compile(self.ReasonReact.state.editors)
     | None => ()
     };
-  let changeEditorValue = (id, content, self) => {
-    Js.log("CHange");
-    Js.log(id);
-    Js.log(content);
+  let changeEditorValue = (id, content, self) =>
     self.ReasonReact.send(ChangeEditorValue(id, content));
-  };
   {
     ...component,
     initialState: () => {
@@ -80,14 +76,10 @@ let make = (~message, _children) => {
           ...state,
           answers: Array.append(state.answers, [|message|]),
         })
-      | ChangeEditorValue(id, content) => 
-          let copy = Array.copy(state.editors);
-          copy[id] = { "name": copy[id]##name, "content": content};
-          ReasonReact.Update({
-            ...state,
-            editors: copy,
-          })
-
+      | ChangeEditorValue(id, content) =>
+        let copy = Array.copy(state.editors);
+        copy[id] = {"name": copy[id]##name, "content": content};
+        ReasonReact.Update({...state, editors: copy});
       },
     didMount: self => {
       /* We launch Elpi with appropriate callbacks
@@ -186,22 +178,3 @@ let make = (~message, _children) => {
       </div>,
   };
 };
-/*
-
- <Treebeard
-   data=(Treebeard.makeNode("root", ~toggled=true, ~children=[|
-   Treebeard.makeNode( "leaf1"),
-   Treebeard.makeNode( "leaf2")
-     |]))
-   onToggle=((_n, _t) => Js.log("togllle"))
-
- />
-   {
-     name: "root",
-     toggled: Some(true),
-     children: [|
-       {name: "sub1", toggled: None, children: [||]},
-       {name: "sub2", toggled: None, children: [||]},
-     |],
-   }
-   */
