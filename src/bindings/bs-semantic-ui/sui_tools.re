@@ -73,3 +73,10 @@ let fromBoolOrVeryAux = bORe =>
   };
 
 let fromBoolOrVery = b => Js.Option.map((. a) => fromBoolOrVeryAux(a), b);
+
+let fromEqualAux = a =>
+  switch (a) {
+  | `equal => jsOfString("equal")
+  };
+
+let fromEqual = b => Js.Option.map((. a) => fromEqualAux(a), b);
