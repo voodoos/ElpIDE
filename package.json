@@ -29,6 +29,7 @@
     "bs-react-split-pane": "https://github.com/voodoos/bs-react-split-pane",
     "bs-semantic-ui-react": "https://github.com/voodoos/bs-semantic-ui-react",
     "bsb-js": "^1.0.2",
+    "less": "^3.0.2",
     "reason-react": "^0.3.4"
   }
 }
