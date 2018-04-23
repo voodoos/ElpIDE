@@ -33,34 +33,32 @@ let make = (~elpi, ~messages, _children) => {
   };
   {
     ...component,
-    initialState: () => {input_val: "After build enter query here"},
+    initialState: () => {input_val: ""},
     retainedProps: {
       messages: messages,
     },
     reducer: (action, _state) =>
       switch (action) {
       | SetVal(v) => ReasonReact.Update({input_val: v})
-      },
+    },
     shouldUpdate: ({oldSelf, newSelf}) =>
       oldSelf.state.input_val !== newSelf.state.input_val
       || oldSelf.retainedProps.messages !== newSelf.retainedProps.messages,
     render: self =>
       /* The log is a basic table */
-      <div id="querier">
-        <AlwaysBottom className="p-console fullpanel">
+      <div id="querier" className="p-querier">
+        <AlwaysBottom className="fullpanel">
           <Log.List level=Log.Info messages />
         </AlwaysBottom>
-        <form onSubmit=(self.handle(submit))>
-          <input
-            _type="text"
-            name="query"
-            value=self.state.input_val
-            onChange=(self.handle(change))
-          />
-        </form>
         SemanticUi.(
-          <Form>
-            <Form.Input />
+          <Form onSubmit=(self.handle(submit))>
+          <input
+          _type="text"
+          name="query"
+          placeholder="Query..."
+          value=self.state.input_val
+          onChange=(self.handle(change))
+        />
           </Form>
         )
       </div>,

@@ -2,7 +2,9 @@ type state = {bottomRef: ref(option(Dom.element))};
 
 type action = unit; /* We don't need actions, but we need state for refs */
 
-let component = ReasonReact.reducerComponent("AlwaysBottom");
+type retainedProps = {childs: array(ReasonReact.reactElement)};
+
+let component = ReasonReact.reducerComponentWithRetainedProps("AlwaysBottom");
 
 let setBottomRef = (theRef, {ReasonReact.state}) =>
   /* We need a ref to the div marking the bottom of the console to keep it scrolled */
@@ -11,6 +13,10 @@ let setBottomRef = (theRef, {ReasonReact.state}) =>
 let make = (~className, children: array(ReasonReact.reactElement)) => {
   ...component,
   initialState: () => {bottomRef: ref(None)},
+
+  retainedProps: {
+    childs: children,
+  },
   reducer: (_action: action, _state) => ReasonReact.NoUpdate,
   willUpdate: ({oldSelf, newSelf}) =>
     /* Scrolling to bottom on update ugly-fix...
@@ -33,6 +39,9 @@ let make = (~className, children: array(ReasonReact.reactElement)) => {
       ReactDOMRe.domElementToObj(r)##scrollIntoView({"behavior": "smooth"}) /* unsafe */
     | _ => ()
     }},
+    shouldUpdate: ({oldSelf, newSelf}) => {
+      oldSelf.retainedProps.childs !== newSelf.retainedProps.childs;
+    },
   render: self => {
     let childs =
       ReasonReact.createDomElement(

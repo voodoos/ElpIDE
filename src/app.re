@@ -1,10 +1,6 @@
-[%bs.raw {|require('./css/app.css')|}];
 
-[%bs.raw {|require('./css/panels.css')|}];
 
-[%bs.raw {|require('semantic-ui-css/semantic.min.css')|}];
-
-[%bs.raw {|require('./css/ui.css')|}];
+[%bs.raw {|require('./css/main.css')|}];
 
 %raw
 "var React = require('react')";
