@@ -10,7 +10,7 @@ let answer = argsassignements => {
 /* The main log component */
 type state = {
   input_val: string,
-  history: array(string),
+  history: list(string),
   pos/* in history */: int,
 };
 
@@ -18,6 +18,7 @@ type retainedProps = {messages: array(Log.message)};
 
 type action =
   | SetVal(string)
+  | AddHist(string)
   | Back 
 ;
 
@@ -29,19 +30,24 @@ let make = (~elpi, ~messages, _children) => {
     self.ReasonReact.send(SetVal(newVal));
   };
   let submit = (event, self) => {
+    let v = self.ReasonReact.state.input_val;
     ReactEventRe.Synthetic.preventDefault(event);
     switch (elpi) {
     | None => ()
     | Some(e) =>
-      e##queryAll(self.ReasonReact.state.input_val);
+      e##queryAll(v);
       self.ReasonReact.send(SetVal(""));
+      self.ReasonReact.send(AddHist(v));
     };
+  };
+  let pressUp = (event, self) => {
+      self.ReasonReact.send(Back);
   };
   {
     ...component,
     initialState: () => {
       input_val: "",
-      history: [||],
+      history: [],
       pos: 0
     },
     retainedProps: {
@@ -49,7 +55,12 @@ let make = (~elpi, ~messages, _children) => {
     },
     reducer: (action, state) =>
       switch (action) {
-      | SetVal(v) => ReasonReact.Update({...state, input_val: v})
+      | SetVal(v)   => ReasonReact.Update({...state, input_val: v})
+      | AddHist(v)  => ReasonReact.Update({...state, history: [v, ...state.history], pos: 0 })
+      | Back        => 
+        try (List.nth(state.history, state.pos)) {
+          | _ => ReasonReact.NoUpdate /* Default value if getItem throws */
+          }; 
     },
     shouldUpdate: ({oldSelf, newSelf}) =>
       oldSelf.state.input_val !== newSelf.state.input_val
