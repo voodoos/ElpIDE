@@ -60,14 +60,13 @@ module List = {
     let make = (~lvl, ~prefix, ~text, _children) => {
       ...component, /* spread the template's other defaults into here  */
       render: _self => {
-        let prefix = List.map((p) => "[" ++ p ++ "]", prefix);
+        let prefix = List.map(p => "[" ++ p ++ "]", prefix);
         let txt = String.concat("", prefix) ++ " " ++ text;
-        
         SemanticUi.(
           <Table.Row warning=(lvl == Warning) error=(lvl == Error)>
             <Table.Cell> txt </Table.Cell>
           </Table.Row>
-        )
+        );
       },
     };
   };
@@ -84,7 +83,12 @@ module List = {
               (
                 Array.mapi(
                   (k, m) =>
-                    <Row key=(string_of_int(k)) lvl=m.lvl prefix=m.prefix text=m.text />,
+                    <Row
+                      key=(string_of_int(k))
+                      lvl=m.lvl
+                      prefix=m.prefix
+                      text=m.text
+                    />,
                   messages,
                 )
               )
@@ -95,12 +99,27 @@ module List = {
   };
 };
 
-/* The main log component */
-let component = ReasonReact.statelessComponent("Log");
+type retainedProps = {
+  level: logLevel,
+  messages: array(message),
+};
 
+/* The main log component */
+let component = ReasonReact.statelessComponentWithRetainedProps("Log");
 
 let make = (~level, ~messages, _children) => {
   ...component,
+  retainedProps: {
+    level,
+    messages,
+  },
+  shouldUpdate: ({oldSelf, newSelf}) => {
+    let differentLvl =
+      oldSelf.retainedProps.level !== newSelf.retainedProps.level;
+    let differentMess =
+      oldSelf.retainedProps.messages !== newSelf.retainedProps.messages;
+    differentLvl || differentMess;
+  },
   render: _self =>
     /* The log is a basic table */
     <AlwaysBottom className="p-console fullpanel">

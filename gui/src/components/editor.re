@@ -1,62 +1,49 @@
-type state = {value: string,
-  editorRef: ref(option(ReasonReact.reactRef))};
+type state = {editorRef: ref(option(ReasonReact.reactRef))};
 
-type action =
-  | Change(string);
-
+type action = unit;
 
 module State = {
-  type t = {.
+  type t = {
+    .
     "name": string,
     "content": string,
   };
   let initialState = {
-    {
-      "name": "test.elpi",
-      "content": "world \"hello\".\nworld \"pussycat\"."
-    };
+    "name": "test.elpi",
+    "content": "world \"hello\".\nworld \"pussycat\".",
   };
 };
-
 
 /* This is the basic component. */
 let component = ReasonReact.reducerComponent("Editor");
 
 let handleClick = (_event, _self) => Js.log("clickedtoto!");
 
-let setEditorRef = (theRef, {ReasonReact.state}) => {
+let setEditorRef = (theRef, {ReasonReact.state}) =>
   state.editorRef := Js.Nullable.to_opt(theRef);
-};
 
-
-let make = (~file, ~value, _children) => {
+let make = (~file, ~value, ~onChange, _children) => {
   ...component,
-  initialState: () => {
-    Js.log(value);
-    {value: value, editorRef: ref(None)};
-  },
-  reducer: (action, state) =>
-    switch (action) {
-    | Change(newVal) => ReasonReact.Update({...state, value: newVal})
-    },
-  didUpdate: ({oldSelf, newSelf}) => { 
+  initialState: () => {editorRef: ref(None)},
+  reducer: ((), _s) => ReasonReact.NoUpdate,
+  didUpdate: ({oldSelf, newSelf}) => {
     /* We need to resize the editor when the layout is changed */
-  Js.log("editor render3");
-  switch (newSelf.state.editorRef^) {
+    Js.log("editor render3");
+    switch (newSelf.state.editorRef^) {
     | None => ()
     | Some(r) => ReasonReact.refToJsObj(r)##editor##resize() /* Unsafe magic*/
-    }
+    };
   },
-  render: self => {
+  render: self =>
     <AceEditor
-      ref={self.handle(setEditorRef)}
-      onChange=(v => self.send(Change(v)))
+      ref=(self.handle(setEditorRef))
+      onChange
       mode="ocaml"
       theme="monokai"
       name=file
       width="100%"
       height="100%"
-      value=self.state.value
+      value
       setOptions=Js.Json.(
                    object_(
                      Js_dict.fromList([
@@ -68,11 +55,10 @@ let make = (~file, ~value, _children) => {
                      ]),
                    )
                  )
-    />},
+    />,
 };
-
-/* We need a way to give this component to goldenlayout : 
-let default =
-  ReasonReact.wrapReasonForJs(~component, jsProps =>
-    make(~file=jsProps##file, ~value=jsProps##value, ~value=jsProps##value, [||])
-  );*/
+/* We need a way to give this component to goldenlayout :
+   let default =
+     ReasonReact.wrapReasonForJs(~component, jsProps =>
+       make(~file=jsProps##file, ~value=jsProps##value, ~value=jsProps##value, [||])
+     );*/
