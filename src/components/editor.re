@@ -10,7 +10,18 @@ module State = {
   };
   let initialState = {
     "name": "test.elpi",
-    "content": "world \"hello\".\nworld \"pussycat\".",
+    "content": {|kind nat type.
+type z nat.
+type s nat -> nat.
+
+type plus nat -> nat -> nat -> prop.
+
+plus z M M.
+plus (s N) M (s P) :- plus N M P.
+
+% Hello world
+world "hello".
+world "pussycat".|},
   };
 };
 
