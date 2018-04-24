@@ -1,5 +1,3 @@
-
-
 [%bs.raw {|require('./css/main.css')|}];
 
 %raw
@@ -45,6 +43,10 @@ let make = (~message, _children) => {
     };
   let changeEditorValue = (id, content, self) =>
     self.ReasonReact.send(ChangeEditorValue(id, content));
+  let keyDown = (event: ReactEventRe.Keyboard.t, self) =>
+    switch (ReactEventRe.Keyboard.keyCode(event)) {
+    | _ => ()
+    };
   {
     ...component,
     initialState: () => {
@@ -104,7 +106,7 @@ let make = (~message, _children) => {
       ReasonReact.Update({...self.state, elpi: Some(elpi)});
     },
     render: self =>
-      <div id="app">
+      <div id="app" onKeyDown=(self.handle(keyDown))>
         <Toolbar brand=message onClickPlay=(self.handle(clickPlay)) />
         <SplitPane
           className="main-split"

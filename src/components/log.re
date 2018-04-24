@@ -57,7 +57,7 @@ module List = {
         let txt = String.concat("", prefix) ++ " " ++ text;
         SemanticUi.(
           <Table.Row warning=(lvl == Warning) error=(lvl == Error)>
-            <Table.Cell> txt </Table.Cell>
+            <Table.Cell> (Js.String.replace("\\n", "", txt)) </Table.Cell>
           </Table.Row>
         );
       },

@@ -11,7 +11,7 @@ let answer = argsassignements => {
 type state = {
   input_val: string,
   history: list(string),
-  pos/* in history */: int,
+  pos: /* in history */ int,
 };
 
 type retainedProps = {messages: array(Log.message)};
@@ -19,8 +19,8 @@ type retainedProps = {messages: array(Log.message)};
 type action =
   | SetVal(string)
   | AddHist(string)
-  | Back 
-;
+  | Back
+  | Forth;
 
 let component = ReasonReact.reducerComponentWithRetainedProps("Querier");
 
@@ -40,28 +40,58 @@ let make = (~elpi, ~messages, _children) => {
       self.ReasonReact.send(AddHist(v));
     };
   };
-  let pressUp = (event, self) => {
-      self.ReasonReact.send(Back);
-  };
+  let keyDown = (event: ReactEventRe.Keyboard.t, self) =>
+    switch (ReactEventRe.Keyboard.keyCode(event)) {
+    | 38 =>
+      /* 38 or ArrowUp: go back in history */
+      self.ReasonReact.send(Back)
+    | 40 =>
+      /* 40 or ArrowDown: go forth in history */
+      self.ReasonReact.send(Forth)
+    | _ => ()
+    };
   {
     ...component,
-    initialState: () => {
-      input_val: "",
-      history: [],
-      pos: 0
-    },
+    initialState: () => {input_val: "", history: [], pos: 0},
     retainedProps: {
       messages: messages,
     },
     reducer: (action, state) =>
       switch (action) {
-      | SetVal(v)   => ReasonReact.Update({...state, input_val: v})
-      | AddHist(v)  => ReasonReact.Update({...state, history: [v, ...state.history], pos: 0 })
-      | Back        => 
-        try (List.nth(state.history, state.pos)) {
-          | _ => ReasonReact.NoUpdate /* Default value if getItem throws */
-          }; 
-    },
+      | SetVal(v) => ReasonReact.Update({...state, input_val: v})
+      | AddHist(v) =>
+        ReasonReact.Update({
+          ...state,
+          history:
+            if (List.length(state.history) > 0 && v == List.hd(state.history)) {
+              state.history;
+            } else {
+              [v, ...state.history];
+            },
+          pos: (-1),
+        })
+      | Back =>
+        Js.log(state.pos + 1);
+        try (
+          ReasonReact.Update({
+            ...state,
+            pos: state.pos + 1,
+            input_val: List.nth(state.history, state.pos + 1),
+          })
+        ) {
+        | _ => ReasonReact.NoUpdate
+        };
+      | Forth =>
+        try (
+          ReasonReact.Update({
+            ...state,
+            pos: state.pos - 1,
+            input_val: List.nth(state.history, state.pos - 1),
+          })
+        ) {
+        | _ => ReasonReact.Update({...state, pos: (-1), input_val: ""})
+        }
+      },
     shouldUpdate: ({oldSelf, newSelf}) =>
       oldSelf.state.input_val !== newSelf.state.input_val
       || oldSelf.retainedProps.messages !== newSelf.retainedProps.messages,
@@ -73,13 +103,14 @@ let make = (~elpi, ~messages, _children) => {
         </AlwaysBottom>
         SemanticUi.(
           <Form onSubmit=(self.handle(submit))>
-          <input
-          _type="text"
-          name="query"
-          placeholder="Query..."
-          value=self.state.input_val
-          onChange=(self.handle(change))
-        />
+            <input
+              _type="text"
+              name="query"
+              placeholder={|Query...|}
+              value=self.state.input_val
+              onChange=(self.handle(change))
+              onKeyDown=(self.handle(keyDown))
+            />
           </Form>
         )
       </div>,
