@@ -18,6 +18,7 @@ type retainedProps = {messages: array(Log.message)};
 
 type action =
   | SetVal(string)
+  | SetHist(list(string))
   | AddHist(string)
   | Back
   | Forth;
@@ -52,13 +53,14 @@ let make = (~elpi, ~messages, _children) => {
     };
   {
     ...component,
-    initialState: () => {input_val: "", history: [], pos: 0},
+    initialState: () => {input_val: "", history: [], pos: (-1)},
     retainedProps: {
       messages: messages,
     },
     reducer: (action, state) =>
       switch (action) {
       | SetVal(v) => ReasonReact.Update({...state, input_val: v})
+      | SetHist(h) => ReasonReact.Update({...state, history: h})
       | AddHist(v) =>
         ReasonReact.Update({
           ...state,
@@ -66,6 +68,11 @@ let make = (~elpi, ~messages, _children) => {
             if (List.length(state.history) > 0 && v == List.hd(state.history)) {
               state.history;
             } else {
+              /* Saving to local storage */
+              ignore(
+                LocalForage.setItem("queristory", [v, ...state.history]),
+              );
+              /* Updating state */
               [v, ...state.history];
             },
           pos: (-1),
@@ -92,6 +99,22 @@ let make = (~elpi, ~messages, _children) => {
         | _ => ReasonReact.Update({...state, pos: (-1), input_val: ""})
         }
       },
+    didMount: self => {
+      /* We load files from local storage if availible */
+      Js.Promise.(
+        ignore(
+          LocalForage.getItem("queristory")
+          |> then_(hist => {
+               switch (Js.Null.toOption(hist)) {
+               | None => ()
+               | Some(h) => self.send(SetHist(h))
+               };
+               resolve(hist);
+             }),
+        )
+      );
+      ReasonReact.NoUpdate;
+    },
     shouldUpdate: ({oldSelf, newSelf}) =>
       oldSelf.state.input_val !== newSelf.state.input_val
       || oldSelf.retainedProps.messages !== newSelf.retainedProps.messages,

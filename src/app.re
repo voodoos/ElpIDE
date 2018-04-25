@@ -20,13 +20,14 @@ type state = {
   log: Log.State.t,
   answers: array(Log.message),
   elpi: option(ElpiJs.elpi),
-  editors: array(Editor.State.t),
+  files: array(Editor.State.t),
 };
 
 type action =
   | LayoutChange
+  | SetFiles(array(Editor.State.t))
   | SetElpi(ElpiJs.elpi)
-  | LogMessage(Log.message)
+  | Log(Log.message)
   | NewAnswer(Log.message)
   | ChangeEditorValue(int, string);
 
@@ -38,7 +39,7 @@ let make = (~message, _children) => {
    */
   let clickPlay = (_event, self) =>
     switch (self.ReasonReact.state.elpi) {
-    | Some(e) => e##compile(self.ReasonReact.state.editors)
+    | Some(e) => e##compile(self.ReasonReact.state.files)
     | None => ()
     };
   let changeEditorValue = (id, content, self) =>
@@ -52,7 +53,7 @@ let make = (~message, _children) => {
     initialState: () => {
       layout_update: 0,
       log: Log.State.initialState,
-      editors: [|Editor.State.initialState|],
+      files: [|Editor.State.initialState|],
       answers: [||],
       elpi: None,
     },
@@ -60,8 +61,9 @@ let make = (~message, _children) => {
       switch (action) {
       | LayoutChange =>
         ReasonReact.Update({...state, layout_update: state.layout_update + 1})
+      | SetFiles(files) => ReasonReact.Update({...state, files})
       | SetElpi(e) => ReasonReact.Update({...state, elpi: Some(e)})
-      | LogMessage(message) =>
+      | Log(message) =>
         ReasonReact.Update({
           ...state,
           log: {
@@ -75,11 +77,31 @@ let make = (~message, _children) => {
           answers: Array.append(state.answers, [|message|]),
         })
       | ChangeEditorValue(id, content) =>
-        let copy = Array.copy(state.editors);
+        let copy = Array.copy(state.files);
         copy[id] = {"name": copy[id]##name, "content": content};
-        ReasonReact.Update({...state, editors: copy});
+        /* Saving to local storage */
+        ignore(LocalForage.setItem("files", copy));
+        /* Updating state */
+        ReasonReact.Update({...state, files: copy});
       },
     didMount: self => {
+      /* We load files from local storage if availible */
+      Js.Promise.(
+        ignore(
+          LocalForage.getItem("files")
+          |> then_(files => {
+               switch (Js.Null.toOption(files)) {
+               | None => self.send(Log(Log.info("Starting new session")))
+               | Some(f) =>
+                 self.send(
+                   Log(Log.info("Session restored from local storage")),
+                 );
+                 self.send(SetFiles(f));
+               };
+               resolve(files);
+             }),
+        )
+      );
       /* We launch Elpi with appropriate callbacks
        * for logs and answers */
       let elpi =
@@ -92,7 +114,7 @@ let make = (~message, _children) => {
               | p => [p]
               };
             self.send(
-              LogMessage(
+              Log(
                 Log.message(
                   Log.logLevelOfString(l),
                   ["Elpi", ...prefix],
@@ -104,7 +126,7 @@ let make = (~message, _children) => {
           argass => self.send(NewAnswer(Querier.answer(argass))),
           (success, mess) =>
             self.send(
-              LogMessage(
+              Log(
                 if (success) {
                   Log.message(Info, [], "Elpi Worker succesfully started.");
                 } else {
@@ -125,7 +147,7 @@ let make = (~message, _children) => {
           onDragFinished=(
             () => {
               self.send(LayoutChange);
-              self.send(LogMessage(Log.message(Info, [], "totoro")));
+              self.send(Log(Log.message(Info, [], "totoro")));
             }
           )>
           <Pane initialSize="200px">
@@ -160,8 +182,8 @@ let make = (~message, _children) => {
             onDragFinished=(() => self.send(LayoutChange))>
             <Pane>
               <Editor
-                file=self.state.editors[0]##name
-                value=self.state.editors[0]##content
+                file=self.state.files[0]##name
+                value=self.state.files[0]##content
                 onChange=(self.handle(changeEditorValue(0)))
               />
             </Pane>

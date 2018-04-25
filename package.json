@@ -7,6 +7,7 @@
   "dependencies": {
     "elpi-js": "https://github.com/voodoos/elpi-js",
     "fs": "^0.0.1-security",
+    "localforage": "^1.7.1",
     "react-ace": "^5.9.0",
     "react-split-pane": "https://github.com/voodoos/react-split-pane#v2",
     "react-treebeard": "^2.1.0",

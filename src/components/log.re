@@ -25,6 +25,12 @@ type message = {
 
 let message = (lvl, prefix, text) => {lvl, prefix, text};
 
+let info = (~prefix=[], text) => message(Info, prefix, text);
+
+let warn = (~prefix=[], text) => message(Warning, prefix, text);
+
+let err = (~prefix=[], text) => message(Error, prefix, text);
+
 module State = {
   type t = {
     level: logLevel,
