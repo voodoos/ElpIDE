@@ -102,6 +102,16 @@ let make = (~message, _children) => {
             );
           },
           argass => self.send(NewAnswer(Querier.answer(argass))),
+          (success, mess) =>
+            self.send(
+              LogMessage(
+                if (success) {
+                  Log.message(Info, [], "Elpi Worker succesfully started.");
+                } else {
+                  Log.message(Error, [], "Elpi Worker failed to start.");
+                },
+              ),
+            ),
         );
       ReasonReact.Update({...self.state, elpi: Some(elpi)});
     },
