@@ -151,30 +151,7 @@ let make = (~message, _children) => {
             }
           )>
           <Pane initialSize="200px">
-            SemanticUi.(
-              <List>
-                <List.Item>
-                  <List.Icon name="folder" />
-                  <List.Content>
-                    <List.Header> "src" </List.Header>
-                    <List.Description>
-                      "Source files for project"
-                    </List.Description>
-                    <List.List>
-                      <List.Item>
-                        <List.Icon name="file" />
-                        <List.Content>
-                          <List.Header> "test.elpi" </List.Header>
-                          <List.Description>
-                            "Elpi source file"
-                          </List.Description>
-                        </List.Content>
-                      </List.Item>
-                    </List.List>
-                  </List.Content>
-                </List.Item>
-              </List>
-            )
+            <FileBrowser files=self.state.files />
           </Pane>
           <SplitPane
             className="right-split"

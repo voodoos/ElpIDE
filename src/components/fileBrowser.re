@@ -1,41 +1,59 @@
-type node = {
-  handle: int,
-  name: string,
-  children: list(node),
-};
+type file = Editor.State.t;
 
-let test = {
-  handle: 1,
-  name: "root",
-  children: [
-    {handle: 2, name: "child1", children: []},
-    {handle: 3, name: "child2", children: []},
-  ],
-};
-
-let rec stringOfNode = node =>
-  switch (node.children) {
-  | [] => node.name
-  | [child, ...tail] =>
-    node.name
-    ++ stringOfNode(child)
-    ++ "\n"
-    ++ stringOfNode({...node, children: tail})
-  };
-
-type state = {active: node};
+type state = {active: file};
 
 type action =
-  | SetActive(node);
+  | SetActive(file);
 
 let component = ReasonReact.reducerComponent("FileBrowser");
 
-let make = (~data, _children) => {
-  ...component,
-  initialState: () => {active: data},
-  reducer: (action, state) =>
-    switch (action) {
-    | SetActive(node) => ReasonReact.Update({active: node})
-    },
-  render: self => ReasonReact.stringToElement(stringOfNode(data)),
+let make = (~files, _children) => {
+  let fileList = files =>
+    Array.map(
+      f =>
+        SemanticUi.(
+          <List.Item className="active">
+            <List.Icon name="file" />
+            <List.Content>
+              <List.Header>
+                <b> (ReasonReact.stringToElement(f##name)) </b>
+              </List.Header>
+              <List.Description> "Elpi source file" </List.Description>
+            </List.Content>
+          </List.Item>
+        ),
+      files,
+    );
+  {
+    ...component,
+    initialState: () => {active: files[0]},
+    reducer: (action, state) =>
+      switch (action) {
+      | SetActive(file) => ReasonReact.Update({active: file})
+      },
+    render: self =>
+      SemanticUi.(
+        <List className="p-fbrowser">
+          <List.Item>
+            <List.Icon name="folder" />
+            <List.Content>
+              <List.Header> "src" </List.Header>
+              <List.Description> "Source files" </List.Description>
+              <List.List> (fileList(files)) </List.List>
+            </List.Content>
+          </List.Item>
+        </List>
+      ),
+  };
 };
+/*
+
+ <List.Item>
+                   <List.Icon name="file" />
+                   <List.Content>
+                     <List.Header> "test.elpi" </List.Header>
+                     <List.Description> "Elpi source file" </List.Description>
+                   </List.Content>
+                 </List.Item>
+
+               */
