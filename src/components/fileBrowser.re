@@ -12,7 +12,7 @@ let make = (~files, _children) => {
     Array.map(
       f =>
         SemanticUi.(
-          <List.Item className="active">
+          <List.Item key=f##name>
             <List.Icon name="file" />
             <List.Content>
               <List.Header>
