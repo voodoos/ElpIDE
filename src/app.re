@@ -53,7 +53,10 @@ let make = (~message, _children) => {
     initialState: () => {
       layout_update: 0,
       log: Log.State.initialState,
-      files: [|Editor.State.initialState|],
+      files: [|
+        Editor.State.initialState,
+        {"name": "test2.elpi", "content": "world \"totoro\"."},
+      |],
       answers: [||],
       elpi: None,
     },
