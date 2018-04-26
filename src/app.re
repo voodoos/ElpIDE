@@ -166,12 +166,7 @@ let make = (~message, _children) => {
           className="main-split"
           split=`vertical
           defaultSize=200
-          onDragFinished=(
-            () => {
-              self.send(LayoutChange);
-              self.send(Log(Log.message(Info, [], "totoro")));
-            }
-          )>
+          onDragFinished=(() => self.send(LayoutChange))>
           <Pane initialSize="200px">
             <FileBrowser files=self.state.files />
           </Pane>
