@@ -25,7 +25,6 @@
 .env.production.local
 
 # yarn
-yarn.lock
 .cache
 npm-debug.log*
 yarn-debug.log*
