@@ -26,6 +26,7 @@
     "babel-plugin-transform-object-rest-spread": "^6.26.0",
     "babel-preset-es2015": "^6.24.1",
     "babel-preset-react": "^6.24.1",
+    "babel-core": "^6.26.0",
     "bs-platform": "^2.2.3",
     "bs-react-split-pane": "https://github.com/voodoos/bs-react-split-pane",
     "bs-semantic-ui-react": "https://github.com/voodoos/bs-semantic-ui-react",
