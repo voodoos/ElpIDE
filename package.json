@@ -5,6 +5,7 @@
   "author": "voodoos",
   "license": "MIT",
   "dependencies": {
+    "babel-core": "^6.26.0",
     "elpi-js": "https://github.com/voodoos/elpi-js",
     "fs": "^0.0.1-security",
     "localforage": "^1.7.1",
@@ -26,7 +27,6 @@
     "babel-plugin-transform-object-rest-spread": "^6.26.0",
     "babel-preset-es2015": "^6.24.1",
     "babel-preset-react": "^6.24.1",
-    "babel-core": "^6.26.0",
     "bs-platform": "^2.2.3",
     "bs-react-split-pane": "https://github.com/voodoos/bs-react-split-pane",
     "bs-semantic-ui-react": "https://github.com/voodoos/bs-semantic-ui-react",
