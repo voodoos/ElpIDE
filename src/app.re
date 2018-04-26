@@ -12,7 +12,7 @@
 %raw
 "window.ReactDOM = ReactDOM";
 
-[@bs.module] external logo : string = "./logo.svg";
+module SUI = SemanticUi;
 
 type state = {
   /* The following is a dummy to trigger re-rendering when layout is dragged */
