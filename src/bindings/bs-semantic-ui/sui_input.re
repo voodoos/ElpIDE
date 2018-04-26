@@ -3,35 +3,32 @@ open Sui_tools;
 [@bs.module "semantic-ui-react"]
 external sui : ReasonReact.reactClass = "Input";
 
-[@bs.obj]
+[@bs.obj] /* TODO : Action, ActionPosition */
 external makeProps :
   (
-    /* TODO : Action, ActionPosition */
-    ~as_: string=?, /* TODO: Can also be a function ! */
+    ~as_: string=? /* TODO: Can also be a function ! */,
     ~className: string=?,
     ~disabled: Js.boolean=?,
     ~error: Js.boolean=?,
     ~fluid: Js.boolean=?,
     ~focus: Js.boolean=?,
-    ~icon: js=?, /* fromBoolOrString */
-    /* TODO : iconPosition */
-    /* TODO : input */
-    ~inverted: Js.boolean=?,
-    /* TODO: label: label {custom} Add a Label by text, props object, or pass a <Label />. */
-    /* TODO : ~labelPosition: string=?, */
+    ~icon: js=? /* TODO : input */ /* TODO : iconPosition */ /* fromBoolOrString */,
+    ~inverted: Js.boolean=? /* TODO : ~labelPosition: string=?, */ /* TODO: label: label {custom} Add a Label by text, props object, or pass a <Label />. */,
     ~loading: Js.boolean=?,
-    ~onChange: (ReactEventRe.Synthetic.t, Js.t(Js.Types.obj_val)) => unit=?,
+    ~onChange: ReactEventRe.Form.t => unit=?,
     ~size: string=?,
     ~tabIndex: js=?,
-    ~transparent: Js.boolean=?,
+    ~transparent: Js.boolean=? /* Usual <input props */,
+    ~name: string=?,
+    ~onKeyDown: ReactEventRe.Keyboard.t => unit=?,
+    ~placeholder: string=?,
     ~type_: string=?,
-
-    /* Usual <input props */
-    
+    ~value: string=?,
     unit
   ) =>
   _ =
   "";
+
 let make =
     (
       ~as_=?,
@@ -41,14 +38,17 @@ let make =
       ~fluid=?,
       ~focus=?,
       ~icon=?,
-      ~inverted=?,
-      /*~labelPosition=?,*/
+      ~inverted=? /*~labelPosition=?,*/,
       ~loading=?,
       ~onChange=?,
       ~size=?,
       ~tabIndex=?,
       ~transparent=?,
+      ~name=?,
+      ~onKeyDown=?,
+      ~placeholder=?,
       ~type_=?,
+      ~value=?,
       children,
     ) =>
   ReasonReact.wrapJsForReason(
@@ -59,16 +59,20 @@ let make =
         ~className?,
         ~disabled=?fromBool(disabled),
         ~error=?fromBool(error),
+        ~focus=?fromBool(focus),
         ~fluid=?fromBool(fluid),
         ~icon=?fromBoolOrString(icon),
-        ~inverted=?fromBool(inverted),
-       /* ~labelPosition=?fromLeftOrRightOrLeftCornerOrRightCorner(labelPosition), */
+        ~inverted=?fromBool(inverted) /* ~labelPosition=?fromLeftOrRightOrLeftCornerOrRightCorner(labelPosition), */,
         ~loading=?fromBool(loading),
         ~onChange?,
         ~size=?fromSize(size),
         ~tabIndex=?fromNumOrString(tabIndex),
         ~transparent=?fromBool(transparent),
+        ~name?,
+        ~onKeyDown?,
+        ~placeholder?,
         ~type_?,
+        ~value?,
         (),
       ),
     children,

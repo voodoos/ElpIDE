@@ -12,6 +12,7 @@ type state = {
   input_val: string,
   history: list(string),
   pos: /* in history */ int,
+  loading: bool,
 };
 
 type retainedProps = {messages: array(Log.message)};
@@ -19,6 +20,7 @@ type retainedProps = {messages: array(Log.message)};
 type action =
   | SetVal(string)
   | SetHist(list(string))
+  | SetLoading(bool)
   | AddHist(string)
   | Back
   | Forth;
@@ -36,8 +38,9 @@ let make = (~elpi, ~messages, _children) => {
     switch (elpi) {
     | None => ()
     | Some(e) =>
-      e##queryAll(v);
+      e##queryAll(v, (_, mess) => self.ReasonReact.send(SetLoading(false)));
       self.ReasonReact.send(SetVal(""));
+      self.ReasonReact.send(SetLoading(true));
       self.ReasonReact.send(AddHist(v));
     };
   };
@@ -53,7 +56,12 @@ let make = (~elpi, ~messages, _children) => {
     };
   {
     ...component,
-    initialState: () => {input_val: "", history: [], pos: (-1)},
+    initialState: () => {
+      input_val: "",
+      history: [],
+      pos: (-1),
+      loading: false,
+    },
     retainedProps: {
       messages: messages,
     },
@@ -61,6 +69,7 @@ let make = (~elpi, ~messages, _children) => {
       switch (action) {
       | SetVal(v) => ReasonReact.Update({...state, input_val: v})
       | SetHist(h) => ReasonReact.Update({...state, history: h})
+      | SetLoading(loading) => ReasonReact.Update({...state, loading})
       | AddHist(v) =>
         ReasonReact.Update({
           ...state,
@@ -116,7 +125,8 @@ let make = (~elpi, ~messages, _children) => {
       ReasonReact.NoUpdate;
     },
     shouldUpdate: ({oldSelf, newSelf}) =>
-      oldSelf.state.input_val !== newSelf.state.input_val
+      oldSelf.state.loading !== newSelf.state.loading
+      || oldSelf.state.input_val !== newSelf.state.input_val
       || oldSelf.retainedProps.messages !== newSelf.retainedProps.messages,
     render: self =>
       /* The log is a basic table */
@@ -126,14 +136,17 @@ let make = (~elpi, ~messages, _children) => {
         </AlwaysBottom>
         SemanticUi.(
           <Form onSubmit=(self.handle(submit))>
-            <input
-              _type="text"
-              name="query"
-              placeholder={|Query...|}
-              value=self.state.input_val
-              onChange=(self.handle(change))
-              onKeyDown=(self.handle(keyDown))
-            />
+            <Form.Field>
+              <Input
+                type_="text"
+                name="query"
+                placeholder={|Query...|}
+                value=self.state.input_val
+                onChange=(self.handle(change))
+                onKeyDown=(self.handle(keyDown))
+                loading=self.state.loading
+              />
+            </Form.Field>
           </Form>
         )
       </div>,

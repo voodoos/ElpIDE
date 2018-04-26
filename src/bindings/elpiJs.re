@@ -10,7 +10,7 @@ type elpi = {
       },
     ) =>
     unit,
-  [@bs.meth] "queryAll": string => unit,
+  [@bs.meth] "queryAll": (string, (string, string) => unit) => unit,
   [@bs.meth] "restart": unit => unit,
 };
 
