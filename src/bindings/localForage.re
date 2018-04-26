@@ -1,9 +1,9 @@
 type localforage;
 
-[@bs.val] [@bs.module "localForage"]
+[@bs.val] [@bs.module "localforage"]
 external getItem : string => Js.Promise.t('a) = "getItem";
 
-[@bs.val] [@bs.module "localForage"]
+[@bs.val] [@bs.module "localforage"]
 external setItem : (string, 'a) => Js.Promise.t('b) = "setItem";
 /*
 
