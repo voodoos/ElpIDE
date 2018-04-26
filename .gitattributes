@@ -1,0 +1,2 @@
+*.re linguist-language=ocaml
+*.elpi linguist-language=prolog
