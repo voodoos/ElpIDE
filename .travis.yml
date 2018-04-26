@@ -1,0 +1,10 @@
+language: node_js
+node_js:
+  - "iojs"
+  - "8"
+cache: yarn
+cache:
+  yarn: true
+  directories:
+    - "node_modules"
+    - "lib"
