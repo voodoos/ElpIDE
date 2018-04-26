@@ -13,8 +13,7 @@
   },
   "bs-dependencies": [
     "reason-react",
-    "bs-react-split-pane",
-    "bs-jest"
+    "bs-react-split-pane"
   ],
   "bsc-flags": [
     "-bs-super-errors"
