@@ -17,7 +17,7 @@
   "scripts": {
     "install": "bsb -make-world",
     "start": "(bsb -w &) && parcel public/index.html",
-    "build": "parcel build public/index.html --public-url ./ -d /tmp/build",
+    "build": "bsb -make-world && parcel build public/index.html --public-url ./ -d build/",
     "test": "return 0"
   },
   "devDependencies": {

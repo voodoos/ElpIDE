@@ -1,8 +1,19 @@
 language: node_js
 node_js:
   - "8"
+script: "yarn && yarn build"
 cache:
   yarn: true
   directories:
     - "node_modules"
     - "lib"
+    - "build"
+deploy:
+  provider: pages
+  local-dir: build/
+  skip-cleanup: true
+  github-token: $GITHUB_TOKEN 
+  keep-history: false
+  target-branch: gh-pages
+  on:
+    branch: master
