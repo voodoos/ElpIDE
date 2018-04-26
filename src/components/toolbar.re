@@ -1,11 +1,10 @@
 let component = ReasonReact.statelessComponent("Toolbar");
 
-let make = (~brand, ~onClickPlay, _children) => {
+let make = (~brand, ~playDisabled, ~onClickPlay, _children) => {
   let onClickNew = (_e, _d) => Js.log("clicked");
   let onClickPlay = (_e, _d) => onClickPlay();
   {
     ...component,
-    shouldUpdate: _s => false,
     render: _self =>
       SemanticUi.(
         <div id="navbar">
@@ -18,7 +17,11 @@ let make = (~brand, ~onClickPlay, _children) => {
                 <Button icon=true onClick=onClickNew>
                   <Icon name="file outline" />
                 </Button>
-                <Button color=`blue icon=true onClick=onClickPlay>
+                <Button
+                  color=`blue
+                  icon=true
+                  onClick=onClickPlay
+                  disabled=playDisabled>
                   <Icon name="settings" />
                 </Button>
               </Button.Group>

@@ -21,12 +21,14 @@ type state = {
   answers: array(Log.message),
   elpi: option(ElpiJs.elpi),
   files: array(Editor.State.t),
+  flags: Hashtbl.t(string, bool),
 };
 
 type action =
   | LayoutChange
   | SetFiles(array(Editor.State.t))
   | SetElpi(ElpiJs.elpi)
+  | SetFlag(string, bool)
   | Log(Log.message)
   | NewAnswer(Log.message)
   | ChangeEditorValue(int, string);
@@ -51,14 +53,19 @@ let make = (~message, _children) => {
   {
     ...component,
     initialState: () => {
-      layout_update: 0,
-      log: Log.State.initialState,
-      files: [|
-        Editor.State.initialState,
-        {"name": "test2.elpi", "content": "world \"totoro\"."},
-      |],
-      answers: [||],
-      elpi: None,
+      let flags = Hashtbl.create(10);
+      Hashtbl.add(flags, "elpi_started", false);
+      {
+        layout_update: 0,
+        log: Log.State.initialState,
+        files: [|
+          Editor.State.initialState,
+          {"name": "test2.elpi", "content": "world \"totoro\"."},
+        |],
+        answers: [||],
+        elpi: None,
+        flags,
+      };
     },
     reducer: (action, state) =>
       switch (action) {
@@ -66,6 +73,10 @@ let make = (~message, _children) => {
         ReasonReact.Update({...state, layout_update: state.layout_update + 1})
       | SetFiles(files) => ReasonReact.Update({...state, files})
       | SetElpi(e) => ReasonReact.Update({...state, elpi: Some(e)})
+      | SetFlag(k, b) =>
+        let flags = Hashtbl.copy(state.flags);
+        Hashtbl.replace(flags, k, b);
+        ReasonReact.Update({...state, flags});
       | Log(message) =>
         ReasonReact.Update({
           ...state,
@@ -109,6 +120,7 @@ let make = (~message, _children) => {
        * for logs and answers */
       let elpi =
         ElpiJs.create(
+          /* Log callback */
           (l, p, t) => {
             let prefix =
               switch (p) {
@@ -126,11 +138,14 @@ let make = (~message, _children) => {
               ),
             );
           },
+          /* Answers callback */
           argass => self.send(NewAnswer(Querier.answer(argass))),
-          (success, mess) =>
+          /* Start callback */
+          (success, _mess) =>
             self.send(
               Log(
                 if (success) {
+                  self.send(SetFlag("elpi_started", true));
                   Log.message(Info, [], "Elpi Worker succesfully started.");
                 } else {
                   Log.message(Error, [], "Elpi Worker failed to start.");
@@ -142,7 +157,11 @@ let make = (~message, _children) => {
     },
     render: self =>
       <div id="app" onKeyDown=(self.handle(keyDown))>
-        <Toolbar brand=message onClickPlay=(self.handle(clickPlay)) />
+        <Toolbar
+          brand=message
+          onClickPlay=(self.handle(clickPlay))
+          playDisabled=(! Hashtbl.find(self.state.flags, "elpi_started"))
+        />
         <SplitPane
           className="main-split"
           split=`vertical
