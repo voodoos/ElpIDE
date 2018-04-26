@@ -18,7 +18,7 @@
     "install": "bsb -make-world",
     "start": "(bsb -w &) && parcel public/index.html",
     "build": "parcel build public/index.html --public-url ./ -d /tmp/build",
-    "test": ""
+    "test": "return 0"
   },
   "devDependencies": {
     "babel-plugin-add-module-exports": "^0.2.1",
