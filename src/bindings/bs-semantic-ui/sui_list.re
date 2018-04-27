@@ -209,7 +209,7 @@ module Item = {
       ~header: ReasonReact.reactElement=?,
       ~icon: string=?,
       ~image: ReasonReact.reactElement=?,
-      /* TODO: onClick */
+      ~onClick: (ReactEventRe.Synthetic.t, Js.t(Js.Types.obj_val)) => unit=?,
       ~value: string=?,
       unit
     ) =>
@@ -226,6 +226,7 @@ module Item = {
         ~header=?,
         ~icon=?,
         ~image=?,
+        ~onClick=?,
         ~value=?,
         children,
       ) =>
@@ -242,6 +243,7 @@ module Item = {
           ~header?,
           ~icon?,
           ~image?,
+          ~onClick?,
           ~value?,
           (),
         ),

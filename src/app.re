@@ -23,13 +23,15 @@ type state = {
   answers: array(Log.message),
   elpi: option(ElpiJs.elpi),
   files: array(Editor.State.t),
+  activeFile: int,
   flags: Hashtbl.t(string, bool),
 };
 
 type action =
   | LayoutChange
-  | SetFiles(array(Editor.State.t))
+  | SetActiveFile(int)
   | SetElpi(ElpiJs.elpi)
+  | SetFiles(array(Editor.State.t))
   | SetFlag(string, bool)
   | Log(Log.message)
   | NewAnswer(Log.message)
@@ -99,6 +101,7 @@ let make = (~message, _children) => {
           Editor.State.initialState,
           {"name": "test2.elpi", "content": "world \"totoro\"."},
         |],
+        activeFile: 0,
         answers: [||],
         elpi: None,
         flags,
@@ -109,6 +112,8 @@ let make = (~message, _children) => {
       | LayoutChange =>
         ReasonReact.Update({...state, layout_update: state.layout_update + 1})
       | SetFiles(files) => ReasonReact.Update({...state, files})
+      | SetActiveFile(activeFile) =>
+        ReasonReact.Update({...state, activeFile})
       | SetElpi(e) => ReasonReact.Update({...state, elpi: Some(e)})
       | SetFlag(k, b) =>
         let flags = Hashtbl.copy(state.flags);
@@ -205,7 +210,10 @@ let make = (~message, _children) => {
           defaultSize=200
           onDragFinished=(() => self.send(LayoutChange))>
           <Pane initialSize="200px">
-            <FileBrowser files=self.state.files />
+            <FileBrowser
+              files=self.state.files
+              onClickFile=(i => self.send(SetActiveFile(i)))
+            />
           </Pane>
           <SplitPane
             className="right-split"
@@ -213,9 +221,11 @@ let make = (~message, _children) => {
             onDragFinished=(() => self.send(LayoutChange))>
             <Pane>
               <Editor
-                file=self.state.files[0]##name
-                value=self.state.files[0]##content
-                onChange=(self.handle(changeEditorValue(0)))
+                file=self.state.files[self.state.activeFile]##name
+                value=self.state.files[self.state.activeFile]##content
+                onChange=(
+                  self.handle(changeEditorValue(self.state.activeFile))
+                )
               />
             </Pane>
             <Pane>

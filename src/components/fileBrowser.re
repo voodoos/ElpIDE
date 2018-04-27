@@ -7,18 +7,19 @@ type action =
 
 let component = ReasonReact.reducerComponent("FileBrowser");
 
-let make = (~files, _children) => {
+let make = (~files, ~onClickFile, _children) => {
   let fileList = files =>
-    Array.map(
-      f =>
+    Array.mapi(
+      (i, f) =>
         SemanticUi.(
-          <List.Item key=f##name>
+          <List.Item
+            key=(string_of_int(i)) onClick=((_e, _d) => onClickFile(i))>
             <List.Icon name="file" />
             <List.Content>
-              <List.Header>
+              <List.Header as_="a">
                 <b> (ReasonReact.stringToElement(f##name)) </b>
               </List.Header>
-              <List.Description> "Elpi source file" </List.Description>
+              <List.Description as_="a"> "Elpi source file" </List.Description>
             </List.Content>
           </List.Item>
         ),
@@ -27,11 +28,11 @@ let make = (~files, _children) => {
   {
     ...component,
     initialState: () => {active: files[0]},
-    reducer: (action, state) =>
+    reducer: (action, _state) =>
       switch (action) {
       | SetActive(file) => ReasonReact.Update({active: file})
       },
-    render: self =>
+    render: _self =>
       SemanticUi.(
         <List className="p-fbrowser">
           <List.Item>
