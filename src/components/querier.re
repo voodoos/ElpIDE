@@ -46,6 +46,8 @@ let make = (~elpi: option(ElpiJs.elpi), ~messages, _children) => {
            Js.Promise.resolve(v);
          })
       |> Js.Promise.catch(e => {
+           /* TODO: move this upp to App so that we can have log messages
+            * when query fails */
            self.ReasonReact.send(SetLoading(false));
            Js.Promise.reject(raise(ElpiQueryError));
          })
