@@ -19,7 +19,7 @@ type elpi = {
     ) =>
     Js.Promise.t(string),
   [@bs.meth] "queryAll": string => Js.Promise.t(array(assignement)),
-  [@bs.meth] "restart": unit => unit,
+  [@bs.meth] "restart": unit => Js.Promise.t(string),
   "start": Js.Promise.t(string),
 };
 

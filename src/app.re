@@ -63,6 +63,20 @@ let make = (~message, _children) => {
       |> ignore
     | None => ()
     };
+  let clickRestart = (_event, self) => {
+    self.ReasonReact.send(SetFlag("elpi_started", false));
+    switch (self.state.elpi) {
+    | Some(e) =>
+      e##restart()
+      |> Js.Promise.then_(mess => {
+           self.send(SetFlag("elpi_started", true));
+           self.send(Log(Log.info("Elpi restarted")));
+           Js.Promise.resolve(mess);
+         })
+      |> ignore
+    | None => ()
+    };
+  };
   let changeEditorValue = (id, content, self) =>
     self.ReasonReact.send(ChangeEditorValue(id, content));
   let keyDown = (event: ReactEventRe.Keyboard.t, _self) =>
@@ -159,24 +173,16 @@ let make = (~message, _children) => {
           },
           /* Answers callback */
           argass => self.send(NewAnswer(Querier.answer(argass))),
-          /* Start callback
-             (success, _mess) =>
-               self.send(
-                 Log(
-                   if (success) {
-                     self.send(SetFlag("elpi_started", true));
-                     Log.message(Info, [], "Elpi Worker succesfully started.");
-                   } else {
-                     Log.message(Error, [], "Elpi Worker failed to start.");
-                   },
-                 ),
-               ),*/
         );
       elpi##start
       |> Js.Promise.then_(mess => {
            self.send(SetFlag("elpi_started", true));
            self.send(Log(Log.message(Info, [], mess)));
            Js.Promise.resolve(mess);
+         })
+      |> Js.Promise.catch(_err => {
+           self.send(Log(Log.err("Elpi failed to start.")));
+           Js.Promise.resolve("arg");
          })
       |> ignore;
       ReasonReact.Update({...self.state, elpi: Some(elpi)});
@@ -186,6 +192,7 @@ let make = (~message, _children) => {
         <Toolbar
           brand=message
           onClickPlay=(self.handle(clickPlay))
+          onClickRestart=(self.handle(clickRestart))
           playDisabled=(! Hashtbl.find(self.state.flags, "elpi_started"))
         />
         <SplitPane
