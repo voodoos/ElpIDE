@@ -56,7 +56,11 @@ let make = (~message, _children) => {
            | _ => ()
            };
            self.send(
-             Log(Log.err("Something went wrong, check your code.")),
+             Log(
+               Log.err(
+                 {j|Ook, looks like something went wrong... Here, have a 🍌|j},
+               ),
+             ),
            );
            Js.Promise.reject(raise(ElpiCompileError));
          })

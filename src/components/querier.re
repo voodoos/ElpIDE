@@ -89,6 +89,8 @@ let make = (~elpi: option(ElpiJs.elpi), ~messages, _children) => {
           history:
             if (List.length(state.history) > 0 && v == List.hd(state.history)) {
               state.history;
+            } else if (v == "" || v == " " || v == "  " || v == "y" || v == "n") {
+              state.history;
             } else {
               /* Saving to local storage */
               ignore(
@@ -153,7 +155,7 @@ let make = (~elpi: option(ElpiJs.elpi), ~messages, _children) => {
               <Input
                 type_="text"
                 name="query"
-                placeholder={|Query...|}
+                placeholder={j|⇅ Query...|j}
                 value=self.state.input_val
                 onChange=(self.handle(change))
                 onKeyDown=(self.handle(keyDown))
