@@ -17,16 +17,10 @@ type elpi = {
         "content": string,
       },
     ) =>
-<<<<<<< HEAD
     Js.Promise.t(string),
   [@bs.meth] "queryAll": string => Js.Promise.t(array(assignement)),
   [@bs.meth] "restart": unit => Js.Promise.t(string),
   "start": Js.Promise.t(string),
-=======
-    unit,
-  [@bs.meth] "queryAll": (string, (string, string) => unit) => unit,
-  [@bs.meth] "restart": unit => unit,
->>>>>>> Working on adding "loading" state to querier input
 };
 
 [@bs.new] [@bs.module "elpi-js"]

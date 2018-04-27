@@ -1,3 +1,5 @@
+exception ElpiQueryError;
+
 let answer = argsassignements => {
   let l =
     List.map(
@@ -27,7 +29,7 @@ type action =
 
 let component = ReasonReact.reducerComponentWithRetainedProps("Querier");
 
-let make = (~elpi, ~messages, _children) => {
+let make = (~elpi: option(ElpiJs.elpi), ~messages, _children) => {
   let change = (event, self) => {
     let newVal = ReactDOMRe.domElementToObj(ReactEventRe.Form.target(event))##value;
     self.ReasonReact.send(SetVal(newVal));
@@ -38,7 +40,16 @@ let make = (~elpi, ~messages, _children) => {
     switch (elpi) {
     | None => ()
     | Some(e) =>
-      e##queryAll(v, (_, mess) => self.ReasonReact.send(SetLoading(false)));
+      e##queryAll(v)
+      |> Js.Promise.then_(v => {
+           self.ReasonReact.send(SetLoading(false));
+           Js.Promise.resolve(v);
+         })
+      |> Js.Promise.catch(e => {
+           self.ReasonReact.send(SetLoading(false));
+           Js.Promise.reject(raise(ElpiQueryError));
+         })
+      |> ignore;
       self.ReasonReact.send(SetVal(""));
       self.ReasonReact.send(SetLoading(true));
       self.ReasonReact.send(AddHist(v));
@@ -144,7 +155,9 @@ let make = (~elpi, ~messages, _children) => {
                 value=self.state.input_val
                 onChange=(self.handle(change))
                 onKeyDown=(self.handle(keyDown))
+                disabled=self.state.loading
                 loading=self.state.loading
+                autoComplete="off"
               />
             </Form.Field>
           </Form>

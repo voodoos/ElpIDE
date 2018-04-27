@@ -7,6 +7,7 @@ external sui : ReasonReact.reactClass = "Input";
 external makeProps :
   (
     ~as_: string=? /* TODO: Can also be a function ! */,
+    ~autoComplete: string=?,
     ~className: string=?,
     ~disabled: Js.boolean=?,
     ~error: Js.boolean=?,
@@ -32,6 +33,7 @@ external makeProps :
 let make =
     (
       ~as_=?,
+      ~autoComplete=?,
       ~className=?,
       ~disabled=?,
       ~error=?,
@@ -56,6 +58,7 @@ let make =
     ~props=
       makeProps(
         ~as_?,
+        ~autoComplete?,
         ~className?,
         ~disabled=?fromBool(disabled),
         ~error=?fromBool(error),
