@@ -1,3 +1,11 @@
+external exnOfError : Js.Promise.error => Js.Exn.t = "%identity";
+
+type assignement = {
+  .
+  "arg": string,
+  "ass": string,
+};
+
 type elpi = {
   .
   [@bs.meth]
@@ -9,9 +17,10 @@ type elpi = {
         "content": string,
       },
     ) =>
-    unit,
-  [@bs.meth] "queryAll": string => unit,
+    Js.Promise.t(string),
+  [@bs.meth] "queryAll": string => Js.Promise.t(array(assignement)),
   [@bs.meth] "restart": unit => unit,
+  "start": Js.Promise.t(string),
 };
 
 [@bs.new] [@bs.module "elpi-js"]
@@ -27,9 +36,7 @@ external create :
         "ass": string,
       },
     ) =>
-    unit,
-    /* Start callback */
-    (bool, string) => unit
+    unit
   ) =>
   elpi =
   "default";

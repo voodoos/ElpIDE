@@ -721,7 +721,7 @@ ecc-jsbn@~0.1.1:
 
 "elpi-js@https://github.com/voodoos/elpi-js":
   version "0.1.0"
-  resolved "https://github.com/voodoos/elpi-js#8d6e7aa1b2ec6214dbd4537bbcea506b42c26aba"
+  resolved "https://github.com/voodoos/elpi-js#ea401ac668bbfec7b2797f950503bf19406191cc"
 
 encoding@^0.1.11:
   version "0.1.12"

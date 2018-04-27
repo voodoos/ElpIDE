@@ -14,6 +14,8 @@
 
 module SUI = SemanticUi;
 
+exception ElpiCompileError;
+
 type state = {
   /* The following is a dummy to trigger re-rendering when layout is dragged */
   layout_update: int,
@@ -41,12 +43,29 @@ let make = (~message, _children) => {
    */
   let clickPlay = (_event, self) =>
     switch (self.ReasonReact.state.elpi) {
-    | Some(e) => e##compile(self.ReasonReact.state.files)
+    | Some(e) =>
+      e##compile(self.ReasonReact.state.files)
+      |> Js.Promise.then_(mess => {
+           self.send(Log(Log.info(mess)));
+           Js.Promise.resolve(mess);
+         })
+      |> Js.Promise.catch(err => {
+           let m = Js.Exn.message(ElpiJs.exnOfError(err));
+           switch (m) {
+           | Some(t) => self.send(Log(Log.err(t)))
+           | _ => ()
+           };
+           self.send(
+             Log(Log.err("Something went wrong, check your code.")),
+           );
+           Js.Promise.reject(raise(ElpiCompileError));
+         })
+      |> ignore
     | None => ()
     };
   let changeEditorValue = (id, content, self) =>
     self.ReasonReact.send(ChangeEditorValue(id, content));
-  let keyDown = (event: ReactEventRe.Keyboard.t, self) =>
+  let keyDown = (event: ReactEventRe.Keyboard.t, _self) =>
     switch (ReactEventRe.Keyboard.keyCode(event)) {
     | _ => ()
     };
@@ -140,19 +159,26 @@ let make = (~message, _children) => {
           },
           /* Answers callback */
           argass => self.send(NewAnswer(Querier.answer(argass))),
-          /* Start callback */
-          (success, _mess) =>
-            self.send(
-              Log(
-                if (success) {
-                  self.send(SetFlag("elpi_started", true));
-                  Log.message(Info, [], "Elpi Worker succesfully started.");
-                } else {
-                  Log.message(Error, [], "Elpi Worker failed to start.");
-                },
-              ),
-            ),
+          /* Start callback
+             (success, _mess) =>
+               self.send(
+                 Log(
+                   if (success) {
+                     self.send(SetFlag("elpi_started", true));
+                     Log.message(Info, [], "Elpi Worker succesfully started.");
+                   } else {
+                     Log.message(Error, [], "Elpi Worker failed to start.");
+                   },
+                 ),
+               ),*/
         );
+      elpi##start
+      |> Js.Promise.then_(mess => {
+           self.send(SetFlag("elpi_started", true));
+           self.send(Log(Log.message(Info, [], mess)));
+           Js.Promise.resolve(mess);
+         })
+      |> ignore;
       ReasonReact.Update({...self.state, elpi: Some(elpi)});
     },
     render: self =>
