@@ -26,6 +26,8 @@ let fromLeftOrRight = makeJsOptionMap(leftOrRightToJs);
 
 let fromLeftOrCenterOrRight = makeJsOptionMap(leftOrCenterOrRightToJs);
 
+let fromTextAlign = makeJsOptionMap(textAlignToJs);
+
 let fromTopOrBottom = makeJsOptionMap(topOrBottomToJs);
 
 let fromTopOrMiddleOrBottom = makeJsOptionMap(topOrMiddleOrBottomToJs);
@@ -33,7 +35,13 @@ let fromTopOrMiddleOrBottom = makeJsOptionMap(topOrMiddleOrBottomToJs);
 /* For size enums props */
 let fromSize = makeJsOptionMap(sizeToJs);
 
+let fromSizeModal = makeJsOptionMap(sizeModalToJs);
+
+let fromSizePopup = makeJsOptionMap(sizePopupToJs);
+
 let fromSmallOrLarge = makeJsOptionMap(smallOrLargeToJs);
+
+let fromPos = makeJsOptionMap(posToJs);
 
 /* For width enums props */
 let fromWidth = makeJsOptionMap(widthToJs);
@@ -76,18 +84,18 @@ let fromNum = b => Js.Option.map((. a) => fromNumAux(a), b);
 
 let fromBoolOrVeryAux = bORe =>
   switch (bORe) {
-  | `True => jsOfBool(Js.true_)
-  | `False => jsOfBool(Js.true_)
-  | `Very => jsOfString("very")
+  | `true_ => jsOfBool(Js.true_)
+  | `false_ => jsOfBool(Js.true_)
+  | `very => jsOfString("very")
   };
 
 let fromBoolOrVery = b => Js.Option.map((. a) => fromBoolOrVeryAux(a), b);
 
 let fromBoolOrCenteredAux = bORe =>
   switch (bORe) {
-  | `True => jsOfBool(Js.true_)
-  | `False => jsOfBool(Js.true_)
-  | `Centered => jsOfString("centered")
+  | `true_ => jsOfBool(Js.true_)
+  | `false_ => jsOfBool(Js.true_)
+  | `centered => jsOfString("centered")
   };
 
 let fromBoolOrCentered = b =>
@@ -108,3 +116,25 @@ let fromComponentOrStringAux = a =>
 
 let fromComponentOrString = b =>
   Js.Option.map((. a) => fromComponentOrStringAux(a), b);
+
+let fromBoolOrInvertedOrBlurringAux = bORe =>
+  switch (bORe) {
+  | `true_ => jsOfBool(Js.true_)
+  | `false_ => jsOfBool(Js.true_)
+  | `inverted => jsOfString("inverted")
+  | `blurring => jsOfString("blurring")
+  };
+
+let fromBoolOrInvertedOrBlurring = b =>
+  Js.Option.map((. a) => fromBoolOrInvertedOrBlurringAux(a), b);
+
+let fromBoolOrTopOrBottomAux = bORe =>
+  switch (bORe) {
+  | `true_ => jsOfBool(Js.true_)
+  | `false_ => jsOfBool(Js.true_)
+  | `top => jsOfString("tom")
+  | `bottom => jsOfString("bottom")
+  };
+
+let fromBoolOrTopOrBottom = b =>
+  Js.Option.map((. a) => fromBoolOrTopOrBottomAux(a), b);

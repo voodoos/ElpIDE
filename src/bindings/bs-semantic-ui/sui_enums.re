@@ -37,6 +37,24 @@ type size = [
 ];
 
 [@bs.deriving jsConverter]
+type sizePopup = [ | `mini | `tiny | `small | `large | `huge];
+
+[@bs.deriving jsConverter]
+type sizeModal = [ | `fullscreen | `large | `small | `mini | `tiny];
+
+[@bs.deriving jsConverter]
+type pos = [
+  | [@bs.as "top left"] `topleft
+  | [@bs.as "top right"] `topright
+  | [@bs.as "bottom right"] `bottomright
+  | [@bs.as "bottom left"] `bottomleft
+  | [@bs.as "right center"] `rightcenter
+  | [@bs.as "left center"] `leftcenter
+  | [@bs.as "top center"] `topcenter
+  | [@bs.as "bottom center"] `bottomcenter
+];
+
+[@bs.deriving jsConverter]
 type smallOrLarge = [ | `small | `large];
 
 [@bs.deriving jsConverter]
@@ -47,6 +65,9 @@ type leftOrRight = [ | `left | `right];
 
 [@bs.deriving jsConverter]
 type leftOrCenterOrRight = [ | `left | `center | `right];
+
+[@bs.deriving jsConverter]
+type textAlign = [ | `left | `center | `right | `justified];
 
 [@bs.deriving jsConverter]
 type topOrBottom = [ | `top | `bottom];

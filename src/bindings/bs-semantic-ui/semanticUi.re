@@ -7,6 +7,8 @@ module Tools = Sui_tools;
 /* Elements */
 module Button = Sui_button;
 
+module Header = Sui_header;
+
 module Icon = Sui_icon;
 
 module Input = Sui_input;
@@ -24,3 +26,7 @@ module Table = Sui_table;
 
 /* Modules */
 module Dimmer = Sui_dimmer;
+
+module Modal = Sui_modal;
+
+module Popup = Sui_popup;
