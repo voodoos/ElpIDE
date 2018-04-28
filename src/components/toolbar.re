@@ -14,8 +14,8 @@ let make = (~brand, ~playDisabled, ~onClickRestart, ~onClickPlay, _children) => 
             </Menu.Item>
             <Menu.Item>
               <Button.Group inverted=false>
-                <Button icon=true onClick=onClickRestart>
-                  <Icon name="refresh" />
+                <Button icon=true onClick=onClickRestart loading=playDisabled >
+                  <Icon name="refresh"/>
                 </Button>
                 <Button
                   color=`blue

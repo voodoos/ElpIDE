@@ -10,3 +10,8 @@
   .ui.modal {
     margin-top: 0;
   }
+
+  .blurring.dimmed.dimmable > :not(.dimmer) {
+    -webkit-filter: blur(3px) grayscale(.6);
+    filter: blur(3px) grayscale(.6);
+  }

@@ -29,36 +29,15 @@ let make = _children => {
           />
         </Modal.Content>
         <Modal.Actions>
-          <Button basic=true color=`red inverted=true>
+          <Button color=`red basic=true inverted=true >
             <Icon name="remove" />
             (ReasonReact.stringToElement("Cancel"))
           </Button>
-          <Button color=`green inverted=true>
+          <Button color=`green >
             <Icon name="checkmark" />
             (ReasonReact.stringToElement("Comfirm"))
           </Button>
         </Modal.Actions>
       </Modal>
     ),
-  /*
-   SemanticUi.(
-     <Modal trigger={<Button> "Show Modal" </Button>}>
-       <Modal.Header> "Select a Photo" </Modal.Header>
-       <Modal.Content>
-         <Modal.Description>
-           <Header> "Default Profile Image" </Header>
-           <p>
-             (
-               ReasonReact.stringToElement(
-                 "We've found the following gravatar image associated with your e-mail address.",
-               )
-             )
-           </p>
-           <p>
-             (ReasonReact.stringToElement("Is it okay to use this photo?"))
-           </p>
-         </Modal.Description>
-       </Modal.Content>
-     </Modal>
-   ),*/
 };
