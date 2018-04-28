@@ -35,18 +35,9 @@ let make = (~files, ~onClickFile, ~onClickNew, _children) => {
     render: _self =>
       SemanticUi.(
         <div>
-          <NewFileModal />
           <Menu inverted=false borderless=true>
             <Menu.Item header=true> "Project" </Menu.Item>
-            <Menu.Menu position=`right>
-              <Button
-                className="no-border"
-                icon=true
-                basic=true
-                onClick=((_e, _d) => onClickNew())>
-                <Icon name="file outline" />
-              </Button>
-            </Menu.Menu>
+            <Menu.Menu position=`right> <NewFileModal /> </Menu.Menu>
           </Menu>
           <List className="p-fbrowser">
             <List.Item>

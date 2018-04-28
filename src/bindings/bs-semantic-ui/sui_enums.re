@@ -55,6 +55,14 @@ type pos = [
 ];
 
 [@bs.deriving jsConverter]
+type labelPos = [
+  | [@bs.as "left"] `left
+  | [@bs.as "right"] `right
+  | [@bs.as "right corner"] `rightcorner
+  | [@bs.as "left corner"] `leftcorner
+];
+
+[@bs.deriving jsConverter]
 type smallOrLarge = [ | `small | `large];
 
 [@bs.deriving jsConverter]

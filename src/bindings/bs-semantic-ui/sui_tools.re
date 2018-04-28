@@ -43,6 +43,8 @@ let fromSmallOrLarge = makeJsOptionMap(smallOrLargeToJs);
 
 let fromPos = makeJsOptionMap(posToJs);
 
+let fromLabelPos = makeJsOptionMap(labelPosToJs);
+
 /* For width enums props */
 let fromWidth = makeJsOptionMap(widthToJs);
 
