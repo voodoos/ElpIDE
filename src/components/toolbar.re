@@ -1,7 +1,6 @@
 let component = ReasonReact.statelessComponent("Toolbar");
 
 let make = (~brand, ~playDisabled, ~onClickRestart, ~onClickPlay, _children) => {
-  let onClickNew = (_e, _d) => Js.log("clicked");
   let onClickPlay = (_e, _d) => onClickPlay();
   let onClickRestart = (_e, _d) => onClickRestart();
   {
@@ -15,9 +14,6 @@ let make = (~brand, ~playDisabled, ~onClickRestart, ~onClickPlay, _children) => 
             </Menu.Item>
             <Menu.Item>
               <Button.Group inverted=false>
-                <Button icon=true onClick=onClickNew>
-                  <Icon name="file outline" />
-                </Button>
                 <Button icon=true onClick=onClickRestart>
                   <Icon name="refresh" />
                 </Button>

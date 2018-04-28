@@ -77,7 +77,7 @@ module List = {
     render: _self =>
       <div>
         SemanticUi.(
-          <Table basic=`True compact=`Very>
+          <Table basic=`true_ compact=`very>
             <Table.Body>
               (
                 Array.mapi(

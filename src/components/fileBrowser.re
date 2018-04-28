@@ -7,7 +7,7 @@ type action =
 
 let component = ReasonReact.reducerComponent("FileBrowser");
 
-let make = (~files, ~onClickFile, _children) => {
+let make = (~files, ~onClickFile, ~onClickNew, _children) => {
   let fileList = files =>
     Array.mapi(
       (i, f) =>
@@ -34,16 +34,31 @@ let make = (~files, ~onClickFile, _children) => {
       },
     render: _self =>
       SemanticUi.(
-        <List className="p-fbrowser">
-          <List.Item>
-            <List.Icon name="folder" />
-            <List.Content>
-              <List.Header> "src" </List.Header>
-              <List.Description> "Source files" </List.Description>
-              <List.List> (fileList(files)) </List.List>
-            </List.Content>
-          </List.Item>
-        </List>
+        <div>
+          <NewFileModal />
+          <Menu inverted=false borderless=true>
+            <Menu.Item header=true> "Project" </Menu.Item>
+            <Menu.Menu position=`right>
+              <Button
+                className="no-border"
+                icon=true
+                basic=true
+                onClick=((_e, _d) => onClickNew())>
+                <Icon name="file outline" />
+              </Button>
+            </Menu.Menu>
+          </Menu>
+          <List className="p-fbrowser">
+            <List.Item>
+              <List.Icon name="folder" />
+              <List.Content>
+                <List.Header> "src" </List.Header>
+                <List.Description> "Source files" </List.Description>
+                <List.List> (fileList(files)) </List.List>
+              </List.Content>
+            </List.Item>
+          </List>
+        </div>
       ),
   };
 };

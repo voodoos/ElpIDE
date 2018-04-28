@@ -213,6 +213,7 @@ let make = (~message, _children) => {
             <FileBrowser
               files=self.state.files
               onClickFile=(i => self.send(SetActiveFile(i)))
+              onClickNew=(() => ())
             />
           </Pane>
           <SplitPane
