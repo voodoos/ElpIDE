@@ -15,6 +15,7 @@ let make = _children => {
         size=`tiny>
         <Header
           icon={<Icon name="file outline" />}
+          size=`huge
           content=(ReasonReact.stringToElement("New source file"))
         />
         <Modal.Content>
