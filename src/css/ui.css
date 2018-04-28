@@ -4,3 +4,10 @@
 .ui.page.modals.transition.visible {
     display: flex !important;
 }
+
+
+.dimmed.dimmable > .ui.visible.dimmer, .ui.active.dimmer {
+    display: -ms-flexbox;
+    display: flex !important;
+    opacity: 1;
+  }
