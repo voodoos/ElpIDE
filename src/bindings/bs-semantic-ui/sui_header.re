@@ -65,7 +65,7 @@ let make =
         ~icon?,
         ~image?,
         ~inverted=?fromBool(inverted),
-        ~size=?fromSizeModal(size),
+        ~size=?fromSizeHeader(size),
         ~sub=?fromBool(sub),
         ~textAlign=?fromTextAlign(textAlign),
         (),

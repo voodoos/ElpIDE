@@ -35,6 +35,8 @@ let fromTopOrMiddleOrBottom = makeJsOptionMap(topOrMiddleOrBottomToJs);
 /* For size enums props */
 let fromSize = makeJsOptionMap(sizeToJs);
 
+let fromSizeHeader = makeJsOptionMap(sizeHeaderToJs);
+
 let fromSizeModal = makeJsOptionMap(sizeModalToJs);
 
 let fromSizePopup = makeJsOptionMap(sizePopupToJs);

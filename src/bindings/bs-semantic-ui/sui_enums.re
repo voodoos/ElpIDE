@@ -37,6 +37,9 @@ type size = [
 ];
 
 [@bs.deriving jsConverter]
+type sizeHeader = [ | `tiny | `small | `medium | `large | `huge];
+
+[@bs.deriving jsConverter]
 type sizePopup = [ | `mini | `tiny | `small | `large | `huge];
 
 [@bs.deriving jsConverter]
