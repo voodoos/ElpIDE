@@ -5,7 +5,6 @@
   "author": "voodoos",
   "license": "MIT",
   "dependencies": {
-    "babel-core": "^6.26.0",
     "elpi-js": "https://github.com/voodoos/elpi-js",
     "fs": "^0.0.1-security",
     "localforage": "^1.7.1",
@@ -22,6 +21,7 @@
     "test": "return 0"
   },
   "devDependencies": {
+    "babel-core": "^6.26.0",
     "babel-plugin-add-module-exports": "^0.2.1",
     "babel-plugin-transform-object-assign": "^6.22.0",
     "babel-plugin-transform-object-rest-spread": "^6.26.0",

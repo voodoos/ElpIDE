@@ -13,6 +13,7 @@
   },
   "bs-dependencies": [
     "reason-react",
+    "elpi-js",
     "bs-react-split-pane"
   ],
   "bsc-flags": [
