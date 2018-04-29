@@ -7,7 +7,7 @@ external sui : ReasonReact.reactClass = "Form";
 external makeProps :
   (
     ~action: string=?,
-    ~as_: string=?, /* TODO: Can also be a function ! */
+    ~_as: string=?, /* TODO: Can also be a function ! */
     ~className: string=?,
     ~error: Js.boolean=?,
     ~inverted: Js.boolean=?,
@@ -28,7 +28,7 @@ external makeProps :
 let make =
     (
       ~action=?,
-      ~as_=?,
+      ~_as=?,
       ~className=?,
       ~error=?,
       ~inverted=?,
@@ -47,7 +47,7 @@ let make =
     ~props=
       makeProps(
         ~action?,
-        ~as_?,
+        ~_as?,
         ~className?,
         ~error=?fromBool(error),
         ~inverted=?fromBool(inverted),
@@ -71,7 +71,7 @@ module Field = {
   [@bs.obj]
   external makeProps :
     (
-      ~as_: string=?, /* TODO: Can also be a function ! */
+      ~_as: string=?, /* TODO: Can also be a function ! */
       ~className: string=?,
       ~content: ReasonReact.reactElement=?,
       ~control: ReasonReact.reactElement=?, /* TODO ? can also be a string ? */
@@ -86,10 +86,10 @@ module Field = {
     ) =>
     _ =
     "";
-  let make = (~as_=?, ~className=?, ~content=?, ~control=?, ~disabled=?, ~error=?, ~inline=?, ~label=?, ~required=?, ~type_=?, ~width=?, children) =>
+  let make = (~_as=?, ~className=?, ~content=?, ~control=?, ~disabled=?, ~error=?, ~inline=?, ~label=?, ~required=?, ~type_=?, ~width=?, children) =>
     ReasonReact.wrapJsForReason(
       ~reactClass=sui,
-      ~props=makeProps( ~as_?, 
+      ~props=makeProps( ~_as?, 
                         ~className?, 
                         ~content?, 
                         ~control?,
@@ -111,7 +111,7 @@ module Group = {
   [@bs.obj]
   external makeProps :
     (
-      ~as_: string=?, /* TODO: Can also be a function ! */
+      ~_as: string=?, /* TODO: Can also be a function ! */
       ~className: string=?,
       /* TODO : grouped, inline */
       ~unstackable: Js.boolean=?,
@@ -120,10 +120,10 @@ module Group = {
     ) =>
     _ =
     "";
-  let make = (~as_=?, ~className=?, ~unstackable=?, ~widths=?, children) =>
+  let make = (~_as=?, ~className=?, ~unstackable=?, ~widths=?, children) =>
     ReasonReact.wrapJsForReason(
       ~reactClass=sui,
-      ~props=makeProps( ~as_?, 
+      ~props=makeProps( ~_as?, 
                         ~className?, 
                         ~unstackable=?fromBool(unstackable),
                         ~widths=?fromWidth(widths),
@@ -140,16 +140,16 @@ module Button = {
   [@bs.obj]
   external makeProps :
     (
-      ~as_: string=?, /* TODO: Can also be a function ! */
+      ~_as: string=?, /* TODO: Can also be a function ! */
       ~control: ReasonReact.reactElement=?, /* TODO ? can also be a string ? */
       unit
     ) =>
     _ =
     "";
-  let make = (~as_=?, ~control=?, children) =>
+  let make = (~_as=?, ~control=?, children) =>
     ReasonReact.wrapJsForReason(
       ~reactClass=sui,
-      ~props=makeProps(~as_?, ~control?, ()),
+      ~props=makeProps(~_as?, ~control?, ()),
       children,
     );
 };
@@ -160,16 +160,16 @@ module Checkbox = {
   [@bs.obj]
   external makeProps :
     (
-      ~as_: string=?, /* TODO: Can also be a function ! */
+      ~_as: string=?, /* TODO: Can also be a function ! */
       ~control: ReasonReact.reactElement=?, /* TODO ? can also be a string ? */
       unit
     ) =>
     _ =
     "";
-  let make = (~as_=?, ~control=?, children) =>
+  let make = (~_as=?, ~control=?, children) =>
     ReasonReact.wrapJsForReason(
       ~reactClass=sui,
-      ~props=makeProps(~as_?, ~control?, ()),
+      ~props=makeProps(~_as?, ~control?, ()),
       children,
     );
 };
@@ -180,16 +180,16 @@ module Dropdown = {
   [@bs.obj]
   external makeProps :
     (
-      ~as_: string=?, /* TODO: Can also be a function ! */
+      ~_as: string=?, /* TODO: Can also be a function ! */
       ~control: ReasonReact.reactElement=?, /* TODO ? can also be a string ? */
       unit
     ) =>
     _ =
     "";
-  let make = (~as_=?, ~control=?, children) =>
+  let make = (~_as=?, ~control=?, children) =>
     ReasonReact.wrapJsForReason(
       ~reactClass=sui,
-      ~props=makeProps(~as_?, ~control?, ()),
+      ~props=makeProps(~_as?, ~control?, ()),
       children,
     );
 };
@@ -200,16 +200,16 @@ module Input = {
   [@bs.obj]
   external makeProps :
     (
-      ~as_: string=?, /* TODO: Can also be a function ! */
+      ~_as: string=?, /* TODO: Can also be a function ! */
       ~control: ReasonReact.reactElement=?, /* TODO ? can also be a string ? */
       unit
     ) =>
     _ =
     "";
-  let make = (~as_=?, ~control=?, children) =>
+  let make = (~_as=?, ~control=?, children) =>
     ReasonReact.wrapJsForReason(
       ~reactClass=sui,
-      ~props=makeProps(~as_?, ~control?, ()),
+      ~props=makeProps(~_as?, ~control?, ()),
       children,
     );
 };
@@ -220,16 +220,16 @@ module Radio = {
   [@bs.obj]
   external makeProps :
     (
-      ~as_: string=?, /* TODO: Can also be a function ! */
+      ~_as: string=?, /* TODO: Can also be a function ! */
       ~control: ReasonReact.reactElement=?, /* TODO ? can also be a string ? */
       unit
     ) =>
     _ =
     "";
-  let make = (~as_=?, ~control=?, children) =>
+  let make = (~_as=?, ~control=?, children) =>
     ReasonReact.wrapJsForReason(
       ~reactClass=sui,
-      ~props=makeProps(~as_?, ~control?, ()),
+      ~props=makeProps(~_as?, ~control?, ()),
       children,
     );
 };
@@ -240,16 +240,16 @@ module Select = {
   [@bs.obj]
   external makeProps :
     (
-      ~as_: string=?, /* TODO: Can also be a function ! */
+      ~_as: string=?, /* TODO: Can also be a function ! */
       ~control: ReasonReact.reactElement=?, /* TODO ? can also be a string ? */
       unit
     ) =>
     _ =
     "";
-  let make = (~as_=?, ~control=?, children) =>
+  let make = (~_as=?, ~control=?, children) =>
     ReasonReact.wrapJsForReason(
       ~reactClass=sui,
-      ~props=makeProps(~as_?, ~control?, ()),
+      ~props=makeProps(~_as?, ~control?, ()),
       children,
     );
 };
@@ -260,16 +260,16 @@ module TextArea = {
   [@bs.obj]
   external makeProps :
     (
-      ~as_: string=?, /* TODO: Can also be a function ! */
+      ~_as: string=?, /* TODO: Can also be a function ! */
       ~control: ReasonReact.reactElement=?, /* TODO ? can also be a string ? */
       unit
     ) =>
     _ =
     "";
-  let make = (~as_=?, ~control=?, children) =>
+  let make = (~_as=?, ~control=?, children) =>
     ReasonReact.wrapJsForReason(
       ~reactClass=sui,
-      ~props=makeProps(~as_?, ~control?, ()),
+      ~props=makeProps(~_as?, ~control?, ()),
       children,
     );
 };

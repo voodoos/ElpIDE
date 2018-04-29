@@ -8,7 +8,7 @@ external suiTable : ReasonReact.reactClass = "Table";
 [@bs.obj]
 external makeTableProps :
   (
-    ~as_: string=?, /* TODO: Can also be a function ! */
+    ~_as: string=?, /* TODO: Can also be a function ! */
     ~attached: string=?,
     ~basic: js=?,
     ~celled: Js.boolean=?,
@@ -41,7 +41,7 @@ external makeTableProps :
 
 let make =
     (
-      ~as_=?,
+      ~_as=?,
       ~attached=?,
       ~basic=?,
       ~celled=?,
@@ -70,7 +70,7 @@ let make =
     ~reactClass=suiTable,
     ~props=
       makeTableProps(
-        ~as_?,
+        ~_as?,
         ~attached=?fromTopOrBottom(attached),
         ~basic=?fromBoolOrVery(basic),
         ~celled=?fromBool(celled),
@@ -104,16 +104,16 @@ module Body = {
   [@bs.obj]
   external makeProps :
     (
-      ~as_: string=?, /* TODO: Can also be a function ! */
+      ~_as: string=?, /* TODO: Can also be a function ! */
       ~className: string=?,
       unit
     ) =>
     _ =
     "";
-  let make = (~as_=?, ~className=?, children) =>
+  let make = (~_as=?, ~className=?, children) =>
     ReasonReact.wrapJsForReason(
       ~reactClass=sui,
-      ~props=makeProps(~as_?, ~className?, ()),
+      ~props=makeProps(~_as?, ~className?, ()),
       children,
     );
 };
@@ -125,7 +125,7 @@ module Cell = {
   external makeProps :
     (
       ~active: Js.boolean=?,
-      ~as_: string=?, /* TODO: Can also be a function ! */
+      ~_as: string=?, /* TODO: Can also be a function ! */
       /* TODO : cellAs, cells */
       ~className: string=?,
       ~collapsing: Js.boolean=?,
@@ -147,7 +147,7 @@ module Cell = {
   let make =
       (
         ~active=?,
-        ~as_=?,
+        ~_as=?,
         ~className=?,
         ~collapsing=?,
         ~disabled=?,
@@ -166,7 +166,7 @@ module Cell = {
       ~props=
         makeProps(
           ~active=?fromBool(active),
-          ~as_?,
+          ~_as?,
           ~className?,
           ~collapsing=?fromBool(collapsing),
           ~disabled=?fromBool(disabled),
@@ -191,7 +191,7 @@ module Row = {
   external makeProps :
     (
       ~active: Js.boolean=?,
-      ~as_: string=?, /* TODO: Can also be a function ! */
+      ~_as: string=?, /* TODO: Can also be a function ! */
       /* TODO : cellAs, cells */
       ~className: string=?,
       ~disabled: Js.boolean=?,
@@ -209,7 +209,7 @@ module Row = {
   let make =
       (
         ~active=?,
-        ~as_=?,
+        ~_as=?,
         ~className=?,
         ~disabled=?,
         ~error=?,
@@ -226,7 +226,7 @@ module Row = {
       ~props=
         makeProps(
           ~active=?fromBool(active),
-          ~as_?,
+          ~_as?,
           ~className?,
           ~disabled=?fromBool(disabled),
           ~error=?fromBool(error),

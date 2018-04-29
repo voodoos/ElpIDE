@@ -7,7 +7,7 @@ external sui : ReasonReact.reactClass = "Dimmer";
 external makeProps :
   (
     ~active: Js.boolean=?,
-    ~as_: string=? /* TODO: Can also be a function ! */,
+    ~_as: string=? /* TODO: Can also be a function ! */,
     ~className: string=? /* TODO: content */,
     ~disabled: Js.boolean=?,
     ~inverted: Js.boolean=?,
@@ -25,7 +25,7 @@ external makeProps :
 let make =
     (
       ~active=?,
-      ~as_=?,
+      ~_as=?,
       ~className=?,
       ~disabled=?,
       ~inverted=?,
@@ -40,7 +40,7 @@ let make =
     ~props=
       makeProps(
         ~active=?fromBool(active),
-        ~as_?,
+        ~_as?,
         ~className?,
         ~disabled=?fromBool(disabled),
         ~inverted=?fromBool(inverted),
@@ -59,7 +59,7 @@ module Dimmable = {
   [@bs.obj]
   external makeProps :
     (
-      ~as_: string=? /* TODO: Can also be a function ! */,
+      ~_as: string=? /* TODO: Can also be a function ! */,
       ~blurring: Js.boolean=?,
       ~className: string=? /* TODO: content */,
       ~dimmed: Js.boolean=?,
@@ -67,12 +67,12 @@ module Dimmable = {
     ) =>
     _ =
     "";
-  let make = (~as_=?, ~blurring=?, ~className=?, ~dimmed=?, children) =>
+  let make = (~_as=?, ~blurring=?, ~className=?, ~dimmed=?, children) =>
     ReasonReact.wrapJsForReason(
       ~reactClass=sui,
       ~props=
         makeProps(
-          ~as_?,
+          ~_as?,
           ~blurring=?fromBool(blurring),
           ~className?,
           ~dimmed=?fromBool(dimmed),

@@ -16,7 +16,7 @@ external makeButtonProps :
   (
     ~active: Js.boolean=?,
     ~animated: Sui_tools.js=?,
-    ~as_: string=?, /* TODO: Can also be a function ! */
+    ~_as: string=?, /* TODO: Can also be a function ! */
     ~attached: string=?,
     ~basic: Js.boolean=?,
     ~circular: Js.boolean=?,
@@ -47,7 +47,7 @@ let make =
     (
       ~active=?,
       ~animated=?,
-      ~as_=?,
+      ~_as=?,
       ~attached=?,
       ~basic=?,
       ~circular=?,
@@ -76,7 +76,7 @@ let make =
     ~props=
       makeButtonProps(
         ~active=?fromBool(active),
-        ~as_?,
+        ~_as?,
         ~attached=?fromAllDir(attached),
         ~animated=?fromAnimBut(animated),
         ~basic=?fromBool(basic),
@@ -109,7 +109,7 @@ module Group = {
   [@bs.obj]
   external makeButtonGroupProps :
     (
-      ~as_: string=?, /* TODO: Can also be a function ! */
+      ~_as: string=?, /* TODO: Can also be a function ! */
       ~attached: string=?,
       ~basic: Js.boolean=?,
       /* TODO: buttons 	{custom} Array of shorthand Button values. */
@@ -136,7 +136,7 @@ module Group = {
     "";
   let make =
       (
-        ~as_=?,
+        ~_as=?,
         ~attached=?,
         ~basic=?,
         ~color=?,
@@ -161,7 +161,7 @@ module Group = {
       ~reactClass=suiButtonGroup,
       ~props=
         makeButtonGroupProps(
-          ~as_?,
+          ~_as?,
           ~attached=?fromAllDir(attached),
           ~basic=?fromBool(basic),
           ~className?, /* There is punning hapenning here (~className=?className) */
@@ -191,7 +191,7 @@ module Content = {
   [@bs.obj]
   external makeProps :
     (
-      ~as_: string=?, /* TODO: Can also be a function ! */
+      ~_as: string=?, /* TODO: Can also be a function ! */
       ~className: string=?,
       ~content: ReasonReact.reactElement=?,
       ~hidden: Js.boolean=?,
@@ -201,12 +201,12 @@ module Content = {
     _ =
     "";
   let make =
-      (~as_=?, ~className=?, ~content=?, ~hidden=?, ~visible=?, children) =>
+      (~_as=?, ~className=?, ~content=?, ~hidden=?, ~visible=?, children) =>
     ReasonReact.wrapJsForReason(
       ~reactClass=suiButtonContent,
       ~props=
         makeProps(
-          ~as_?,
+          ~_as?,
           ~className?,
           ~content?,
           ~hidden=?fromBool(hidden),
@@ -222,17 +222,17 @@ module Or = {
   [@bs.obj]
   external makeProps :
     (
-      ~as_: string=?, /* TODO: Can also be a function ! */
+      ~_as: string=?, /* TODO: Can also be a function ! */
       ~className: string=?,
       ~text: Sui_tools.js=?,
       unit
     ) =>
     _ =
     "";
-  let make = (~as_=?, ~className=?, ~text=?, children) =>
+  let make = (~_as=?, ~className=?, ~text=?, children) =>
     ReasonReact.wrapJsForReason(
       ~reactClass=suiButtonContent,
-      ~props=makeProps(~as_?, ~className?, ~text=?fromNumOrString(text), ()),
+      ~props=makeProps(~_as?, ~className?, ~text=?fromNumOrString(text), ()),
       children,
     );
 };

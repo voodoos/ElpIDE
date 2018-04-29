@@ -9,7 +9,7 @@ external react : ReasonReact.reactClass = "Modal";
 external makeProps :
   (
     ~actions: array(ReasonReact.reactElement)=?,
-    ~as_: string=? /* TODO: actions */, /* TODO: Can also be a function ! */
+    ~_as: string=? /* TODO: actions */, /* TODO: Can also be a function ! */
     ~basic: Js.boolean=?,
     ~className: string=?,
     /* TODO: closeIcon */
@@ -25,7 +25,7 @@ external makeProps :
     ~onMount: unit => unit=?,
     ~onOpen: (ReactEventRe.Synthetic.t, Js.t(Js.Types.obj_val)) => unit=?,
     ~onUnmount: unit => unit=?,
-    ~open_: Js.boolean=?,
+    ~_open: Js.boolean=?,
     ~size: string=?, /* fullscreen large mini small tiny */
     /* TODO: style */
     ~trigger: ReasonReact.reactElement=?,
@@ -37,7 +37,7 @@ external makeProps :
 let make =
     (
       ~actions=?,
-      ~as_=?,
+      ~_as=?,
       ~basic=?,
       ~className=?,
       ~closeOnDimmerClick=?,
@@ -51,17 +51,17 @@ let make =
       ~onMount=?,
       ~onOpen=?,
       ~onUnmount=?,
-      ~open_=?,
+      ~_open=?,
       ~size=?,
       ~trigger=?,
-      children,
+      children
     ) =>
   ReasonReact.wrapJsForReason(
     ~reactClass=react,
     ~props=
       makeProps(
         ~actions?,
-        ~as_?,
+        ~_as?,
         ~basic=?fromBool(basic),
         ~className?,
         ~closeOnDimmerClick=?fromBool(closeOnDimmerClick),
@@ -75,12 +75,12 @@ let make =
         ~onMount?,
         ~onOpen?,
         ~onUnmount?,
-        ~open_=?fromBool(open_),
+        ~_open=?fromBool(_open),
         ~size=?fromSizeModal(size),
         ~trigger?,
         (),
       ),
-    children,
+    children
   );
 
 module Actions = {
@@ -90,7 +90,7 @@ module Actions = {
   external makeProps :
     (
       ~actions: array(ReasonReact.reactElement)=?,
-      ~as_: string=?, /* TODO: Can also be a function ! */
+      ~_as: string=?, /* TODO: Can also be a function ! */
       ~className: string=?,
       ~content: ReasonReact.reactElement=?,
       ~onActionClick: (ReactEventRe.Mouse.t, Js.t(Js.Types.obj_val)) => unit=?,
@@ -101,7 +101,7 @@ module Actions = {
   let make =
       (
         ~actions=?,
-        ~as_=?,
+        ~_as=?,
         ~className=?,
         ~content=?,
         ~onActionClick=?,
@@ -112,7 +112,7 @@ module Actions = {
       ~props=
         makeProps(
           ~actions?,
-          ~as_?,
+          ~_as?,
           ~className?,
           ~content?,
           ~onActionClick?,
@@ -128,7 +128,7 @@ module Content = {
   [@bs.obj]
   external makeProps :
     (
-      ~as_: string=?, /* TODO: Can also be a function ! */
+      ~_as: string=?, /* TODO: Can also be a function ! */
       ~className: string=?,
       ~content: ReasonReact.reactElement=?,
       ~image: Js.boolean=?,
@@ -138,12 +138,12 @@ module Content = {
     _ =
     "";
   let make =
-      (~as_=?, ~className=?, ~content=?, ~image=?, ~scrolling=?, children) =>
+      (~_as=?, ~className=?, ~content=?, ~image=?, ~scrolling=?, children) =>
     ReasonReact.wrapJsForReason(
       ~reactClass=react,
       ~props=
         makeProps(
-          ~as_?,
+          ~_as?,
           ~className?,
           ~content?,
           ~image=?fromBool(image),
@@ -160,17 +160,17 @@ module Description = {
   [@bs.obj]
   external makeProps :
     (
-      ~as_: string=?, /* TODO: Can also be a function ! */
+      ~_as: string=?, /* TODO: Can also be a function ! */
       ~className: string=?,
       ~content: ReasonReact.reactElement=?,
       unit
     ) =>
     _ =
     "";
-  let make = (~as_=?, ~className=?, ~content=?, children) =>
+  let make = (~_as=?, ~className=?, ~content=?, children) =>
     ReasonReact.wrapJsForReason(
       ~reactClass=react,
-      ~props=makeProps(~as_?, ~className?, ~content?, ()),
+      ~props=makeProps(~_as?, ~className?, ~content?, ()),
       children,
     );
 };
@@ -181,17 +181,17 @@ module Header = {
   [@bs.obj]
   external makeProps :
     (
-      ~as_: string=?, /* TODO: Can also be a function ! */
+      ~_as: string=?, /* TODO: Can also be a function ! */
       ~className: string=?,
       ~content: ReasonReact.reactElement=?,
       unit
     ) =>
     _ =
     "";
-  let make = (~as_=?, ~className=?, ~content=?, children) =>
+  let make = (~_as=?, ~className=?, ~content=?, children) =>
     ReasonReact.wrapJsForReason(
       ~reactClass=react,
-      ~props=makeProps(~as_?, ~className?, ~content?, ()),
+      ~props=makeProps(~_as?, ~className?, ~content?, ()),
       children,
     );
 };

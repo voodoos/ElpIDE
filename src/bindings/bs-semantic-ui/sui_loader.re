@@ -7,7 +7,7 @@ external sui : ReasonReact.reactClass = "Loader";
 external makeProps :
   (
     ~active: Js.boolean=?,
-    ~as_: string=? /* TODO: Can also be a function ! */,
+    ~_as: string=? /* TODO: Can also be a function ! */,
     ~className: string=? /* TODO: content */,
     ~disabled: Js.boolean=?,
     ~indeterminate: Js.boolean=?,
@@ -22,7 +22,7 @@ external makeProps :
 let make =
     (
       ~active=?,
-      ~as_=?,
+      ~_as=?,
       ~className=?,
       ~disabled=?,
       ~indeterminate=?,
@@ -36,7 +36,7 @@ let make =
     ~props=
       makeProps(
         ~active=?fromBool(active),
-        ~as_?,
+        ~_as?,
         ~className?,
         ~disabled=?fromBool(disabled),
         ~indeterminate=?fromBool(indeterminate),
