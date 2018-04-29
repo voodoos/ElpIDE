@@ -35,6 +35,7 @@ type action =
   | SetFlag(string, bool)
   | Log(Log.message)
   | NewAnswer(Log.message)
+  | NewFile(string)
   | ChangeEditorValue(int, string);
 
 let component = ReasonReact.reducerComponent("App");
@@ -132,6 +133,15 @@ let make = (~message, _children) => {
           ...state,
           answers: Array.append(state.answers, [|message|]),
         })
+      | NewFile(name) => {
+        let files = Array.append(state.files, [|Editor.State.newFile(name)|]);
+        /* Saving to local storage */
+        ignore(LocalForage.setItem("files", files));
+          ReasonReact.Update({
+            ...state,
+            files
+          })
+        }
       | ChangeEditorValue(id, content) =>
         let copy = Array.copy(state.files);
         copy[id] = {"name": copy[id]##name, "content": content};
@@ -139,7 +149,7 @@ let make = (~message, _children) => {
         ignore(LocalForage.setItem("files", copy));
         /* Updating state */
         ReasonReact.Update({...state, files: copy});
-      },
+        },
     didMount: self => {
       /* We load files from local storage if availible */
       Js.Promise.(
@@ -213,7 +223,7 @@ let make = (~message, _children) => {
             <FileBrowser
               files=self.state.files
               onClickFile=(i => self.send(SetActiveFile(i)))
-              onClickNew=(() => ())
+              onClickNew=(name => self.send(NewFile(name)))
             />
           </Pane>
           <SplitPane

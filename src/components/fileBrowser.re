@@ -14,12 +14,12 @@ let make = (~files, ~onClickFile, ~onClickNew, _children) => {
         SemanticUi.(
           <List.Item
             key=(string_of_int(i)) onClick=((_e, _d) => onClickFile(i))>
-            <List.Icon name="file" />
+            <List.Icon name="file"  verticalAlign=`middle />
             <List.Content>
-              <List.Header as_="a">
+              <List.Header _as="a">
                 <b> (ReasonReact.stringToElement(f##name)) </b>
               </List.Header>
-              <List.Description as_="a"> "Elpi source file" </List.Description>
+              <List.Description _as="a"> "Elpi source file" </List.Description>
             </List.Content>
           </List.Item>
         ),
@@ -37,7 +37,7 @@ let make = (~files, ~onClickFile, ~onClickNew, _children) => {
         <div>
           <Menu inverted=false borderless=true>
             <Menu.Item header=true> "Project" </Menu.Item>
-            <Menu.Menu position=`right> <NewFileModal /> </Menu.Menu>
+            <Menu.Menu position=`right> <NewFileModal onSubmit=onClickNew /> </Menu.Menu>
           </Menu>
           <List className="p-fbrowser">
             <List.Item>
