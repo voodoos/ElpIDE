@@ -7,19 +7,34 @@ type action =
 
 let component = ReasonReact.reducerComponent("FileBrowser");
 
-let make = (~files, ~onClickFile, ~onClickNew, _children) => {
+let make = (~files, ~onClickFile, ~onClickNew, ~onDeleteFile, _children) => {
   let fileList = files =>
     Array.mapi(
       (i, f) =>
         SemanticUi.(
-          <List.Item
-            key=(string_of_int(i)) onClick=((_e, _d) => onClickFile(i))>
-            <List.Icon name="file"  verticalAlign=`middle />
+          <List.Item key=(string_of_int(i))>
+            <List.Icon name="file" />
             <List.Content>
-              <List.Header _as="a">
+              <a onClick=(_e => onClickFile(i))>
                 <b> (ReasonReact.stringToElement(f##name)) </b>
-              </List.Header>
-              <List.Description _as="a"> "Elpi source file" </List.Description>
+              </a>
+              <ConfirmationModal
+                trigger=(
+                  onClick =>
+                    <Button
+                      className="no-border trash-btn"
+                      compact=true
+                      icon=true
+                      floated=`right
+                      basic=true
+                      size=`small
+                      onClick>
+                      <Icon name="trash" />
+                    </Button>
+                )
+                message="Are you sure you want to delete this file ?"
+                onOk=(() => onDeleteFile(i))
+              />
             </List.Content>
           </List.Item>
         ),
@@ -37,7 +52,9 @@ let make = (~files, ~onClickFile, ~onClickNew, _children) => {
         <div>
           <Menu inverted=false borderless=true>
             <Menu.Item header=true> "Project" </Menu.Item>
-            <Menu.Menu position=`right> <NewFileModal onSubmit=onClickNew /> </Menu.Menu>
+            <Menu.Menu position=`right>
+              <NewFileModal onSubmit=onClickNew />
+            </Menu.Menu>
           </Menu>
           <List className="p-fbrowser">
             <List.Item>
@@ -53,14 +70,3 @@ let make = (~files, ~onClickFile, ~onClickNew, _children) => {
       ),
   };
 };
-/*
-
- <List.Item>
-                   <List.Icon name="file" />
-                   <List.Content>
-                     <List.Header> "test.elpi" </List.Header>
-                     <List.Description> "Elpi source file" </List.Description>
-                   </List.Content>
-                 </List.Item>
-
-               */

@@ -1,17 +1,16 @@
 .ui.menu {
-    border-radius: 0;
+  border-radius: 0;
 }
 
-
 .ui.dimmer {
-    display: flex !important;
-  }
-  
-  .ui.modal {
-    margin-top: 0;
-  }
+  display: flex !important;
+}
 
-  .blurring.dimmed.dimmable > :not(.dimmer) {
-    -webkit-filter: blur(3px) grayscale(.6);
-    filter: blur(3px) grayscale(.6);
-  }
+.ui.modal {
+  margin-top: 0;
+}
+
+.blurring.dimmed.dimmable > :not(.dimmer) {
+  -webkit-filter: blur(3px) grayscale(.6);
+  filter: blur(3px) grayscale(.6);
+}

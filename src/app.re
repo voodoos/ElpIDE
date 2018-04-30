@@ -36,6 +36,7 @@ type action =
   | Log(Log.message)
   | NewAnswer(Log.message)
   | NewFile(string)
+  | DeleteFile(int)
   | ChangeEditorValue(int, string);
 
 let component = ReasonReact.reducerComponent("App");
@@ -133,15 +134,34 @@ let make = (~message, _children) => {
           ...state,
           answers: Array.append(state.answers, [|message|]),
         })
-      | NewFile(name) => {
-        let files = Array.append(state.files, [|Editor.State.newFile(name)|]);
+      | NewFile(name) =>
+        let files =
+          Array.append(state.files, [|Editor.State.newFile(name)|]);
         /* Saving to local storage */
         ignore(LocalForage.setItem("files", files));
-          ReasonReact.Update({
-            ...state,
-            files
-          })
-        }
+        ReasonReact.Update({...state, files});
+      | DeleteFile(i) =>
+        let l = Array.length(state.files);
+        let to1 = max(0, i);
+        let from2 = min(i + 1, l - 1);
+        let files =
+          if (l > 1) {
+            if (i == 0) {
+              Array.sub(state.files, 1, l - 1);
+            } else if (i == l - 1) {
+              Array.sub(state.files, 0, l - 2);
+            } else {
+              Array.append(
+                Array.sub(state.files, 0, to1),
+                Array.sub(state.files, from2, l - 1),
+              );
+            };
+          } else {
+            state.files;
+          };
+        /* Saving to local storage */
+        ignore(LocalForage.setItem("files", files));
+        ReasonReact.Update({...state, files});
       | ChangeEditorValue(id, content) =>
         let copy = Array.copy(state.files);
         copy[id] = {"name": copy[id]##name, "content": content};
@@ -149,7 +169,7 @@ let make = (~message, _children) => {
         ignore(LocalForage.setItem("files", copy));
         /* Updating state */
         ReasonReact.Update({...state, files: copy});
-        },
+      },
     didMount: self => {
       /* We load files from local storage if availible */
       Js.Promise.(
@@ -224,6 +244,7 @@ let make = (~message, _children) => {
               files=self.state.files
               onClickFile=(i => self.send(SetActiveFile(i)))
               onClickNew=(name => self.send(NewFile(name)))
+              onDeleteFile=(i => self.send(DeleteFile(i)))
             />
           </Pane>
           <SplitPane

@@ -267,7 +267,12 @@ module List = {
   let make = (~_as=?, ~className=?, children) =>
     ReasonReact.wrapJsForReason(
       ~reactClass=react,
-      ~props=makeProps(~_as?, ~className?, ()),
+      ~props=
+        makeProps(
+          ~_as?,
+          ~className?,
+          (),
+        ),
       children,
     );
 };
