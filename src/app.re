@@ -146,22 +146,22 @@ let make = (~message, _children) => {
         let from2 = min(i + 1, l - 1);
         let files =
           if (l > 1) {
-            if (i == 0) {
-              Array.sub(state.files, 1, l - 1);
-            } else if (i == l - 1) {
-              Array.sub(state.files, 0, l - 2);
-            } else {
-              Array.append(
-                Array.sub(state.files, 0, to1),
-                Array.sub(state.files, from2, l - 1),
-              );
-            };
+            Array.append(
+              Array.sub(state.files, 0, i),
+              Array.sub(state.files, i + 1, l - i - 1),
+            );
           } else {
             state.files;
           };
+        let activeFile =
+          if (state.activeFile >= Array.length(files)) {
+            state.activeFile - 1;
+          } else {
+            state.activeFile;
+          };
         /* Saving to local storage */
         ignore(LocalForage.setItem("files", files));
-        ReasonReact.Update({...state, files});
+        ReasonReact.Update({...state, files, activeFile});
       | ChangeEditorValue(id, content) =>
         let copy = Array.copy(state.files);
         copy[id] = {"name": copy[id]##name, "content": content};
