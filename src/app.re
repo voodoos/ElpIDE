@@ -142,8 +142,6 @@ let make = (~message, _children) => {
         ReasonReact.Update({...state, files});
       | DeleteFile(i) =>
         let l = Array.length(state.files);
-        let to1 = max(0, i);
-        let from2 = min(i + 1, l - 1);
         let files =
           if (l > 1) {
             Array.append(

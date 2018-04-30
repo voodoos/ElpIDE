@@ -8,7 +8,8 @@ type action =
 let component = ReasonReact.reducerComponent("FileBrowser");
 
 let make = (~files, ~onClickFile, ~onClickNew, ~onDeleteFile, _children) => {
-  let fileList = files =>
+  let fileList = files => {
+    let lnth = Array.length(files);
     Array.mapi(
       (i, f) =>
         SemanticUi.(
@@ -18,28 +19,35 @@ let make = (~files, ~onClickFile, ~onClickNew, ~onDeleteFile, _children) => {
               <a onClick=(_e => onClickFile(i))>
                 <b> (ReasonReact.stringToElement(f##name)) </b>
               </a>
-              <ConfirmationModal
-                trigger=(
-                  onClick =>
-                    <Button
-                      className="no-border trash-btn"
-                      compact=true
-                      icon=true
-                      floated=`right
-                      basic=true
-                      size=`small
-                      onClick>
-                      <Icon name="trash" />
-                    </Button>
-                )
-                message="Are you sure you want to delete this file ?"
-                onOk=(() => onDeleteFile(i))
-              />
+              (
+                if (lnth > 1) {
+                  <ConfirmationModal
+                    trigger=(
+                      onClick =>
+                        <Button
+                          className="no-border trash-btn"
+                          compact=true
+                          icon=true
+                          floated=`right
+                          basic=true
+                          size=`small
+                          onClick>
+                          <Icon name="trash" />
+                        </Button>
+                    )
+                    message="Are you sure you want to delete this file ?"
+                    onOk=(() => onDeleteFile(i))
+                  />;
+                } else {
+                  ReasonReact.nullElement;
+                }
+              )
             </List.Content>
           </List.Item>
         ),
       files,
     );
+  };
   {
     ...component,
     initialState: () => {active: files[0]},
