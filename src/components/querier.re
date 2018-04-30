@@ -102,7 +102,6 @@ let make = (~elpi: option(ElpiJs.elpi), ~messages, _children) => {
           pos: (-1),
         })
       | Back =>
-        Js.log(state.pos + 1);
         try (
           ReasonReact.Update({
             ...state,
@@ -111,7 +110,7 @@ let make = (~elpi: option(ElpiJs.elpi), ~messages, _children) => {
           })
         ) {
         | _ => ReasonReact.NoUpdate
-        };
+        }
       | Forth =>
         try (
           ReasonReact.Update({
