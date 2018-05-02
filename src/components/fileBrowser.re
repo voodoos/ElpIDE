@@ -2,10 +2,12 @@ type file = Editor.State.t;
 
 type state = {active: file};
 
+type retainedProps = {files: array(Editor.State.t)};
+
 type action =
   | SetActive(file);
 
-let component = ReasonReact.reducerComponent("FileBrowser");
+let component = ReasonReact.reducerComponentWithRetainedProps("FileBrowser");
 
 let make = (~files, ~onClickFile, ~onClickNew, ~onDeleteFile, _children) => {
   let fileList = files => {
@@ -51,10 +53,17 @@ let make = (~files, ~onClickFile, ~onClickNew, ~onDeleteFile, _children) => {
   {
     ...component,
     initialState: () => {active: files[0]},
+    retainedProps: {
+      files: files,
+    },
     reducer: (action, _state) =>
       switch (action) {
       | SetActive(file) => ReasonReact.Update({active: file})
       },
+    shouldUpdate: ({oldSelf, newSelf}) =>
+      /* Warning: this may be too aggressive */
+      Array.length(oldSelf.retainedProps.files)
+      !== Array.length(newSelf.retainedProps.files),
     render: _self =>
       SemanticUi.(
         <div>
