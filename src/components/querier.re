@@ -150,20 +150,38 @@ let make = (~elpi: option(ElpiJs.elpi), ~messages, _children) => {
         </AlwaysBottom>
         SemanticUi.(
           <Form onSubmit=(self.handle(submit))>
-            <Form.Field>
-              <Input
-                type_="text"
-                name="query"
-                placeholder={j|⇅ Query...|j}
-                value=self.state.input_val
-                onChange=(self.handle(change))
-                onKeyDown=(self.handle(keyDown))
-                disabled=self.state.loading
-                loading=self.state.loading
-                autoComplete="off"
-              />
-            </Form.Field>
-          </Form>
+
+              <Form.Field>
+                (
+                  ReasonReact.cloneElement(
+                    <InlineSuggest
+                      value=self.state.input_val
+                      haystack=[|"toto", "tata"|]
+                      onChange=(self.handle(change))
+                    />,
+                    ~props={
+                      "placeholder": "click me",
+                      "disabled": self.state.loading,
+                      "loading": self.state.loading,
+                    },
+                    [||],
+                  )
+                )
+              </Form.Field>
+            </Form>
+            /*
+               <Input
+                 type_="text"
+                 name="query"
+                 placeholder={j|⇅ Query...|j}
+                 value=self.state.input_val
+                 onChange=(self.handle(change))
+                 onKeyDown=(self.handle(keyDown))
+                 disabled=self.state.loading
+                 loading=self.state.loading
+                 autoComplete="off"
+               />
+             */
         )
       </div>,
   };
