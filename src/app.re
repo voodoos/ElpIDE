@@ -25,6 +25,7 @@ type state = {
   files: array(Editor.State.t),
   activeFile: int,
   flags: Hashtbl.t(string, bool),
+  types: array(ElpiJs.typ),
 };
 
 type action =
@@ -33,6 +34,7 @@ type action =
   | SetElpi(ElpiJs.elpi)
   | SetFiles(array(Editor.State.t))
   | SetFlag(string, bool)
+  | SetTypes(array(ElpiJs.typ))
   | Log(Log.message)
   | NewAnswer(Log.message)
   | NewFile(string)
@@ -49,9 +51,10 @@ let make = (~message, _children) => {
     switch (self.ReasonReact.state.elpi) {
     | Some(e) =>
       e##compile(self.ReasonReact.state.files)
-      |> Js.Promise.then_(mess => {
-           self.send(Log(Log.info(mess)));
-           Js.Promise.resolve(mess);
+      |> Js.Promise.then_(types => {
+           self.send(SetTypes(types));
+           self.send(Log(Log.info("Ready")));
+           Js.Promise.resolve(types);
          })
       |> Js.Promise.catch(err => {
            let m = Js.Exn.message(ElpiJs.exnOfError(err));
@@ -107,6 +110,7 @@ let make = (~message, _children) => {
         answers: [||],
         elpi: None,
         flags,
+        types: [||],
       };
     },
     reducer: (action, state) =>
@@ -121,6 +125,7 @@ let make = (~message, _children) => {
         let flags = Hashtbl.copy(state.flags);
         Hashtbl.replace(flags, k, b);
         ReasonReact.Update({...state, flags});
+      | SetTypes(types) => ReasonReact.Update({...state, types})
       | Log(message) =>
         ReasonReact.Update({
           ...state,

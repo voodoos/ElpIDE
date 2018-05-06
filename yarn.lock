@@ -1233,6 +1233,10 @@ react-html-attributes@^1.4.2:
   dependencies:
     html-element-attributes "^1.0.0"
 
+react-inline-suggest@^1.0.0:
+  version "1.0.0"
+  resolved "https://registry.yarnpkg.com/react-inline-suggest/-/react-inline-suggest-1.0.0.tgz#b2502a08d6d5967ca64984abbe8277323901097f"
+
 "react-split-pane@https://github.com/voodoos/react-split-pane#v2":
   version "2.0.0"
   resolved "https://github.com/voodoos/react-split-pane#628daf59b5cdf2a7ceb5b80afb54e1410b688b3a"
