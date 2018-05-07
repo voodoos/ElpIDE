@@ -1,6 +1,15 @@
 let component = ReasonReact.statelessComponent("InlineSuggest");
 
-let make = (~value, ~suggestions, ~onKeyDown=?, ~onChange, ~props, _children) => {
+let make =
+    (
+      ~value: string,
+      ~suggestions: list('a),
+      ~read=(v => v: 'a => string),
+      ~onKeyDown=?,
+      ~onChange,
+      ~props,
+      _children,
+    ) => {
   let suggest = () =>
     if (value == "") {
       "";
@@ -8,7 +17,7 @@ let make = (~value, ~suggestions, ~onKeyDown=?, ~onChange, ~props, _children) =>
       try (
         List.find(
           str =>
-            try (value == String.sub(str, 0, String.length(value))) {
+            try (value == String.sub(read(str), 0, String.length(value))) {
             | Invalid_argument(_e) => false
             },
           suggestions,
@@ -23,7 +32,7 @@ let make = (~value, ~suggestions, ~onKeyDown=?, ~onChange, ~props, _children) =>
     render: _self => {
       let s = suggest();
       SemanticUi.(
-        <div id="inline-suggets">
+        <div className="inline-suggest">
           (
             ReasonReact.cloneElement(
               <Input value onChange ?onKeyDown />,
@@ -31,9 +40,7 @@ let make = (~value, ~suggestions, ~onKeyDown=?, ~onChange, ~props, _children) =>
               [||],
             )
           )
-          <div className="suggestions">
-            (ReasonReact.stringToElement(s))
-          </div>
+          <div className="suggestion"> (ReasonReact.stringToElement(s)) </div>
         </div>
       );
     },

@@ -3,3 +3,4 @@
 @import './app.css';
 @import './panels.less';
 @import './props.css';
+@import '../components/subcomponents/sui-inline-suggest/sui-inline-suggest.css';

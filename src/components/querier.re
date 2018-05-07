@@ -159,8 +159,8 @@ let make = (~elpi: option(ElpiJs.elpi), ~messages, _children) => {
                   suggestions=["toto", "tata"]
                   props={
                     "placeholder": "I am suggestive",
-                    "disabled": self.state.loading,
-                    "loading": self.state.loading,
+                    "disabled": Js.Boolean.to_js_boolean(self.state.loading),
+                    "loading": Js.Boolean.to_js_boolean(self.state.loading),
                   }
                 />
               </Form.Field>

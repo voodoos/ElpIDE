@@ -1,0 +1,20 @@
+.inline-suggest {
+    color: #969696;    
+    font-family: 'Monaco', 
+    'Menlo', 'Ubuntu Mono', 'Consolas', 'source-code-pro', monospace !important;
+}
+
+.inline-suggest input {
+    font-family: 'Monaco', 
+    'Menlo', 'Ubuntu Mono', 'Consolas', 'source-code-pro', monospace !important;
+    background: transparent !important;
+    z-index: 1 !important;
+}
+
+.inline-suggest .suggestion {
+    position: absolute;
+    z-index: 0;
+    top: 0;
+    padding-top: 0.65em;
+    padding-left: 1em;
+}
