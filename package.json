@@ -9,7 +9,6 @@
     "fs": "^0.0.1-security",
     "localforage": "^1.7.1",
     "react-ace": "^5.9.0",
-    "react-inline-suggest": "^1.0.0",
     "react-split-pane": "https://github.com/voodoos/react-split-pane#v2",
     "react-treebeard": "^2.1.0",
     "semantic-ui-css": "^2.3.1",

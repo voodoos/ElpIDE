@@ -152,21 +152,17 @@ let make = (~elpi: option(ElpiJs.elpi), ~messages, _children) => {
           <Form onSubmit=(self.handle(submit))>
 
               <Form.Field>
-                (
-                  ReasonReact.cloneElement(
-                    <InlineSuggest
-                      value=self.state.input_val
-                      haystack=[|"toto", "tata"|]
-                      onChange=(self.handle(change))
-                    />,
-                    ~props={
-                      "placeholder": "click me",
-                      "disabled": self.state.loading,
-                      "loading": self.state.loading,
-                    },
-                    [||],
-                  )
-                )
+                <InlineSuggest
+                  value=self.state.input_val
+                  onChange=(self.handle(change))
+                  onKeyDown=(self.handle(keyDown))
+                  suggestions=["toto", "tata"]
+                  props={
+                    "placeholder": "I am suggestive",
+                    "disabled": self.state.loading,
+                    "loading": self.state.loading,
+                  }
+                />
               </Form.Field>
             </Form>
             /*
