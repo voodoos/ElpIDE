@@ -25,7 +25,7 @@ type state = {
   files: array(Editor.State.t),
   activeFile: int,
   flags: Hashtbl.t(string, bool),
-  types: array(ElpiJs.typ),
+  types: list(ElpiJs.typ),
 };
 
 type action =
@@ -110,7 +110,7 @@ let make = (~message, _children) => {
         answers: [||],
         elpi: None,
         flags,
-        types: [||],
+        types: [],
       };
     },
     reducer: (action, state) =>
@@ -125,7 +125,8 @@ let make = (~message, _children) => {
         let flags = Hashtbl.copy(state.flags);
         Hashtbl.replace(flags, k, b);
         ReasonReact.Update({...state, flags});
-      | SetTypes(types) => ReasonReact.Update({...state, types})
+      | SetTypes(types) =>
+        ReasonReact.Update({...state, types: Array.to_list(types)})
       | Log(message) =>
         ReasonReact.Update({
           ...state,
@@ -275,7 +276,11 @@ let make = (~message, _children) => {
                   />
                 </Pane>
                 <Pane className="scroll">
-                  <Querier elpi=self.state.elpi messages=self.state.answers />
+                  <Querier
+                    elpi=self.state.elpi
+                    messages=self.state.answers
+                    suggestions=self.state.types
+                  />
                 </Pane>
               </SplitPane>
             </Pane>

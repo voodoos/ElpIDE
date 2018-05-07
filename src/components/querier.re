@@ -29,7 +29,7 @@ type action =
 
 let component = ReasonReact.reducerComponentWithRetainedProps("Querier");
 
-let make = (~elpi: option(ElpiJs.elpi), ~messages, _children) => {
+let make = (~elpi: option(ElpiJs.elpi), ~suggestions, ~messages, _children) => {
   let change = (event, self) => {
     let newVal = ReactDOMRe.domElementToObj(ReactEventRe.Form.target(event))##value;
     self.ReasonReact.send(SetVal(newVal));
@@ -154,11 +154,13 @@ let make = (~elpi: option(ElpiJs.elpi), ~messages, _children) => {
               <Form.Field>
                 <InlineSuggest
                   value=self.state.input_val
+                  onComplete=(v => self.send(SetVal(v)))
                   onChange=(self.handle(change))
                   onKeyDown=(self.handle(keyDown))
-                  suggestions=["toto", "tata"]
+                  read=(typ => typ##name)
+                  suggestions
                   props={
-                    "placeholder": "I am suggestive",
+                    "placeholder": {j|⇅ Query...|j},
                     "disabled": Js.Boolean.to_js_boolean(self.state.loading),
                     "loading": Js.Boolean.to_js_boolean(self.state.loading),
                   }
