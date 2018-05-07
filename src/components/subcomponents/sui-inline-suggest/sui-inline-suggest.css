@@ -11,10 +11,19 @@
     z-index: 1 !important;
 }
 
-.inline-suggest .suggestion {
+.inline-suggest .is-suggestion {
     position: absolute;
+    width: 100%;
     z-index: 0;
     top: 0;
     padding-top: 0.65em;
     padding-left: 1em;
+}
+
+.inline-suggest .is-info {
+    position: absolute;
+    right: 0;
+    margin-right: 2em;
+
+    opacity: 0.5;
 }

@@ -158,6 +158,7 @@ let make = (~elpi: option(ElpiJs.elpi), ~suggestions, ~messages, _children) => {
                   onChange=(self.handle(change))
                   onKeyDown=(self.handle(keyDown))
                   read=(typ => typ##name)
+                  info=(typ => typ##ty)
                   suggestions
                   props={
                     "placeholder": {j|⇅ Query...|j},

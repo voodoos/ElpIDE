@@ -5,6 +5,7 @@ let make =
       ~value: string,
       ~suggestions,
       ~read,
+      ~info=?,
       ~onComplete,
       ~shouldSuggest=v => ! (v == ""),
       ~onKeyDown=?,
@@ -15,20 +16,28 @@ let make =
   let suggest = () =>
     if (shouldSuggest(value)) {
       try (
-        read(
-          List.find(
-            str =>
-              try (value == String.sub(read(str), 0, String.length(value))) {
-              | Invalid_argument(_e) => false
-              },
-            suggestions,
-          ),
-        )
+        {
+          let v =
+            List.find(
+              str =>
+                try (
+                  value == String.sub(read(str), 0, String.length(value))
+                ) {
+                | Invalid_argument(_e) => false
+                },
+              suggestions,
+            );
+          let suggestion = read(v);
+          switch (info) {
+          | None => (suggestion, "")
+          | Some(f) => (suggestion, f(v))
+          };
+        }
       ) {
-      | Not_found => ""
+      | Not_found => ("", "")
       };
     } else {
-      "";
+      ("", "");
     };
   let keyDown = (s, e: ReactEventRe.Keyboard.t) => {
     switch (ReactEventRe.Keyboard.keyCode(e)) {
@@ -50,17 +59,22 @@ let make =
     /*let onChange = e => onChange(e);*/
     ...component,
     render: _self => {
-      let s = suggest();
+      let (suggestion, info) = suggest();
       SemanticUi.(
         <div className="inline-suggest">
           (
             ReasonReact.cloneElement(
-              <Input value onChange onKeyDown=(keyDown(s)) />,
+              <Input value onChange onKeyDown=(keyDown(suggestion)) />,
               ~props,
               [||],
             )
           )
-          <div className="suggestion"> (ReasonReact.stringToElement(s)) </div>
+          <div className="is-suggestion">
+            (ReasonReact.stringToElement(suggestion))
+            <span className="is-info">
+              (ReasonReact.stringToElement(info))
+            </span>
+          </div>
         </div>
       );
     },
