@@ -1,8 +1,17 @@
 let component = ReasonReact.statelessComponent("Toolbar");
 
-let make = (~brand, ~playDisabled, ~onClickRestart, ~onClickPlay, _children) => {
+let make =
+    (
+      ~brand,
+      ~playDisabled,
+      ~onClickRestart,
+      ~onClickPlay,
+      ~onClickSave,
+      _children,
+    ) => {
   let onClickPlay = (_e, _d) => onClickPlay();
   let onClickRestart = (_e, _d) => onClickRestart();
+  let onClickSave = (_e, _d) => onClickSave();
   {
     ...component,
     render: _self =>
@@ -14,8 +23,11 @@ let make = (~brand, ~playDisabled, ~onClickRestart, ~onClickPlay, _children) => 
             </Menu.Item>
             <Menu.Item>
               <Button.Group inverted=false>
-                <Button icon=true onClick=onClickRestart loading=playDisabled >
-                  <Icon name="refresh"/>
+                <Button icon=true onClick=onClickSave>
+                  <Icon name="save" />
+                </Button>
+                <Button icon=true onClick=onClickRestart loading=playDisabled>
+                  <Icon name="refresh" />
                 </Button>
                 <Button
                   color=`blue

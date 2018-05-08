@@ -12,6 +12,8 @@
 %raw
 "window.ReactDOM = ReactDOM";
 
+Zip.create();
+
 module SUI = SemanticUi;
 
 exception ElpiCompileError;
@@ -87,6 +89,10 @@ let make = (~message, _children) => {
       |> ignore
     | None => ()
     };
+  };
+  let clickSave = (_event, self) => {
+    ();
+    ();
   };
   let changeEditorValue = (id, content, self) =>
     self.ReasonReact.send(ChangeEditorValue(id, content));
@@ -236,6 +242,7 @@ let make = (~message, _children) => {
           brand=message
           onClickPlay=(self.handle(clickPlay))
           onClickRestart=(self.handle(clickRestart))
+          onClickSave=(self.handle(clickSave))
           playDisabled=(! Hashtbl.find(self.state.flags, "elpi_started"))
         />
         <SplitPane
