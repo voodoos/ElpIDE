@@ -12,7 +12,9 @@
 %raw
 "window.ReactDOM = ReactDOM";
 
-Zip.create();
+let zip = Zip.create();
+
+Js.log(zip |. Zip.read(`name("totto")));
 
 module SUI = SemanticUi;
 
