@@ -27,7 +27,10 @@ zip
        ),
    );
 
-Js.log(zip |. Zip.read(`name("toto")));
+switch (Js.toOption(zip |. Zip.read(`name("toto")))) {
+| None => Js.log("sonull")
+| Some(ans) => Js.log(ans)
+};
 
 module SUI = SemanticUi;
 

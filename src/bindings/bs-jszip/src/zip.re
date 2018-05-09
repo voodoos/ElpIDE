@@ -14,7 +14,7 @@ external create : unit => jszip = "JSZip";
 external read : jszip => ([@bs.unwrap] [
     | `name(string)
     | `regex(Js.Re.t)
-    ]) => zipObject = "file";
+    ]) => Js.nullable(zipObject) = "file";
 
 [@bs.send]
 external writeAux : jszip => string => ([@bs.unwrap] [

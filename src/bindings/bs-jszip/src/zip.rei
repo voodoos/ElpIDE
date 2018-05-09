@@ -17,8 +17,11 @@ let create: unit => jszip;
  *      let zip = create();
  *      zip |. read(`name("toto"))
  *      zip |. read(`regex([%re "/toto/"]))
+ *
+ * TODO: returns nullable !
  */
-let read: (jszip, [ | `name(string) | `regex(Js.Re.t)]) => zipObject;
+let read:
+  (jszip, [ | `name(string) | `regex(Js.Re.t)]) => Js.nullable(zipObject);
 
 /** "write" replace the writing case of
  * the jszip overloaded method "file".
