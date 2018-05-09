@@ -14,7 +14,20 @@
 
 let zip = Zip.create();
 
-Js.log(zip |. Zip.read(`name("totto")));
+zip
+|. Zip.write(
+     "toto",
+     `str("datattoto"),
+     ~options=
+       Zip.makeWriteOptions(
+         ~base64=false,
+         ~compression=`STORE,
+         ~compressionOptions=Zip.makeCompressionOptions(6),
+         (),
+       ),
+   );
+
+Js.log(zip |. Zip.read(`name("toto")));
 
 module SUI = SemanticUi;
 
