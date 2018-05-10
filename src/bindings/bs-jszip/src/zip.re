@@ -59,12 +59,28 @@ external generateAsyncAux :
   Js.Promise.t('a) =
   "generateAsync";
 
+[@bs.send]
+external generateNodeStreamAux :
+(jszip, asyncOptions, ~onUpdate: metadata => unit=?, unit) =>
+Js.Promise.t('a) =
+"generateNodeStream";
+
+[@bs.send]
+external generateInternalStream :
+(jszip, asyncOptions) =>
+Js.Promise.t('a) =
+"generateInternalStream";
+
 /** UTILITIES */
 let write = (jszip, ~options=?, name, data) =>
   writeAux(jszip, name, data, ~options?, ());
 
 let generateAsync = (jszip, ~onUpdate=?, options) =>
   generateAsyncAux(jszip, options, ~onUpdate?, ());
+
+
+let generateNodeStream = (jszip, ~onUpdate=?, options) =>
+  generateNodeStreamAux(jszip, options, ~onUpdate?, ());
 
 /* Utilities to build the options */
 [@bs.obj]

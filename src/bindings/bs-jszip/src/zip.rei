@@ -89,6 +89,25 @@ let remove: (jszip, string) => jszip;
  */
 let generateAsync: (jszip, ~onUpdate: metadata => unit=?, asyncOptions) => Js.Promise.t('a);
 
+/**
+ * Generates the complete zip file as a nodejs stream.
+ * 
+ * The type parameter has here the default value of nodebuffer. 
+ * Only nodebuffer is currently supported.
+ * 
+ * TODO: is the return type ok ?
+ * TODO: make safe versions for specific cases of type
+ */
+let generateNodeStream: (jszip, ~onUpdate: metadata => unit=?, asyncOptions) => Js.Promise.t('a);
+
+/**
+ * Generates the complete zip file with the internal stream implementation.
+ * 
+ * TODO: is the return type ok ?
+ * TODO: make safe versions for specific cases of type
+ */
+let generateInternalStream: (jszip, asyncOptions) => Js.Promise.t('a);
+
 /** `makeWriteOptions` allows one to build the optionnal options
    that the write function accepts. Don't forget the trailing unit !
 
