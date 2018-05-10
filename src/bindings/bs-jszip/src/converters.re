@@ -1,3 +1,9 @@
+type metadata = {
+  .
+  "percent": float,
+  "currentFile": string,
+};
+
 /** This module provides easy conversion from
  * option(non-js-type) types to option(js-type)
  */

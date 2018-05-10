@@ -13,12 +13,6 @@ type asyncOptions;
 
 type loadOptions;
 
-type metadata = {
-  .
-  "percent": float,
-  "currentFile": string,
-};
-
 /**
  * If the browser supports them, JSZip can take advantage of some “new” features : ArrayBuffer, Blob, Uint8Array. To know if JSZip can use them, you can check the JSZip.support object. It contains the following boolean properties :
 
@@ -115,10 +109,11 @@ let remove: (jszip, string) => jszip;
  * TODO: other types, securize options (should be string for string etc)
  */
 let generateAsyncString:
-  (jszip, ~onUpdate: metadata => unit=?, asyncOptions) => Js.Promise.t(string);
+  (jszip, ~onUpdate: Converters.metadata => unit=?, asyncOptions) =>
+  Js.Promise.t(string);
 
 let generateAsyncUint8:
-  (jszip, ~onUpdate: metadata => unit=?, asyncOptions) =>
+  (jszip, ~onUpdate: Converters.metadata => unit=?, asyncOptions) =>
   Js.Promise.t(Js.Typed_array.Uint8Array.t);
 
 /**
