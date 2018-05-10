@@ -40,6 +40,15 @@ let support : {.
 };
 
 /**
+ * TODO? JSZip.external
+ */
+
+/**
+ * The version of JSZip as a string.
+ */
+let version : string;
+
+/**
  * Create a new JSZip instance.
  */
 let create: unit => jszip;

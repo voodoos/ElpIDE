@@ -31,6 +31,9 @@ external support : {.
     "nodestream": Js.boolean,
 } = "support";
 
+[@bs.val] [@bs.module "JSZip"]
+external version : string = "version";
+
 [@bs.send]
 external read :
   (jszip, [@bs.unwrap] [ | `name(string) | `regex(Js.Re.t)]) =>
