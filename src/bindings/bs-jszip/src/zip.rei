@@ -1,7 +1,7 @@
 /**
  * Bucklescript bindings for JSZip
  * 
- * Please check the docs on https://stuk.github.io/jszip/ !
+ * Please check the docs on https://stuk.github.io/jszip/
  */
 
 type jszip;
@@ -13,6 +13,8 @@ type wOptions;
 type cOptions;
 
 type asyncOptions;
+type loadOptions;
+
 
 let create: unit => jszip;
 
@@ -108,6 +110,31 @@ let generateNodeStream: (jszip, ~onUpdate: metadata => unit=?, asyncOptions) => 
  */
 let generateInternalStream: (jszip, asyncOptions) => Js.Promise.t('a);
 
+/**
+ * Read an existing zip and merge the data in 
+ * the current JSZip object at the current folder level. 
+ * This technique has some limitations, see here. 
+ * If the JSZip object already contains entries, 
+ * new entries will be merged. If two have the same name, 
+ * the loaded one will replace the other.
+ *
+ * Returns : A Promise with the updated zip object. 
+ * The promise can fail if the loaded data is not valid zip data 
+ * or if it uses unsupported features (multi volume, 
+ * password protected, etc).
+ *
+ * TODO: Test ! Are these the right types ?
+ */
+let loadAsync :
+(jszip, ~options: loadOptions=?, [ 
+    | `str(string) 
+    | `uint8(Js.Typed_array.Uint8Array.t)
+    | `buffers(Js.Typed_array.array_buffer)
+    | `promise(Js.Promise.t('a))
+],
+) =>
+Js.Promise.t(zipObject);
+
 /** `makeWriteOptions` allows one to build the optionnal options
    that the write function accepts. Don't forget the trailing unit !
 
@@ -165,3 +192,15 @@ let makeAsyncOptions:
     unit
   ) =>
   asyncOptions;
+
+
+let makeLoadOptions :
+(
+  ~base64: bool=?,
+  ~checkCRC32: bool=?,
+  ~optimizedBinaryString: bool=?,
+  ~createFolders: bool=?,
+  ~decodeFileName: Js.Typed_array.Uint8Array.t => string=?,
+  unit
+) =>
+loadOptions;

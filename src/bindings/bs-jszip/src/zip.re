@@ -9,6 +9,7 @@ type wOptions;
 type cOptions;
 
 type asyncOptions;
+type loadOptions;
 
 type compression = Converters.compression;
 
@@ -71,6 +72,22 @@ external generateInternalStream :
 Js.Promise.t('a) =
 "generateInternalStream";
 
+
+[@bs.send]
+external loadAsyncAux :
+  (jszip, 
+  /* TODO: test, are these the correct types ? */
+  [@bs.unwrap] [ 
+      | `str(string) 
+      | `uint8(Js.Typed_array.Uint8Array.t)
+      | `buffers(Js.Typed_array.array_buffer)
+      | `promise(Js.Promise.t('a))
+  ],
+  ~options: loadOptions=?,
+  unit) =>
+  Js.Promise.t(zipObject) =
+  "loadAsync";
+
 /** UTILITIES */
 let write = (jszip, ~options=?, name, data) =>
   writeAux(jszip, name, data, ~options?, ());
@@ -78,9 +95,11 @@ let write = (jszip, ~options=?, name, data) =>
 let generateAsync = (jszip, ~onUpdate=?, options) =>
   generateAsyncAux(jszip, options, ~onUpdate?, ());
 
-
 let generateNodeStream = (jszip, ~onUpdate=?, options) =>
   generateNodeStreamAux(jszip, options, ~onUpdate?, ());
+
+let loadAsync = (jszip, ~options=?, data) =>
+  loadAsyncAux(jszip, data, ~options?, ());
 
 /* Utilities to build the options */
 [@bs.obj]
@@ -181,4 +200,37 @@ makeAsyncOptionsAux(
   ~streamFiles=?fromBool(streamFiles),
   ~createFolders=?fromBool(createFolders),
   (),
+);
+
+
+[@bs.obj]
+external makeLoadOptionsAux :
+  (
+    ~base64: Js.boolean=?,
+    ~checkCRC32: Js.boolean=?,
+    ~optimizedBinaryString: Js.boolean=?,
+    ~createFolders: Js.boolean=?,
+    ~decodeFileName: Js.Typed_array.Uint8Array.t => string=?,
+    unit
+  ) =>
+  loadOptions =
+  "";
+
+
+ let makeLoadOptions =
+ (
+    ~base64=?,
+    ~checkCRC32=?,
+    ~optimizedBinaryString=?,
+    ~createFolders=?,
+    ~decodeFileName=?,
+   (),
+ ) =>
+makeLoadOptionsAux(
+    ~base64=?fromBool(base64),
+    ~checkCRC32=?fromBool(checkCRC32),
+    ~optimizedBinaryString=?fromBool(optimizedBinaryString),
+    ~createFolders=?fromBool(createFolders),
+    ~decodeFileName?,
+     (),
 );
