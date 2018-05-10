@@ -81,6 +81,14 @@ let filter: (jszip, (string, zipObject) => bool) => array(zipObject);
  */
 let remove: (jszip, string) => jszip;
 
+/**
+ * Generates the complete zip file at the current folder level.
+ * 
+ * TODO: is the return type ok ?
+ * TODO: make safe versions for specific cases of type
+ */
+let generateAsync: (jszip, ~onUpdate: metadata => unit=?, asyncOptions) => Js.Promise.t('a);
+
 /** `makeWriteOptions` allows one to build the optionnal options
    that the write function accepts. Don't forget the trailing unit !
 
