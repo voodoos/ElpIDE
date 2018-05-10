@@ -224,6 +224,36 @@ let makeAsyncBlobOptions:
   ) =>
   asyncBlobOptions;
 
+let makeAsyncStringOptions:
+  /*~type_: Converters.types=?,*/
+  (
+    ~compression: Converters.compression=?,
+    ~compressionOptions: Options.cOptions=?,
+    ~comment: string=?,
+    ~mimeType: Mime.types=?,
+    ~platform: Converters.platforms=?,
+    ~encodeFileName: string => Js.Typed_array.Uint8Array.t=?,
+    ~streamFiles: bool=?,
+    ~createFolders: bool=?,
+    unit
+  ) =>
+  asyncStringOptions;
+
+let makeAsyncUint8Options:
+  /*~type_: Converters.types=?,*/
+  (
+    ~compression: Converters.compression=?,
+    ~compressionOptions: Options.cOptions=?,
+    ~comment: string=?,
+    ~mimeType: Mime.types=?,
+    ~platform: Converters.platforms=?,
+    ~encodeFileName: string => Js.Typed_array.Uint8Array.t=?,
+    ~streamFiles: bool=?,
+    ~createFolders: bool=?,
+    unit
+  ) =>
+  asyncUint8Options;
+
 let makeLoadOptions:
   (
     ~base64: bool=?,

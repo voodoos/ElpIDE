@@ -84,6 +84,40 @@ external makeAsyncBlobOptionsAux :
   asyncBlobOptions =
   "";
 
+[@bs.obj]
+external makeAsyncStringOptionsAux :
+  (
+    ~_type: [@bs.as "uint8array"] _,
+    ~compression: string=?,
+    ~compressionOptions: cOptions=?,
+    ~comment: string=?,
+    ~mimeType: string=?,
+    ~platform: string=?,
+    ~encodeFileName: string => Js.Typed_array.Uint8Array.t=?,
+    ~streamFiles: Js.boolean=?,
+    ~createFolders: Js.boolean=?,
+    unit
+  ) =>
+  asyncStringOptions =
+  "";
+
+[@bs.obj]
+external makeAsyncUint8OptionsAux :
+  (
+    ~_type: [@bs.as "uint8array"] _,
+    ~compression: string=?,
+    ~compressionOptions: cOptions=?,
+    ~comment: string=?,
+    ~mimeType: string=?,
+    ~platform: string=?,
+    ~encodeFileName: string => Js.Typed_array.Uint8Array.t=?,
+    ~streamFiles: Js.boolean=?,
+    ~createFolders: Js.boolean=?,
+    unit
+  ) =>
+  asyncUint8Options =
+  "";
+
 let makeAsyncBlobOptions =
     /*~type_=?,*/
     (
@@ -98,6 +132,56 @@ let makeAsyncBlobOptions =
       (),
     ) =>
   makeAsyncBlobOptionsAux(
+    ~compression=?fromCompression(compression),
+    ~compressionOptions?,
+    ~comment?,
+    ~mimeType=?fromMimeTypes(mimeType),
+    ~platform=?fromPlatforms(platform),
+    ~encodeFileName?,
+    ~streamFiles=?fromBool(streamFiles),
+    ~createFolders=?fromBool(createFolders),
+    (),
+  );
+
+let makeAsyncStringOptions =
+    /*~type_=?,*/
+    (
+      ~compression=?,
+      ~compressionOptions=?,
+      ~comment=?,
+      ~mimeType=?,
+      ~platform=?,
+      ~encodeFileName=?,
+      ~streamFiles=?,
+      ~createFolders=?,
+      (),
+    ) =>
+  makeAsyncStringOptionsAux(
+    ~compression=?fromCompression(compression),
+    ~compressionOptions?,
+    ~comment?,
+    ~mimeType=?fromMimeTypes(mimeType),
+    ~platform=?fromPlatforms(platform),
+    ~encodeFileName?,
+    ~streamFiles=?fromBool(streamFiles),
+    ~createFolders=?fromBool(createFolders),
+    (),
+  );
+
+let makeAsyncUint8Options =
+    /*~type_=?,*/
+    (
+      ~compression=?,
+      ~compressionOptions=?,
+      ~comment=?,
+      ~mimeType=?,
+      ~platform=?,
+      ~encodeFileName=?,
+      ~streamFiles=?,
+      ~createFolders=?,
+      (),
+    ) =>
+  makeAsyncUint8OptionsAux(
     ~compression=?fromCompression(compression),
     ~compressionOptions?,
     ~comment?,

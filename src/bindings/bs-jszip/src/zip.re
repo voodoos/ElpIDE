@@ -111,4 +111,8 @@ let makeWriteOptions = Options.makeWriteOptions;
 
 let makeAsyncBlobOptions = Options.makeAsyncBlobOptions;
 
+let makeAsyncStringOptions = Options.makeAsyncStringOptions;
+
+let makeAsyncUint8Options = Options.makeAsyncUint8Options;
+
 let makeCompressionOptions = Options.makeCompressionOptions;
