@@ -25,7 +25,20 @@ zip
          ~compressionOptions=Zip.makeCompressionOptions(6),
          (),
        ),
+   )
+|. Zip.write(
+     "toto2",
+     `str("datattoto2"),
+     ~options=
+       Zip.makeWriteOptions(
+         ~base64=false,
+         ~compression=`STORE,
+         ~compressionOptions=Zip.makeCompressionOptions(6),
+         (),
+       ),
    );
+
+zip |. Zip.forEach((p, z) => Js.log2(p, z));
 
 switch (Js.toOption(zip |. Zip.read(`name("toto")))) {
 | None => Js.log("sonull")

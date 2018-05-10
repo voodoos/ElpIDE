@@ -1,3 +1,9 @@
+/**
+ * Bucklescript bindings for JSZip
+ * 
+ * Please check the docs on https://stuk.github.io/jszip/ !
+ */
+
 type jszip;
 
 type zipObject;
@@ -6,9 +12,15 @@ type wOptions;
 
 type cOptions;
 
-type compression = [ | `STORE | `DEFLATE];
+type asyncOptions;
 
 let create: unit => jszip;
+
+type metadata = {
+  .
+  "percent": float,
+  "currentFile": string,
+};
 
 /** `read` replaces the two reading cases of
     the JSZip overloaded method `file`.
@@ -45,6 +57,30 @@ let write:
   (jszip, ~options: wOptions=?, string, [ | `str(string) | `trustme('a)]) =>
   jszip;
 
+/**
+ * Create a directory if it doesn’t exist, return a new JSZip object with the new folder as root.
+ */
+let folder: (jszip, [ | `name(string) | `regex(Js.Re.t)]) => zipObject;
+
+/**
+ * Call a callback function for each entry at this folder level.
+ * The callback has the following signature :
+ *  function (relativePath: string, file: zipObject) {...}
+ *
+ * Ex: zip |. Zip.forEach((p, z) => Js.log2(p, z));
+ */
+let forEach: (jszip, (string, zipObject) => unit) => unit;
+
+/**
+ * Filter nested files/folders with the specified function.
+ */
+let filter: (jszip, (string, zipObject) => bool) => array(zipObject);
+
+/**
+ * Delete a file or folder (recursively).
+ */
+let remove: (jszip, string) => jszip;
+
 /** `makeWriteOptions` allows one to build the optionnal options
    that the write function accepts. Don't forget the trailing unit !
 
@@ -59,7 +95,7 @@ let makeWriteOptions:
     ~base64: bool=?,
     ~binary: bool=?,
     ~date: string=?,
-    ~compression: compression=?,
+    ~compression: Converters.compression=?,
     ~compressionOptions: cOptions=?,
     ~comment: string=?,
     ~optimizedBinaryString: bool=?,
@@ -86,3 +122,19 @@ let makeWriteOptions:
     );
 */
 let makeCompressionOptions: int => cOptions;
+
+
+let makeAsyncOptions:
+  (
+    ~type_: Converters.types=?,
+    ~compression: Converters.compression=?,
+    ~compressionOptions: cOptions=?,
+    ~comment: string=?,
+    ~mimeType: Mime.types=?,
+    ~platform: Converters.platforms=?,
+    ~encodeFileName: (string => Js.Typed_array.Uint8Array.t)=?,
+    ~streamFiles: bool=?,
+    ~createFolders: bool=?,
+    unit
+  ) =>
+  asyncOptions;
