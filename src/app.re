@@ -12,20 +12,6 @@
 %raw
 "window.ReactDOM = ReactDOM";
 
-let zip = Zip.create();
-
-zip |. Zip.write("Hello.txt", `str("Hello World\n"));
-
-let img = zip |. Zip.folder(`name("images"));
-
-zip
-|. Zip.generateAsyncBlob(Zip.makeAsyncBlobOptions())
-|> Js.Promise.then_(content => {
-     Js.log2(content, "example.zip");
-     FileSaver.saveAs(content, "example.zip");
-     Js.Promise.resolve(content);
-   });
-
 module SUI = SemanticUi;
 
 exception ElpiCompileError;
@@ -103,8 +89,23 @@ let make = (~message, _children) => {
     };
   };
   let clickSave = (_event, self) => {
-    ();
-    ();
+    /* Saving means zipping everything
+     * and downloading the zip. */
+    open Zip;
+    /* Building the zip */
+    let zip = create();
+    Array.iter(
+      file => ignore(zip |. write(file##name, `str(file##content))),
+      self.ReasonReact.state.files,
+    );
+    /* Saving the zip */
+    zip
+    |. Zip.generateAsyncBlob(Zip.makeAsyncBlobOptions())
+    |> Js.Promise.then_(content => {
+         FileSaver.saveAs(content, "elpide_project.zip");
+         Js.Promise.resolve(content);
+       })
+    |> ignore;
   };
   let changeEditorValue = (id, content, self) =>
     self.ReasonReact.send(ChangeEditorValue(id, content));
