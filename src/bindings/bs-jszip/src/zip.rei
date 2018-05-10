@@ -16,13 +16,33 @@ type asyncOptions;
 type loadOptions;
 
 
-let create: unit => jszip;
-
 type metadata = {
-  .
-  "percent": float,
-  "currentFile": string,
+    .
+    "percent": float,
+    "currentFile": string,
+  };
+
+/**
+ * If the browser supports them, JSZip can take advantage of some “new” features : ArrayBuffer, Blob, Uint8Array. To know if JSZip can use them, you can check the JSZip.support object. It contains the following boolean properties :
+
+    arraybuffer : true if JSZip can read and generate ArrayBuffer, false otherwise.
+    uint8array : true if JSZip can read and generate Uint8Array, false otherwise.
+    blob : true if JSZip can generate Blob, false otherwise.
+    nodebuffer : true if JSZip can read and generate nodejs Buffer, false otherwise.
+    nodestream : true if JSZip can read and generate nodejs stream, false otherwise.
+ */
+let support : {.
+    "arraybuffer": Js.boolean,
+    "uint8array": Js.boolean,
+    "blob": Js.boolean,
+    "nodebuffer": Js.boolean,
+    "nodestream": Js.boolean,
 };
+
+/**
+ * Create a new JSZip instance.
+ */
+let create: unit => jszip;
 
 /** `read` replaces the two reading cases of
     the JSZip overloaded method `file`.

@@ -14,6 +14,8 @@
 
 let zip = Zip.create();
 
+Js.log2("support: ", Zip.support);
+
 zip
 |. Zip.write(
      "toto",

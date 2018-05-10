@@ -22,6 +22,15 @@ type metadata = {
 /** EXTERNALS */ [@bs.new] [@bs.module]
 external create : unit => jszip = "JSZip";
 
+[@bs.val] [@bs.module "JSZip"]
+external support : {.
+    "arraybuffer": Js.boolean,
+    "uint8array": Js.boolean,
+    "blob": Js.boolean,
+    "nodebuffer": Js.boolean,
+    "nodestream": Js.boolean,
+} = "support";
+
 [@bs.send]
 external read :
   (jszip, [@bs.unwrap] [ | `name(string) | `regex(Js.Re.t)]) =>
