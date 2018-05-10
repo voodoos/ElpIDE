@@ -116,6 +116,10 @@ let generateAsyncUint8:
   (jszip, ~onUpdate: Converters.metadata => unit=?, asyncOptions) =>
   Js.Promise.t(Js.Typed_array.Uint8Array.t);
 
+let generateAsyncBlob:
+  (jszip, ~onUpdate: Converters.metadata => unit=?, asyncOptions) =>
+  Js.Promise.t(Blob.t);
+
 /**
  * Generates the complete zip file as a nodejs stream.
  *

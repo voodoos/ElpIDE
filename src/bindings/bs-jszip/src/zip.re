@@ -77,6 +77,12 @@ external generateAsyncUint8Aux :
   "generateAsync";
 
 [@bs.send]
+external generateAsyncBlobAux :
+  (jszip, asyncOptions, ~onUpdate: metadata => unit=?, unit) =>
+  Js.Promise.t(Blob.t) =
+  "generateAsync";
+
+[@bs.send]
 external generateNodeStreamAux :
   (jszip, asyncOptions, ~onUpdate: metadata => unit=?, unit) =>
   Js.Promise.t('a) =
@@ -118,6 +124,9 @@ let generateAsyncString = (jszip, ~onUpdate=?, options) =>
 
 let generateAsyncUint8 = (jszip, ~onUpdate=?, options) =>
   generateAsyncUint8Aux(jszip, options, ~onUpdate?, ());
+
+let generateAsyncBlob = (jszip, ~onUpdate=?, options) =>
+  generateAsyncBlobAux(jszip, options, ~onUpdate?, ());
 
 let generateNodeStream = (jszip, ~onUpdate=?, options) =>
   generateNodeStreamAux(jszip, options, ~onUpdate?, ());
@@ -186,7 +195,7 @@ let makeCompressionOptions = lvl => makeCompressionOptionsAux(~level=lvl, ());
 [@bs.obj]
 external makeAsyncOptionsAux :
   (
-    ~type_: string=?,
+    ~_type: string=?,
     ~compression: string=?,
     ~compressionOptions: cOptions=?,
     ~comment: string=?,
@@ -214,7 +223,7 @@ let makeAsyncOptions =
       (),
     ) =>
   makeAsyncOptionsAux(
-    ~type_=?fromTypes(type_),
+    ~_type=?fromTypes(type_),
     ~compression=?fromCompression(compression),
     ~compressionOptions?,
     ~comment?,
