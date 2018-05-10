@@ -1,5 +1,3 @@
-open Converters;
-
 type jszip;
 
 type metadata = Converters.metadata;
