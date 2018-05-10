@@ -19,45 +19,13 @@ zip |. Zip.write("Hello.txt", `str("Hello World\n"));
 let img = zip |. Zip.folder(`name("images"));
 
 zip
-|. Zip.generateAsyncBlob(Zip.makeAsyncOptions(~type_=`blob, ()))
+|. Zip.generateAsyncBlob(Zip.makeAsyncBlobOptions())
 |> Js.Promise.then_(content => {
      Js.log2(content, "example.zip");
      FileSaver.saveAs(content, "example.zip");
      Js.Promise.resolve(content);
    });
 
-/*
- zip
- |. Zip.write(
-      "toto",
-      `str("datattoto"),
-      ~options=
-        Zip.makeWriteOptions(
-          ~base64=false,
-          ~compression=`STORE,
-          ~compressionOptions=Zip.makeCompressionOptions(6),
-          (),
-        ),
-    )
- |. Zip.write(
-      "toto2",
-      `str("datattoto2"),
-      ~options=
-        Zip.makeWriteOptions(
-          ~base64=false,
-          ~compression=`STORE,
-          ~compressionOptions=Zip.makeCompressionOptions(6),
-          (),
-        ),
-    );
-
- zip |. Zip.forEach((p, z) => Js.log2(p, z));
-
- switch (Js.toOption(zip |. Zip.read(`name("toto")))) {
- | None => Js.log("sonull")
- | Some(ans) => Js.log(ans)
- };
- */
 module SUI = SemanticUi;
 
 exception ElpiCompileError;

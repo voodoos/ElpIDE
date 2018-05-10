@@ -3,15 +3,9 @@
  *
  * Please check the docs on https://stuk.github.io/jszip/
  */
+open Options;
+
 type jszip;
-
-type wOptions;
-
-type cOptions;
-
-type asyncOptions;
-
-type loadOptions;
 
 /**
  * If the browser supports them, JSZip can take advantage of some “new” features : ArrayBuffer, Blob, Uint8Array. To know if JSZip can use them, you can check the JSZip.support object. It contains the following boolean properties :
@@ -76,7 +70,12 @@ let read:
        String/ArrayBuffer/Uint8Array/Buffer/Blob/Promise/Nodejs stream
  */
 let write:
-  (jszip, ~options: wOptions=?, string, [ | `str(string) | `trustme('a)]) =>
+  (
+    jszip,
+    ~options: Options.wOptions=?,
+    string,
+    [ | `str(string) | `trustme('a)]
+  ) =>
   jszip;
 
 /**
@@ -108,16 +107,12 @@ let remove: (jszip, string) => jszip;
  *
  * TODO: other types, securize options (should be string for string etc)
  */
-let generateAsyncString:
-  (jszip, ~onUpdate: Converters.metadata => unit=?, asyncOptions) =>
-  Js.Promise.t(string);
-
 let generateAsyncUint8:
-  (jszip, ~onUpdate: Converters.metadata => unit=?, asyncOptions) =>
+  (jszip, ~onUpdate: Converters.metadata => unit=?, asyncUint8Options) =>
   Js.Promise.t(Js.Typed_array.Uint8Array.t);
 
 let generateAsyncBlob:
-  (jszip, ~onUpdate: Converters.metadata => unit=?, asyncOptions) =>
+  (jszip, ~onUpdate: Converters.metadata => unit=?, asyncBlobOptions) =>
   Js.Promise.t(Blob.t);
 
 /**
@@ -139,10 +134,10 @@ let generateAsyncBlob:
  * TODO:  securize options (should be string for string etc)
  */
 let generateInternalStreamString:
-  (jszip, asyncOptions) => StreamHelper.t(string);
+  (jszip, asyncStringOptions) => StreamHelper.t(string);
 
 let generateInternalStreamUint8:
-  (jszip, asyncOptions) => StreamHelper.t(Js.Typed_array.Uint8Array.t);
+  (jszip, asyncUint8Options) => StreamHelper.t(Js.Typed_array.Uint8Array.t);
 
 /**
  * Read an existing zip and merge the data in
@@ -196,7 +191,7 @@ let makeWriteOptions:
     ~dir: bool=?,
     unit
   ) =>
-  wOptions;
+  Options.wOptions;
 
 /** For now the only compression option is the level
    Example :
@@ -214,11 +209,11 @@ let makeWriteOptions:
 */
 let makeCompressionOptions: int => cOptions;
 
-let makeAsyncOptions:
+let makeAsyncBlobOptions:
+  /*~type_: Converters.types=?,*/
   (
-    ~type_: Converters.types=?,
     ~compression: Converters.compression=?,
-    ~compressionOptions: cOptions=?,
+    ~compressionOptions: Options.cOptions=?,
     ~comment: string=?,
     ~mimeType: Mime.types=?,
     ~platform: Converters.platforms=?,
@@ -227,7 +222,7 @@ let makeAsyncOptions:
     ~createFolders: bool=?,
     unit
   ) =>
-  asyncOptions;
+  asyncBlobOptions;
 
 let makeLoadOptions:
   (
