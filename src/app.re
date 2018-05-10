@@ -22,6 +22,7 @@ zip
 |. Zip.generateAsyncBlob(Zip.makeAsyncOptions(~type_=`blob, ()))
 |> Js.Promise.then_(content => {
      Js.log2(content, "example.zip");
+     FileSaver.saveAs(content, "example.zip");
      Js.Promise.resolve(content);
    });
 
