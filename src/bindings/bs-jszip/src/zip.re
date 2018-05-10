@@ -2,16 +2,13 @@ open Converters;
 
 type jszip;
 
-type zipObject;
-
 type wOptions;
 
 type cOptions;
 
 type asyncOptions;
-type loadOptions;
 
-type compression = Converters.compression;
+type loadOptions;
 
 type metadata = {
   .
@@ -23,21 +20,22 @@ type metadata = {
 external create : unit => jszip = "JSZip";
 
 [@bs.val] [@bs.module "JSZip"]
-external support : {.
-    "arraybuffer": Js.boolean,
-    "uint8array": Js.boolean,
-    "blob": Js.boolean,
-    "nodebuffer": Js.boolean,
-    "nodestream": Js.boolean,
-} = "support";
+external support : {
+  .
+  "arraybuffer": Js.boolean,
+  "uint8array": Js.boolean,
+  "blob": Js.boolean,
+  "nodebuffer": Js.boolean,
+  "nodestream": Js.boolean,
+} =
+  "support";
 
-[@bs.val] [@bs.module "JSZip"]
-external version : string = "version";
+[@bs.val] [@bs.module "JSZip"] external version : string = "version";
 
 [@bs.send]
 external read :
   (jszip, [@bs.unwrap] [ | `name(string) | `regex(Js.Re.t)]) =>
-  Js.nullable(zipObject) =
+  Js.nullable(ZipObject.t) =
   "file";
 
 [@bs.send]
@@ -54,58 +52,72 @@ external writeAux :
 
 [@bs.send]
 external folder :
-  (jszip, [@bs.unwrap] [ | `name(string) | `regex(Js.Re.t)]) => zipObject =
+  (jszip, [@bs.unwrap] [ | `name(string) | `regex(Js.Re.t)]) => ZipObject.t =
   "folder";
 
 [@bs.send]
-external forEach : (jszip, (string, zipObject) => unit) => unit = "forEach";
+external forEach : (jszip, (string, ZipObject.t) => unit) => unit = "forEach";
 
 [@bs.send]
-external filter : (jszip, (string, zipObject) => bool) => array(zipObject) =
+external filter : (jszip, (string, ZipObject.t) => bool) => array(ZipObject.t) =
   "filter";
 
 [@bs.send] external remove : (jszip, string) => jszip = "remove";
 
 [@bs.send]
-external generateAsyncAux :
+external generateAsyncStringAux :
   (jszip, asyncOptions, ~onUpdate: metadata => unit=?, unit) =>
-  Js.Promise.t('a) =
+  Js.Promise.t(string) =
+  "generateAsync";
+
+[@bs.send]
+external generateAsyncUint8Aux :
+  (jszip, asyncOptions, ~onUpdate: metadata => unit=?, unit) =>
+  Js.Promise.t(Js.Typed_array.Uint8Array.t) =
   "generateAsync";
 
 [@bs.send]
 external generateNodeStreamAux :
-(jszip, asyncOptions, ~onUpdate: metadata => unit=?, unit) =>
-Js.Promise.t('a) =
-"generateNodeStream";
+  (jszip, asyncOptions, ~onUpdate: metadata => unit=?, unit) =>
+  Js.Promise.t('a) =
+  "generateNodeStream";
 
 [@bs.send]
-external generateInternalStream :
-(jszip, asyncOptions) =>
-Js.Promise.t('a) =
-"generateInternalStream";
+external generateInternalStreamString :
+  (jszip, asyncOptions) => StreamHelper.t(string) =
+  "generateInternalStream";
 
+[@bs.send]
+external generateInternalStreamUint8 :
+  (jszip, asyncOptions) => StreamHelper.t(Js.Typed_array.Uint8Array.t) =
+  "generateInternalStream";
 
 [@bs.send]
 external loadAsyncAux :
-  (jszip, 
-  /* TODO: test, are these the correct types ? */
-  [@bs.unwrap] [ 
-      | `str(string) 
+  (
+    jszip,
+    /* TODO: test, are these the correct types ? */
+    [@bs.unwrap] [
+      | `str(string)
       | `uint8(Js.Typed_array.Uint8Array.t)
       | `buffers(Js.Typed_array.array_buffer)
       | `promise(Js.Promise.t('a))
-  ],
-  ~options: loadOptions=?,
-  unit) =>
-  Js.Promise.t(zipObject) =
+    ],
+    ~options: loadOptions=?,
+    unit
+  ) =>
+  Js.Promise.t(ZipObject.t) =
   "loadAsync";
 
 /** UTILITIES */
 let write = (jszip, ~options=?, name, data) =>
   writeAux(jszip, name, data, ~options?, ());
 
-let generateAsync = (jszip, ~onUpdate=?, options) =>
-  generateAsyncAux(jszip, options, ~onUpdate?, ());
+let generateAsyncString = (jszip, ~onUpdate=?, options) =>
+  generateAsyncStringAux(jszip, options, ~onUpdate?, ());
+
+let generateAsyncUint8 = (jszip, ~onUpdate=?, options) =>
+  generateAsyncUint8Aux(jszip, options, ~onUpdate?, ());
 
 let generateNodeStream = (jszip, ~onUpdate=?, options) =>
   generateNodeStreamAux(jszip, options, ~onUpdate?, ());
@@ -188,32 +200,31 @@ external makeAsyncOptionsAux :
   asyncOptions =
   "";
 
- let makeAsyncOptions =
-  (
-    ~type_=?,
-    ~compression=?,
-    ~compressionOptions=?,
-    ~comment=?,
-    ~mimeType=?,
-    ~platform=?,
-    ~encodeFileName=?,
-    ~streamFiles=?,
-    ~createFolders=?,
+let makeAsyncOptions =
+    (
+      ~type_=?,
+      ~compression=?,
+      ~compressionOptions=?,
+      ~comment=?,
+      ~mimeType=?,
+      ~platform=?,
+      ~encodeFileName=?,
+      ~streamFiles=?,
+      ~createFolders=?,
+      (),
+    ) =>
+  makeAsyncOptionsAux(
+    ~type_=?fromTypes(type_),
+    ~compression=?fromCompression(compression),
+    ~compressionOptions?,
+    ~comment?,
+    ~mimeType=?fromMimeTypes(mimeType),
+    ~platform=?fromPlatforms(platform),
+    ~encodeFileName?,
+    ~streamFiles=?fromBool(streamFiles),
+    ~createFolders=?fromBool(createFolders),
     (),
-  ) =>
-makeAsyncOptionsAux(
-  ~type_=?fromTypes(type_),
-  ~compression=?fromCompression(compression),
-  ~compressionOptions?,
-  ~comment?,
-  ~mimeType=?fromMimeTypes(mimeType),
-  ~platform=?fromPlatforms(platform),
-  ~encodeFileName?,
-  ~streamFiles=?fromBool(streamFiles),
-  ~createFolders=?fromBool(createFolders),
-  (),
-);
-
+  );
 
 [@bs.obj]
 external makeLoadOptionsAux :
@@ -228,21 +239,20 @@ external makeLoadOptionsAux :
   loadOptions =
   "";
 
-
- let makeLoadOptions =
- (
-    ~base64=?,
-    ~checkCRC32=?,
-    ~optimizedBinaryString=?,
-    ~createFolders=?,
-    ~decodeFileName=?,
-   (),
- ) =>
-makeLoadOptionsAux(
+let makeLoadOptions =
+    (
+      ~base64=?,
+      ~checkCRC32=?,
+      ~optimizedBinaryString=?,
+      ~createFolders=?,
+      ~decodeFileName=?,
+      (),
+    ) =>
+  makeLoadOptionsAux(
     ~base64=?fromBool(base64),
     ~checkCRC32=?fromBool(checkCRC32),
     ~optimizedBinaryString=?fromBool(optimizedBinaryString),
     ~createFolders=?fromBool(createFolders),
     ~decodeFileName?,
-     (),
-);
+    (),
+  );
