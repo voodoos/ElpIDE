@@ -3,9 +3,9 @@ type jszip;
 type metadata = Converters.metadata;
 
 /** EXTERNALS */ [@bs.new] [@bs.module]
-external create : unit => jszip = "JSZip";
+external create : unit => jszip = "jszip";
 
-[@bs.val] [@bs.module "JSZip"]
+[@bs.val] [@bs.module "jszip"]
 external support : {
   .
   "arraybuffer": Js.boolean,
@@ -16,7 +16,7 @@ external support : {
 } =
   "support";
 
-[@bs.val] [@bs.module "JSZip"] external version : string = "version";
+[@bs.val] [@bs.module "jszip"] external version : string = "version";
 
 [@bs.send]
 external read :
