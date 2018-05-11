@@ -163,9 +163,11 @@ let loadAsync:
       | `uint8(Js.Typed_array.Uint8Array.t)
       | `buffers(Js.Typed_array.array_buffer)
       | `promise(Js.Promise.t('a))
+      | `blob(Blob.t)
+      | `unsafe('a)
     ]
   ) =>
-  Js.Promise.t(ZipObject.t);
+  Js.Promise.t(jszip);
 
 /** `makeWriteOptions` allows one to build the optionnal options
    that the write function accepts. Don't forget the trailing unit !

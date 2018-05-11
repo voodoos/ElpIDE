@@ -5,12 +5,34 @@ type action =
 
 let component = ReasonReact.reducerComponent("LoadModal");
 
-let make = (~trigger, ~message, ~onOk, ~onNope=() => (), _children) => {
+let make = (~trigger, ~message, ~onOk, _children) => {
   let openM = (_e, self) => self.ReasonReact.send(Opened(true));
   let closeM = (_e, self) => self.ReasonReact.send(Opened(false));
   let submit = (e, self) => {
     onOk();
     closeM(e, self);
+  };
+  let change = (event, self) => {
+    let readZip = f => {
+      open Zip;
+      let z = create();
+      z
+      |. loadAsync(`blob(f))
+      |> Js.Promise.then_(zip => {
+           zip |. forEach((relativePath, zipEntry) => Js.log(zipEntry##name));
+           Js.Promise.resolve(zip);
+         })
+      |> ignore;
+    };
+    let files = ReactDOMRe.domElementToObj(ReactEventRe.Form.target(event))##files;
+    /** Files should be a "filelist" */
+    let n: int = files##length;
+    for (i in 0 to n - 1) {
+      let f = files[i];
+      if (f##_type == "application/zip") {
+        readZip(f);
+      };
+    };
   };
   {
     ...component, /* spread the template's other defaults into here  */
@@ -37,9 +59,9 @@ let make = (~trigger, ~message, ~onOk, ~onNope=() => (), _children) => {
             <Form.Field>
               <Input
                 _type="file"
-                placeholder="Choose a file (can be a zip archive)"
                 fluid=true
                 size=`large
+                onChange=(self.handle(change))
               />
             </Form.Field>
           </Modal.Content>

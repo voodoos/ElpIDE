@@ -83,11 +83,13 @@ external loadAsyncAux :
       | `uint8(Js.Typed_array.Uint8Array.t)
       | `buffers(Js.Typed_array.array_buffer)
       | `promise(Js.Promise.t('a))
+      | `blob(Blob.t)
+      | `unsafe('a)
     ],
     ~options: Options.loadOptions=?,
     unit
   ) =>
-  Js.Promise.t(ZipObject.t) =
+  Js.Promise.t(jszip) =
   "loadAsync";
 
 /** UTILITIES */
