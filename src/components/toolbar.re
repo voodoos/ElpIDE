@@ -23,6 +23,16 @@ let make =
             </Menu.Item>
             <Menu.Item>
               <Button.Group inverted=false>
+                <LoadModal
+                  trigger=(
+                    onClick =>
+                      <Button icon=true onClick>
+                        <Icon name="upload" />
+                      </Button>
+                  )
+                  message="Are you sure you want to delete this file ?"
+                  onOk=(() => ())
+                />
                 <Button icon=true onClick=onClickSave>
                   <Icon name="save" />
                 </Button>
