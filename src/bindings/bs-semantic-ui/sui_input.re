@@ -25,7 +25,7 @@ external makeProps :
     ~name: string=?,
     ~onKeyDown: ReactEventRe.Keyboard.t => unit=?,
     ~placeholder: string=?,
-    ~type_: string=?,
+    ~_type: string=?,
     ~value: string=?,
     unit
   ) =>
@@ -53,7 +53,7 @@ let make =
       ~name=?,
       ~onKeyDown=?,
       ~placeholder=?,
-      ~type_=?,
+      ~_type=?,
       ~value=?,
       children,
     ) =>
@@ -80,7 +80,7 @@ let make =
         ~name?,
         ~onKeyDown?,
         ~placeholder?,
-        ~type_?,
+        ~_type?,
         ~value?,
         (),
       ),
