@@ -31,7 +31,6 @@ let make =
                         <Icon name="upload" />
                       </Button>
                   )
-                  message="Are you sure you want to delete this file ?"
                   onOk=onLoadFiles
                 />
                 <Button icon=true onClick=onClickSave>

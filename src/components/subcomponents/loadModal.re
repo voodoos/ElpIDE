@@ -10,9 +10,12 @@ type action =
 
 let component = ReasonReact.reducerComponent("LoadModal");
 
-let make = (~trigger, ~message, ~onOk, _children) => {
+let make = (~trigger, ~onOk, _children) => {
   let openM = (_e, self) => self.ReasonReact.send(Opened(true));
-  let closeM = (_e, self) => self.ReasonReact.send(Opened(false));
+  let closeM = (_e, self) => {
+    self.ReasonReact.send(EmptyFiles);
+    self.send(Opened(false));
+  };
   let submit = (e, self) => {
     onOk(
       Array.of_list(List.map(snd, self.ReasonReact.state.selectedFiles)),
