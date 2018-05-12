@@ -23,11 +23,8 @@ plus (s N) M (s P) :- plus N M P.
 world "hello".
 world "pussycat".|},
   };
-  let newFile = (name) =>
-    {
-      "name": name,
-      "content": "% File " ++ name ++ "\n"
-    }
+  let makeFile = (name, content) => {"name": name, "content": content};
+  let newFile = name => {"name": name, "content": "% File " ++ name ++ "\n"};
 };
 
 /* This is the basic component. */

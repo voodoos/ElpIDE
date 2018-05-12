@@ -7,6 +7,7 @@ let make =
       ~onClickRestart,
       ~onClickPlay,
       ~onClickSave,
+      ~onLoadFiles,
       _children,
     ) => {
   let onClickPlay = (_e, _d) => onClickPlay();
@@ -31,7 +32,7 @@ let make =
                       </Button>
                   )
                   message="Are you sure you want to delete this file ?"
-                  onOk=(() => ())
+                  onOk=onLoadFiles
                 />
                 <Button icon=true onClick=onClickSave>
                   <Icon name="save" />

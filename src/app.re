@@ -33,6 +33,7 @@ type action =
   | SetActiveFile(int)
   | SetElpi(ElpiJs.elpi)
   | SetFiles(array(Editor.State.t))
+  | AddFiles(array(Editor.State.t))
   | SetFlag(string, bool)
   | SetTypes(array(ElpiJs.typ))
   | Log(Log.message)
@@ -137,6 +138,11 @@ let make = (~message, _children) => {
       | LayoutChange =>
         ReasonReact.Update({...state, layout_update: state.layout_update + 1})
       | SetFiles(files) => ReasonReact.Update({...state, files})
+      | AddFiles(files) =>
+        ReasonReact.Update({
+          ...state,
+          files: Array.append(state.files, files),
+        })
       | SetActiveFile(activeFile) =>
         ReasonReact.Update({...state, activeFile})
       | SetElpi(e) => ReasonReact.Update({...state, elpi: Some(e)})
@@ -256,6 +262,7 @@ let make = (~message, _children) => {
           onClickPlay=(self.handle(clickPlay))
           onClickRestart=(self.handle(clickRestart))
           onClickSave=(self.handle(clickSave))
+          onLoadFiles=(files => self.send(AddFiles(files)))
           playDisabled=(! Hashtbl.find(self.state.flags, "elpi_started"))
         />
         <SplitPane
