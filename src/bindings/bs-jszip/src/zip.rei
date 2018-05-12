@@ -5,6 +5,8 @@
  */
 open Options;
 
+module Object = ZipObject;
+
 type jszip;
 
 /**

@@ -18,7 +18,7 @@ external makeProps :
     ~floated: string=?,
     ~horizontal: Js.boolean=?,
     ~inverted: Js.boolean=?,
-    ~items: {..}=?,
+    ~items: array('a)=?,
     ~link: Js.boolean=?,
     /* TODO: onItemClick */
     ~ordered: Js.boolean=?,

@@ -1,3 +1,5 @@
+module Object = ZipObject;
+
 type jszip;
 
 type metadata = Converters.metadata;
