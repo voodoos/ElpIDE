@@ -25,7 +25,8 @@ let make = (~trigger, ~onOk, _children) => {
   };
   let change = (event, self) => {
     self.ReasonReact.send(EmptyFiles);
-    let validate = name => Js.Re.test(name, [%bs.re "/.*[elpi]$/gm"]);
+    let validate = name =>
+      Js.Re.test(name, [%bs.re "/^[^\\.]+\\.(?:elpi|mlts)$/gm"]);
     let readZip = f =>
       Zip.(
         create()
@@ -103,7 +104,7 @@ let make = (~trigger, ~onOk, _children) => {
           size=`tiny
           onClose=((e, _d) => self.handle(closeM, e))>
           <Header
-            icon={<Icon name="upload" />}
+            icon={<Icon name="folder open" />}
             size=`huge
             content=(ReasonReact.stringToElement("Load file from disk"))
           />

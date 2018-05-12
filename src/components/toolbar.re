@@ -28,13 +28,13 @@ let make =
                   trigger=(
                     onClick =>
                       <Button icon=true onClick>
-                        <Icon name="upload" />
+                        <Icon name="folder open" />
                       </Button>
                   )
                   onOk=onLoadFiles
                 />
                 <Button icon=true onClick=onClickSave>
-                  <Icon name="save" />
+                  <Icon name="download" />
                 </Button>
                 <Button icon=true onClick=onClickRestart loading=playDisabled>
                   <Icon name="refresh" />
