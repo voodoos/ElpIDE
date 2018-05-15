@@ -219,28 +219,26 @@ let make = (~message, _children) => {
       );
       /* We launch Elpi with appropriate callbacks
        * for logs and answers */
+      let logCB = (l, p, t) => {
+        let prefix =
+          switch (p) {
+          | "" => []
+          | "Elpi" => []
+          | p => [p]
+          };
+        self.send(
+          Log(
+            Log.message(Log.logLevelOfString(l), ["Elpi", ...prefix], t),
+          ),
+        );
+      };
       let elpi =
         ElpiJs.create(
           /* Log callback */
-          (l, p, t) => {
-            let prefix =
-              switch (p) {
-              | "" => []
-              | "Elpi" => []
-              | p => [p]
-              };
-            self.send(
-              Log(
-                Log.message(
-                  Log.logLevelOfString(l),
-                  ["Elpi", ...prefix],
-                  t,
-                ),
-              ),
-            );
-          },
+          logCB,
           /* Answers callback */
-          argass => self.send(NewAnswer(Querier.answer(argass))),
+          argass =>
+          self.send(NewAnswer(Querier.answer(argass)))
         );
       elpi##start
       |> Js.Promise.then_(mess => {

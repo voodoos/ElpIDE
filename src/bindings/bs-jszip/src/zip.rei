@@ -48,9 +48,6 @@ let create: unit => jszip;
     let zip = create();
     zip |. read(`name("toto"))
     zip |. read(`regex([%re "/toto/"]))
-
-
-    TODO: returns nullable !
  */
 let read:
   (jszip, [ | `name(string) | `regex(Js.Re.t)]) => Js.nullable(ZipObject.t);

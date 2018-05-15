@@ -10,6 +10,7 @@
     "fs": "^0.0.1-security",
     "jszip": "^3.1.5",
     "localforage": "^1.7.1",
+    "mlts-js": "https://github.com/voodoos/mlts-js.git",
     "react-ace": "^5.9.0",
     "react-split-pane": "https://github.com/voodoos/react-split-pane#v2",
     "react-treebeard": "^2.1.0",
