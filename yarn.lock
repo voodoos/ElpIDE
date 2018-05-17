@@ -2,10 +2,6 @@
 # yarn lockfile v1
 
 
-FileSaver@^0.10.0:
-  version "0.10.0"
-  resolved "https://registry.yarnpkg.com/FileSaver/-/FileSaver-0.10.0.tgz#7def3889944458042ef5df2e9064c88e3d2281c7"
-
 ajv@^5.1.0:
   version "5.5.2"
   resolved "https://registry.yarnpkg.com/ajv/-/ajv-5.5.2.tgz#73b5eeca3fab653e3d3f9422b341ad42205dc965"
