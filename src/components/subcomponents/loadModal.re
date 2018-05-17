@@ -18,7 +18,7 @@ let make = (~trigger, ~onOk, _children) => {
   };
   let submit = (e, self) => {
     onOk(
-      Array.of_list(List.map(snd, self.ReasonReact.state.selectedFiles)),
+      Array.of_list(List.rev_map(snd, self.ReasonReact.state.selectedFiles)),
     );
     self.send(EmptyFiles);
     closeM(e, self);
