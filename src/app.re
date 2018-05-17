@@ -218,9 +218,13 @@ let make = (~message, _children) => {
               [p];
             }
           };
-        self.send(
-          Log(Log.message(Log.logLevelOfString(l), [name, ...prefix], t)),
-        );
+        if (Tools.notAlreadyLoadedMess(t)) {
+          self.send(
+            Log(
+              Log.message(Log.logLevelOfString(l), [name, ...prefix], t),
+            ),
+          );
+        };
       };
       let answer = argass => self.send(NewAnswer(Querier.answer(argass)));
       Builder.launch(logger, answer)

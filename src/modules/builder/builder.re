@@ -47,6 +47,8 @@ let launch = (logger, answer) =>
     );
   };
 
+let queryAll = v => getElpi()##queryAll(v);
+
 let build = files =>
   Js.Promise.make((~resolve, ~reject) =>
     (getMlts())(
@@ -67,7 +69,20 @@ let build = files =>
            ),
          )
          |> Js.Promise.then_(r => {
-              resolve(. r);
+              switch (res) {
+              | [||] => resolve(. r)
+              | _ =>
+                queryAll("run N _P V T.")
+                |> Js.Promise.then_(res => {
+                     resolve(. r);
+                     Js.Promise.resolve(res);
+                   })
+                |> Js.Promise.catch(_err => {
+                     resolve(. r);
+                     Js.Promise.reject(raise(ElpiFailed));
+                   })
+                |> ignore
+              };
               Js.Promise.resolve(r);
             })
          |> Js.Promise.catch(_r => {
@@ -83,5 +98,3 @@ let build = files =>
        })
     |> ignore
   );
-
-let queryAll = v => getElpi()##queryAll(v);

@@ -7,3 +7,6 @@ let isMltsFile = name =>
   Js.Re.test(name, [%bs.re "/^[^\\.]+\\.(?:mlts)$/gm"]);
 
 let isSupportedFile = name => isElpiFile(name) || isMltsFile(name);
+
+let notAlreadyLoadedMess = name =>
+  ! Js.Re.test(name, [%bs.re "/(?:already loaded)/gm"]);
