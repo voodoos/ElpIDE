@@ -207,34 +207,22 @@ let make = (~message, _children) => {
       );
       /* We launch Elpi with appropriate callbacks
        * for logs and answers */
-      let logger = (l, p, t) => {
+      let logger = (name, l, p, t) => {
         let prefix =
           switch (p) {
           | "" => []
-          | "Elpi" => []
-          | p => [p]
+          | p =>
+            if (p == name) {
+              [];
+            } else {
+              [p];
+            }
           };
         self.send(
-          Log(
-            Log.message(Log.logLevelOfString(l), ["Elpi", ...prefix], t),
-          ),
+          Log(Log.message(Log.logLevelOfString(l), [name, ...prefix], t)),
         );
       };
       let answer = argass => self.send(NewAnswer(Querier.answer(argass)));
-      MltsBuilder.translate(logger, "type toto = | Ga;;3 + 8;;")
-      |> Js.Promise.then_(res => {
-           self.send(
-             Log(
-               Log.message(
-                 Log.Info,
-                 ["Mlts"],
-                 res##prog ++ res##types ++ res##typesEval,
-               ),
-             ),
-           );
-           Js.Promise.resolve(res);
-         })
-      |> ignore;
       Builder.launch(logger, answer)
       |> Js.Promise.then_(mess => {
            self.send(SetFlag("elpi_started", true));
