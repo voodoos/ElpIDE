@@ -26,20 +26,15 @@ let make = (~trigger, ~onOk, _children) => {
   let change = (event, self) => {
     self.ReasonReact.send(EmptyFiles);
     let validate = name =>
-      Js.Re.test(name, [%bs.re "/^[^\\.]+\\.(?:elpi|mlts)$/gm"]);
+      Js.Re.test(name, [%bs.re "/^[^\\.]+\\.(?:elpi|mlts|mod|sig)$/gm"]);
     let readZip = f =>
       Zip.(
         create()
         |. loadAsync(`blob(f))
         |> Js.Promise.then_(zip => {
              zip
-             |. forEach((relativePath, zipEntry) =>
-                  if (validate(
-                        {
-                          Js.log(zipEntry##name);
-                          zipEntry##name;
-                        },
-                      )) {
+             |. forEach((_relativePath, zipEntry) =>
+                  if (validate(zipEntry##name)) {
                     zipEntry
                     |. Object.asyncString()
                     |> Js.Promise.then_(content => {
@@ -64,7 +59,14 @@ let make = (~trigger, ~onOk, _children) => {
       if (f##_type == "application/zip") {
         readZip(f);
       } else if (validate(f##name)) {
-        self.ReasonReact.send(AddFile(f##name, f##content));
+        let fr = FileReader.create();
+        fr
+        |. FileReader.setOnload(_e =>
+             self.ReasonReact.send(
+               AddFile(f##name, fr |. FileReader.getResultString),
+             )
+           );
+        fr |. FileReader.readAsText(f);
       };
     };
   };
