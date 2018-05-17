@@ -21,7 +21,6 @@ type state = {
   layout_update: int,
   log: Log.State.t,
   answers: array(Log.message),
-  elpi: option(ElpiJs.elpi),
   files: array(Editor.State.t),
   activeFile: int,
   flags: Hashtbl.t(string, bool),
@@ -31,7 +30,6 @@ type state = {
 type action =
   | LayoutChange
   | SetActiveFile(int)
-  | SetElpi(ElpiJs.elpi)
   | SetFiles(array(Editor.State.t))
   | AddFiles(array(Editor.State.t))
   | SetFlag(string, bool)
@@ -49,45 +47,37 @@ let make = (~message, _children) => {
    *  It asks Elpi to compile all the files.
    */
   let clickPlay = (_event, self) =>
-    switch (self.ReasonReact.state.elpi) {
-    | Some(e) =>
-      e##compile(self.ReasonReact.state.files)
-      |> Js.Promise.then_(types => {
-           self.send(SetTypes(types));
-           self.send(Log(Log.info("Ready")));
-           Js.Promise.resolve(types);
-         })
-      |> Js.Promise.catch(err => {
-           let m = Js.Exn.message(ElpiJs.exnOfError(err));
-           switch (m) {
-           | Some(t) => self.send(Log(Log.err(t)))
-           | _ => ()
-           };
-           self.send(
-             Log(
-               Log.err(
-                 {j|Ook, looks like something went wrong... Here, have a 🍌|j},
-               ),
+    Builder.build(self.ReasonReact.state.files)
+    |> Js.Promise.then_(types => {
+         self.send(SetTypes(types));
+         self.send(Log(Log.info("Ready")));
+         Js.Promise.resolve(types);
+       })
+    |> Js.Promise.catch(err => {
+         let m = Js.Exn.message(ElpiJs.exnOfError(err));
+         switch (m) {
+         | Some(t) => self.send(Log(Log.err(t)))
+         | _ => ()
+         };
+         self.send(
+           Log(
+             Log.err(
+               {j|Ook, looks like something went wrong... Here, have a 🍌|j},
              ),
-           );
-           Js.Promise.reject(raise(ElpiCompileError));
-         })
-      |> ignore
-    | None => ()
-    };
+           ),
+         );
+         Js.Promise.reject(raise(ElpiCompileError));
+       })
+    |> ignore;
   let clickRestart = (_event, self) => {
     self.ReasonReact.send(SetFlag("elpi_started", false));
-    switch (self.state.elpi) {
-    | Some(e) =>
-      e##restart()
-      |> Js.Promise.then_(mess => {
-           self.send(SetFlag("elpi_started", true));
-           self.send(Log(Log.info("Elpi restarted")));
-           Js.Promise.resolve(mess);
-         })
-      |> ignore
-    | None => ()
-    };
+    Builder.restartElpi()
+    |> Js.Promise.then_(mess => {
+         self.send(SetFlag("elpi_started", true));
+         self.send(Log(Log.info("Elpi restarted")));
+         Js.Promise.resolve(mess);
+       })
+    |> ignore;
   };
   let clickSave = (_event, self) => {
     /* Saving means zipping everything
@@ -128,7 +118,6 @@ let make = (~message, _children) => {
         |],
         activeFile: 0,
         answers: [||],
-        elpi: None,
         flags,
         types: [],
       };
@@ -145,7 +134,6 @@ let make = (~message, _children) => {
         })
       | SetActiveFile(activeFile) =>
         ReasonReact.Update({...state, activeFile})
-      | SetElpi(e) => ReasonReact.Update({...state, elpi: Some(e)})
       | SetFlag(k, b) =>
         let flags = Hashtbl.copy(state.flags);
         Hashtbl.replace(flags, k, b);
@@ -219,7 +207,7 @@ let make = (~message, _children) => {
       );
       /* We launch Elpi with appropriate callbacks
        * for logs and answers */
-      let logCB = (l, p, t) => {
+      let logger = (l, p, t) => {
         let prefix =
           switch (p) {
           | "" => []
@@ -232,15 +220,22 @@ let make = (~message, _children) => {
           ),
         );
       };
-      let elpi =
-        ElpiJs.create(
-          /* Log callback */
-          logCB,
-          /* Answers callback */
-          argass =>
-          self.send(NewAnswer(Querier.answer(argass)))
-        );
-      elpi##start
+      let answer = argass => self.send(NewAnswer(Querier.answer(argass)));
+      MltsBuilder.translate(logger, "type toto = | Ga;;3 + 8;;")
+      |> Js.Promise.then_(res => {
+           self.send(
+             Log(
+               Log.message(
+                 Log.Info,
+                 ["Mlts"],
+                 res##prog ++ res##types ++ res##typesEval,
+               ),
+             ),
+           );
+           Js.Promise.resolve(res);
+         })
+      |> ignore;
+      Builder.launch(logger, answer)
       |> Js.Promise.then_(mess => {
            self.send(SetFlag("elpi_started", true));
            self.send(Log(Log.message(Info, [], mess)));
@@ -251,7 +246,7 @@ let make = (~message, _children) => {
            Js.Promise.resolve("arg");
          })
       |> ignore;
-      ReasonReact.Update({...self.state, elpi: Some(elpi)});
+      ReasonReact.NoUpdate;
     },
     render: self =>
       <div id="app" onKeyDown=(self.handle(keyDown))>
@@ -268,7 +263,7 @@ let make = (~message, _children) => {
           split=`vertical
           defaultSize=200
           onDragFinished=(() => self.send(LayoutChange))>
-          <Pane initialSize="200px">
+          <Pane initialSize="200px" className="left-column">
             <FileBrowser
               files=self.state.files
               onClickFile=(i => self.send(SetActiveFile(i)))
@@ -302,7 +297,6 @@ let make = (~message, _children) => {
                 </Pane>
                 <Pane className="scroll">
                   <Querier
-                    elpi=self.state.elpi
                     messages=self.state.answers
                     suggestions=self.state.types
                   />

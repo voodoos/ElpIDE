@@ -29,7 +29,7 @@ type action =
 
 let component = ReasonReact.reducerComponentWithRetainedProps("Querier");
 
-let make = (~elpi: option(ElpiJs.elpi), ~suggestions, ~messages, _children) => {
+let make = (~suggestions, ~messages, _children) => {
   let change = (event, self) => {
     let newVal = ReactDOMRe.domElementToObj(ReactEventRe.Form.target(event))##value;
     self.ReasonReact.send(SetVal(newVal));
@@ -37,25 +37,21 @@ let make = (~elpi: option(ElpiJs.elpi), ~suggestions, ~messages, _children) => {
   let submit = (event, self) => {
     let v = self.ReasonReact.state.input_val;
     ReactEventRe.Synthetic.preventDefault(event);
-    switch (elpi) {
-    | None => ()
-    | Some(e) =>
-      e##queryAll(v)
-      |> Js.Promise.then_(v => {
-           self.ReasonReact.send(SetLoading(false));
-           Js.Promise.resolve(v);
-         })
-      |> Js.Promise.catch(_e => {
-           /* TODO: move this upp to App so that we can have log messages
-            * when query fails */
-           self.ReasonReact.send(SetLoading(false));
-           Js.Promise.reject(raise(ElpiQueryError));
-         })
-      |> ignore;
-      self.ReasonReact.send(SetVal(""));
-      self.ReasonReact.send(SetLoading(true));
-      self.ReasonReact.send(AddHist(v));
-    };
+    Builder.queryAll(v)
+    |> Js.Promise.then_(v => {
+         self.ReasonReact.send(SetLoading(false));
+         Js.Promise.resolve(v);
+       })
+    |> Js.Promise.catch(_e => {
+         /* TODO: move this upp to App so that we can have log messages
+          * when query fails */
+         self.ReasonReact.send(SetLoading(false));
+         Js.Promise.reject(raise(ElpiQueryError));
+       })
+    |> ignore;
+    self.ReasonReact.send(SetVal(""));
+    self.ReasonReact.send(SetLoading(true));
+    self.ReasonReact.send(AddHist(v));
   };
   let keyDown = (event: ReactEventRe.Keyboard.t, self) =>
     switch (ReactEventRe.Keyboard.keyCode(event)) {
