@@ -1155,7 +1155,7 @@ mkdirp@^0.5.0, mkdirp@^0.5.1:
 
 "mlts-js@https://github.com/voodoos/mlts-js.git":
   version "0.1.0"
-  resolved "https://github.com/voodoos/mlts-js.git#79e8941950c56094ccc6411b80d5ff72eabdc35f"
+  resolved "https://github.com/voodoos/mlts-js.git#69a4a492946e049e9ebbbb2eaa1755ec5a642d59"
 
 ms@2.0.0:
   version "2.0.0"
