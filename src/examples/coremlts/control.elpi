@@ -1,0 +1,4 @@
+type if  prop -> prop -> prop -> prop.
+
+if P Q _ :- P, !, Q.
+if _ _ R :- R.

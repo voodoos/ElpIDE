@@ -1,0 +1,48 @@
+% 29 july 2014.
+type append                    	list A -> list A -> list A -> prop.
+type foldl                      (A -> B -> B -> prop) -> list A -> B -> B -> prop.
+type foreach			(A -> prop) -> list A -> prop.
+type forsome			(A -> prop) -> list A -> prop.
+type length                     list A -> int -> prop.
+type memb_and_rest              A -> list A -> list A -> prop.
+type member                     A -> list A -> prop.
+type reverse                    list A -> list A -> prop.
+type distinct                   list A -> prop.
+type mappred                    (A -> B -> prop) -> list A -> list B -> prop.
+
+
+
+% 29 july 2014.
+% 21 jan 2018: distinct added
+
+type rev list A -> list A -> list A -> prop.
+
+member X [X|_].
+member X [_|R] :- member X R.
+
+append [] K K.
+append (X::L) K (X::M) :- append L K M.
+
+foreach _ [].
+foreach P (X::L) :- P X, foreach P L.
+
+forsome P (X::L) :- P X; forsome P L.
+
+memb_and_rest X (X::L) L.
+memb_and_rest X (Y::K) (Y::L) :- memb_and_rest X K L.
+
+reverse L K :- rev L [] K.
+rev [] L L.
+rev (X::L) K M :- rev L (X::K) M.
+
+foldl _ [] X X.
+foldl P (Z::L) X Y :- P Z X W, foldl P L W Y.
+
+length [] 0.
+length (_::Q) N :- length Q N', N is N' + 1.
+
+distinct [].
+distinct [X|L] :- not(member X L), distinct L.
+
+mappred _ [] [].
+mappred P (X::L) (Y::K) :- P X Y, mappred P L K.
