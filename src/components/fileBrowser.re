@@ -66,14 +66,14 @@ let make = (~files, ~onClickFile, ~onClickNew, ~onDeleteFile, _children) => {
       !== Array.length(newSelf.retainedProps.files),
     render: _self =>
       SemanticUi.(
-        <div>
-          <Menu inverted=false borderless=true>
+        <div className="p-fbrowser">
+          <Menu inverted=false borderless=true className="p-fbrowser-menu">
             <Menu.Item header=true> "Project" </Menu.Item>
             <Menu.Menu position=`right>
               <NewFileModal onSubmit=onClickNew />
             </Menu.Menu>
           </Menu>
-          <List className="p-fbrowser">
+          <List className="p-fbrowser-list">
             <List.Item>
               <List.Icon name="folder" />
               <List.Content>

@@ -28,15 +28,44 @@
     }
 }
 
-.p-fbrowser{
-    padding: 0.5em;
+.p-fbrowser {
+    display: flex;
+    flex-direction: column;
+    flex-wrap: nowrap;
+    justify-content: flex-start;
+    align-content: stretch;
+    align-items: flex-start;
 
-    .content {
+    height: 100%;
+
+    .p-fbrowser-menu{
+        order: 0;
+        flex: 0 0 auto;
+        align-self: flex-start;
+
         width: 100%;
+        
+        margin-bottom: 0;
+    }
 
-        .trash-btn {
-            position: relative;
-            top: -5px;
+    .p-fbrowser-list{
+        order: 0;
+        flex: 1 1 auto;
+        align-self: auto;
+        overflow-y: auto;
+        overflow-x: hidden;
+
+        width: 100%;
+        margin-top: 0em !important;
+        padding-left: 1em !important;
+
+        .content {
+            width: 100%;
+
+            .trash-btn {
+                position: relative;
+                top: -5px;
+            }
         }
     }
 }
