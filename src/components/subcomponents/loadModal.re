@@ -35,6 +35,7 @@ let make = (~trigger, ~onOk, _children) => {
              zip
              |. forEach((_relativePath, zipEntry) =>
                   if (validate(zipEntry##name)) {
+                    
                     zipEntry
                     |. Object.asyncString()
                     |> Js.Promise.then_(content => {
@@ -56,7 +57,8 @@ let make = (~trigger, ~onOk, _children) => {
     let n: int = files##length;
     for (i in 0 to n - 1) {
       let f = files[i];
-      if (f##_type == "application/zip") {
+      Js.log(f);
+      if (Tools.isMimeZip(f##_type)) {
         readZip(f);
       } else if (validate(f##name)) {
         let fr = FileReader.create();
