@@ -209,7 +209,7 @@ module Item = {
       ~header: ReasonReact.reactElement=?,
       ~icon: string=?,
       ~image: ReasonReact.reactElement=?,
-      ~onClick: (ReactEventRe.Synthetic.t, Js.t(Js.Types.obj_val)) => unit=?,
+      ~onClick: (ReactEventRe.Mouse.t, Js.t({..})) => unit=?,
       ~value: string=?,
       unit
     ) =>

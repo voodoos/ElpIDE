@@ -3,31 +3,26 @@ open Sui_tools;
 [@bs.module "semantic-ui-react"]
 external react : ReasonReact.reactClass = "Modal";
 
-/* Using BS Special Creation Function help us with optionnal properties */
-/* See https://khoanguyen.me/writing-reason-react-bindings-the-right-way */
 [@bs.obj]
 external makeProps :
   (
     ~actions: array(ReasonReact.reactElement)=?,
-    ~_as: string=? /* TODO: actions */, /* TODO: Can also be a function ! */
+    ~_as: string=? /* TODO: Can also be a function ! */ /* TODO: actions */,
     ~basic: Js.boolean=?,
-    ~className: string=?,
-    /* TODO: closeIcon */
+    ~className: string=? /* TODO: closeIcon */,
     ~closeOnDimmerClick: Js.boolean=?,
     ~closeOnDocumentClick: Js.boolean=?,
     ~content: ReasonReact.reactElement=?,
-    ~dimmer: js=?, /* bool or inverted or blurring */
+    ~dimmer: js=? /* bool or inverted or blurring */,
     ~eventPool: string=?,
-    ~header: ReasonReact.reactElement=?,
-    /* TODO: mountNode */
-    ~onActionClick: (ReactEventRe.Mouse.t, Js.t(Js.Types.obj_val)) => unit=?,
-    ~onClose: (ReactEventRe.Synthetic.t, Js.t(Js.Types.obj_val)) => unit=?,
+    ~header: ReasonReact.reactElement=? /* TODO: mountNode */,
+    ~onActionClick: (ReactEventRe.Mouse.t, Js.t({..})) => unit=?,
+    ~onClose: (ReactEventRe.Synthetic.t, Js.t({..})) => unit=?,
     ~onMount: unit => unit=?,
-    ~onOpen: (ReactEventRe.Synthetic.t, Js.t(Js.Types.obj_val)) => unit=?,
+    ~onOpen: (ReactEventRe.Synthetic.t, Js.t({..})) => unit=?,
     ~onUnmount: unit => unit=?,
     ~_open: Js.boolean=?,
-    ~size: string=?, /* fullscreen large mini small tiny */
-    /* TODO: style */
+    ~size: string=? /* TODO: style */ /* fullscreen large mini small tiny */,
     ~trigger: ReasonReact.reactElement=?,
     unit
   ) =>
@@ -54,7 +49,7 @@ let make =
       ~_open=?,
       ~size=?,
       ~trigger=?,
-      children
+      children,
     ) =>
   ReasonReact.wrapJsForReason(
     ~reactClass=react,
@@ -80,7 +75,7 @@ let make =
         ~trigger?,
         (),
       ),
-    children
+    children,
   );
 
 module Actions = {
@@ -90,10 +85,10 @@ module Actions = {
   external makeProps :
     (
       ~actions: array(ReasonReact.reactElement)=?,
-      ~_as: string=?, /* TODO: Can also be a function ! */
+      ~_as: string=? /* TODO: Can also be a function ! */,
       ~className: string=?,
       ~content: ReasonReact.reactElement=?,
-      ~onActionClick: (ReactEventRe.Mouse.t, Js.t(Js.Types.obj_val)) => unit=?,
+      ~onActionClick: (ReactEventRe.Mouse.t, Js.t({..})) => unit=?,
       unit
     ) =>
     _ =
@@ -128,7 +123,7 @@ module Content = {
   [@bs.obj]
   external makeProps :
     (
-      ~_as: string=?, /* TODO: Can also be a function ! */
+      ~_as: string=? /* TODO: Can also be a function ! */,
       ~className: string=?,
       ~content: ReasonReact.reactElement=?,
       ~image: Js.boolean=?,
@@ -160,7 +155,7 @@ module Description = {
   [@bs.obj]
   external makeProps :
     (
-      ~_as: string=?, /* TODO: Can also be a function ! */
+      ~_as: string=? /* TODO: Can also be a function ! */,
       ~className: string=?,
       ~content: ReasonReact.reactElement=?,
       unit
@@ -181,7 +176,7 @@ module Header = {
   [@bs.obj]
   external makeProps :
     (
-      ~_as: string=?, /* TODO: Can also be a function ! */
+      ~_as: string=? /* TODO: Can also be a function ! */,
       ~className: string=?,
       ~content: ReasonReact.reactElement=?,
       unit

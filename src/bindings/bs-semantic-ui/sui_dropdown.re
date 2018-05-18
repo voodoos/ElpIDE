@@ -214,7 +214,7 @@ module Item = {
       ~disabled: Js.boolean=?,
       ~flag: string=?,
       ~icon: string=?, /* TODO: image, label */
-      ~onClick: (ReactEventRe.Synthetic.t, Js.t(Js.Types.obj_val)) => unit=?,
+      ~onClick: (ReactEventRe.Mouse.t, Js.t({..})) => unit=?,
       ~selected: Js.boolean=?,
       ~text: string=?, /* TODO: value */
       unit

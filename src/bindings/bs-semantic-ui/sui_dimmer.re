@@ -11,10 +11,8 @@ external makeProps :
     ~className: string=? /* TODO: content */,
     ~disabled: Js.boolean=?,
     ~inverted: Js.boolean=?,
-    ~onClick: (ReactEventRe.Synthetic.t, Js.t(Js.Types.obj_val)) => unit=?,
-    ~onClickOutside: (ReactEventRe.Synthetic.t, Js.t(Js.Types.obj_val)) =>
-                     unit
-                       =?,
+    ~onClick: (ReactEventRe.Mouse.t, Js.t({..})) => unit=?,
+    ~onClickOutside: (ReactEventRe.Mouse.t, Js.t({..})) => unit=?,
     ~page: Js.boolean=?,
     ~simple: Js.boolean=?,
     unit

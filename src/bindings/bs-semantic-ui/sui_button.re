@@ -33,7 +33,7 @@ external makeButtonProps :
     ~labelPosition: string=?,
     ~loading: Js.boolean=?,
     ~negative: Js.boolean=?,
-    ~onClick: (ReactEventRe.Synthetic.t, Js.t(Js.Types.obj_val)) => unit=?,
+    ~onClick: (ReactEventRe.Synthetic.t, Js.t({..})) => unit=?,
     ~primary: Js.boolean=?,
     ~secondary: Js.boolean=?,
     ~size: string=?,
@@ -43,6 +43,7 @@ external makeButtonProps :
   ) =>
   _ =
   "";
+
 let make =
     (
       ~active=?,
