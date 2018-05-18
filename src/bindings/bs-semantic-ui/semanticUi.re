@@ -27,6 +27,8 @@ module Table = Sui_table;
 /* Modules */
 module Dimmer = Sui_dimmer;
 
+module Dropdown = Sui_dropdown;
+
 module Modal = Sui_modal;
 
 module Popup = Sui_popup;
