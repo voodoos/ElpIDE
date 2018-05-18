@@ -17,7 +17,8 @@ external makeProps :
     ~deburr: Js.boolean=?,
     ~defaultOpen: Js.boolean=?,
     ~defaultSearchQuery: string=?,
-    /* TODO: defaultSelectedLabel, defaultValue */
+    /* TODO: defaultSelectedLabel */
+    ~defaultValue: 'a=?, /* TODO: narrow this type... */
     ~direction: string=?,
     ~disabled: Js.boolean=?,
     ~error: Js.boolean=?,
@@ -31,10 +32,11 @@ external makeProps :
     ~minCharacters: int=?,
     ~multiple: Js.boolean=?,
     ~noResultsMessage: string=?, /* TODO: all callbacks */
-    ~onClick: (ReactEventRe.Synthetic.t, Js.t(Js.Types.obj_val)) => unit=?,
+    ~onChange: (ReactEventRe.Synthetic.t, Js.t(_)) => unit=?,
+    ~onClick: (ReactEventRe.Synthetic.t, Js.t(_)) => unit=?,
     ~_open: Js.boolean=?,
     ~openOnFocus: Js.boolean=?,
-    ~options: {.}=?,
+    ~options: array(Js.t(_))=?,
     ~placeholder: string=?, /* TODO: pointing, renderLabel, search, searchInput */
     ~searchQuery: string=?,
     ~selectOnBlur: Js.boolean=?,
@@ -61,7 +63,8 @@ let make =
       ~deburr=?,
       ~defaultOpen=?,
       ~defaultSearchQuery=?,
-      /* TODO: defaultSelectedLabel, defaultValue */
+      /* TODO: defaultSelectedLabel */
+      ~defaultValue=?,
       ~direction=?,
       ~disabled=?,
       ~error=?,
@@ -75,6 +78,7 @@ let make =
       ~minCharacters=?,
       ~multiple=?,
       ~noResultsMessage=?, /* TODO: all callbacks */
+      ~onChange=?,
       ~onClick=?,
       ~_open=?,
       ~openOnFocus=?,
@@ -104,7 +108,8 @@ let make =
         ~deburr=?fromBool(deburr),
         ~defaultOpen=?fromBool(defaultOpen),
         ~defaultSearchQuery?,
-        /* TODO: defaultSelectedLabel, defaultValue */
+        /* TODO: defaultSelectedLabel */
+        ~defaultValue?,
         ~direction=?fromLeftOrRight(direction),
         ~disabled=?fromBool(disabled),
         ~error=?fromBool(error),
@@ -118,6 +123,7 @@ let make =
         ~minCharacters?,
         ~multiple=?fromBool(multiple),
         ~noResultsMessage?, /* TODO: all callbacks */
+        ~onChange?,
         ~onClick?,
         ~_open=?fromBool(_open),
         ~openOnFocus=?fromBool(openOnFocus),
