@@ -579,6 +579,12 @@ brcast@^3.0.0:
   version "3.0.1"
   resolved "https://registry.yarnpkg.com/brcast/-/brcast-3.0.1.tgz#6256a8349b20de9eed44257a9b24d71493cd48dd"
 
+"bs-jszip@https://github.com/voodoos/bs-jszip":
+  version "0.1.0"
+  resolved "https://github.com/voodoos/bs-jszip#f5657d29ee95115ba1d111959db9ce45bc0e7ceb"
+  dependencies:
+    jszip "^3.1.5"
+
 bs-platform@^2.2.3:
   version "2.2.3"
   resolved "https://registry.yarnpkg.com/bs-platform/-/bs-platform-2.2.3.tgz#d905ae10a5f3621e6a739041dfa0b58483a2174f"
