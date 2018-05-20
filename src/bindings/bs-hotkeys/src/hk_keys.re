@@ -25,9 +25,9 @@ type kspecial = [
 ];
 
 type key =
-  | Str(string)
-  | Special(kspecial)
-  | Mod(kmod);
+  | K(string)
+  | S(kspecial)
+  | M(kmod);
 
 type keySeq =
   | Key(key)
@@ -51,3 +51,25 @@ let simple = l =>
     /* todo: check if the first one is a command ? */
     Seq([|List.fold_left((acc, k) => Plus(acc, Key(k)), Key(h), tl)|])
   };
+
+let simpleSuite = l =>
+  switch (l) {
+  | [] => raise(NoKeys)
+  | [h, ...tl] =>
+    /* todo: check if the first one is a command ? */
+    Seq([|List.fold_left((acc, k) => Space(acc, Key(k)), Key(h), tl)|])
+  };
+
+let konami =
+  simpleSuite([
+    S(`up),
+    S(`up),
+    S(`down),
+    S(`down),
+    S(`left),
+    S(`right),
+    S(`left),
+    S(`right),
+    K("b"),
+    K("a"),
+  ]);

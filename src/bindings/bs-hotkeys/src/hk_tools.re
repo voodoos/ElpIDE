@@ -3,9 +3,9 @@ open Hk_keys;
 /* Tools for keys */
 let keyToString = k =>
   switch (k) {
-  | Str(s) => s
-  | Special(kspecial) => kspecialToJs(kspecial)
-  | Mod(kmod) => kmodToJs(kmod)
+  | K(s) => s
+  | S(kspecial) => kspecialToJs(kspecial)
+  | M(kmod) => kmodToJs(kmod)
   };
 
 let rec keySeqToString = ks =>

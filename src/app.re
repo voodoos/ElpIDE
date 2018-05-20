@@ -25,6 +25,7 @@ type state = {
   activeFile: int,
   flags: Hashtbl.t(string, bool),
   types: list(ElpiJs.typ),
+  appClass: string,
 };
 
 type action =
@@ -33,6 +34,7 @@ type action =
   | SetFiles(array(Editor.State.t))
   | AddFiles(array(Editor.State.t))
   | SetFlag(string, bool)
+  | SetAppClass(string)
   | SetTypes(array(ElpiJs.typ))
   | Log(Log.message)
   | NewAnswer(Log.message)
@@ -120,6 +122,7 @@ let make = (~message, _children) => {
         answers: [||],
         flags,
         types: [],
+        appClass: "",
       };
     },
     reducer: (action, state) =>
@@ -138,6 +141,8 @@ let make = (~message, _children) => {
         let flags = Hashtbl.copy(state.flags);
         Hashtbl.replace(flags, k, b);
         ReasonReact.Update({...state, flags});
+      | SetAppClass(appClass) => 
+        ReasonReact.Update({...state, appClass});
       | SetTypes(types) =>
         ReasonReact.Update({...state, types: Array.to_list(types)})
       | Log(message) =>
@@ -242,8 +247,9 @@ let make = (~message, _children) => {
     },
     render: self => {
       let keyMap =
-        HotKeys.[("restart", K.simple([Mod(`command), Str("r")])),
-        ("build", K.simple([Mod(`command), Str("b")]))];
+        HotKeys.[("restart", K.simple([M(`command), K("r")])),
+        ("build", K.simple([M(`command), K("b")])),
+        ("konami", K.konami)];
       let handlers = [
         (
           "restart",
@@ -259,9 +265,19 @@ let make = (~message, _children) => {
             self.handle(clickPlay)(e)
           },
         ),
+
+        (
+          "konami",
+          e => {
+            ReactEventRe.Synthetic.preventDefault(e);
+            self.send(SetAppClass("pyro"));
+            BaseJs.setTimeout(() => self.send(SetAppClass("")), 5000);
+          },
+        ),
       ];
       <HotKeys keyMap handlers>
-        <div id="app" onKeyDown=(self.handle(keyDown))>
+        <div id="app" onKeyDown=(self.handle(keyDown)) className=self.state.appClass>
+          <div  className="before" />
           <Toolbar
             brand=message
             onClickPlay=(self.handle(clickPlay))
@@ -317,6 +333,7 @@ let make = (~message, _children) => {
               </Pane>
             </SplitPane>
           </SplitPane>
+          <div  className="after" />
         </div>
       </HotKeys>;
     },

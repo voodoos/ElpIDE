@@ -1,0 +1,1 @@
+[@bs.val] external setTimeout : (unit => unit, int) => unit = "";

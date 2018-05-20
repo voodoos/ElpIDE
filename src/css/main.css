@@ -3,4 +3,5 @@
 @import './app.css';
 @import './panels.less';
 @import './props.css';
+@import './pyro.less';
 @import '../components/subcomponents/sui-inline-suggest/sui-inline-suggest.css';
