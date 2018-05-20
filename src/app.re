@@ -241,8 +241,17 @@ let make = (~message, _children) => {
       ReasonReact.NoUpdate;
     },
     render: self => {
-      let keyMap = HotKeys.[("test", K.Seq([|Key(Str("a"))|]))];
-      let handlers = [("test", _e => Js.log("testsuccess"))];
+      let keyMap =
+        HotKeys.[("test", simple([K.Mod(`command), K.Str("b")]))];
+      let handlers = [
+        (
+          "test",
+          e => {
+            ReactEventRe.Synthetic.preventDefault(e);
+            Js.log("testsuccess");
+          },
+        ),
+      ];
       <HotKeys keyMap handlers>
         <div id="app" onKeyDown=(self.handle(keyDown))>
           <Toolbar

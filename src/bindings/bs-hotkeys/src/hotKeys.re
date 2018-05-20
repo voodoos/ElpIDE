@@ -2,6 +2,19 @@ open Hk_tools;
 
 module K = Hk_keys;
 
+exception NoKeys;
+
+/** Some utilities to build usual keybindings */
+let simple = l =>
+  switch (l) {
+  | [] => raise(NoKeys)
+  | [h, ...tl] =>
+    /* todo: check if the first one is a command ? */
+    K.Seq([|
+      List.fold_left((acc, k) => K.Plus(acc, Key(k)), Key(h), tl),
+    |])
+  };
+
 [@bs.module "react-hotkeys"]
 external react : ReasonReact.reactClass = "HotKeys";
 
