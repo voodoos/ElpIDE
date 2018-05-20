@@ -247,8 +247,8 @@ let make = (~message, _children) => {
     },
     render: self => {
       let keyMap =
-        HotKeys.[("restart", K.simple([M(`command), K("r")])),
-        ("build", K.simple([M(`command), K("b")])),
+        HotKeys.[("restart", K.simple([M(`command), K("r")])),("restart", K.simple([M(`ctrl), K("r")])),
+        ("build", K.simple([M(`command), K("b")])), ("build", K.simple([M(`ctrl), K("b")])),
         ("konami", K.konami)];
       let handlers = [
         (
