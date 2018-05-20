@@ -13,6 +13,7 @@
     "localforage": "^1.7.1",
     "mlts-js": "https://github.com/voodoos/mlts-js.git",
     "react-ace": "^5.9.0",
+    "react-hotkeys": "^1.1.4",
     "react-split-pane": "https://github.com/voodoos/react-split-pane#v2",
     "react-treebeard": "^2.1.0",
     "semantic-ui-css": "^2.3.1",

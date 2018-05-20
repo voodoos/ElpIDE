@@ -240,63 +240,68 @@ let make = (~message, _children) => {
       |> ignore;
       ReasonReact.NoUpdate;
     },
-    render: self =>
-      <div id="app" onKeyDown=(self.handle(keyDown))>
-        <Toolbar
-          brand=message
-          onClickPlay=(self.handle(clickPlay))
-          onClickRestart=(self.handle(clickRestart))
-          onClickSave=(self.handle(clickSave))
-          onLoadFiles=(files => self.send(AddFiles(files)))
-          playDisabled=(! Hashtbl.find(self.state.flags, "elpi_started"))
-        />
-        <SplitPane
-          className="main-split"
-          split=`vertical
-          defaultSize=200
-          onDragFinished=(() => self.send(LayoutChange))>
-          <Pane initialSize="200px" className="left-column">
-            <FileBrowser
-              files=self.state.files
-              onClickFile=(i => self.send(SetActiveFile(i)))
-              onClickNew=(name => self.send(NewFile(name)))
-              onDeleteFile=(i => self.send(DeleteFile(i)))
-            />
-          </Pane>
+    render: self => {
+      let keyMap = HotKeys.[("test", K.Seq([|Key(Str("a"))|]))];
+      let handlers = [("test", _e => Js.log("testsuccess"))];
+      <HotKeys keyMap handlers>
+        <div id="app" onKeyDown=(self.handle(keyDown))>
+          <Toolbar
+            brand=message
+            onClickPlay=(self.handle(clickPlay))
+            onClickRestart=(self.handle(clickRestart))
+            onClickSave=(self.handle(clickSave))
+            onLoadFiles=(files => self.send(AddFiles(files)))
+            playDisabled=(! Hashtbl.find(self.state.flags, "elpi_started"))
+          />
           <SplitPane
-            className="right-split"
-            split=`horizontal
+            className="main-split"
+            split=`vertical
+            defaultSize=200
             onDragFinished=(() => self.send(LayoutChange))>
-            <Pane>
-              <Editor
-                file=self.state.files[self.state.activeFile]##name
-                value=self.state.files[self.state.activeFile]##content
-                onChange=(
-                  self.handle(changeEditorValue(self.state.activeFile))
-                )
+            <Pane initialSize="200px" className="left-column">
+              <FileBrowser
+                files=self.state.files
+                onClickFile=(i => self.send(SetActiveFile(i)))
+                onClickNew=(name => self.send(NewFile(name)))
+                onDeleteFile=(i => self.send(DeleteFile(i)))
               />
             </Pane>
-            <Pane>
-              <SplitPane
-                className="bottom-right-split"
-                split=`vertical
-                onDragFinished=(() => self.send(LayoutChange))>
-                <Pane className="scroll">
-                  <Log
-                    level=self.state.log.level
-                    messages=self.state.log.messages
-                  />
-                </Pane>
-                <Pane className="scroll">
-                  <Querier
-                    messages=self.state.answers
-                    suggestions=self.state.types
-                  />
-                </Pane>
-              </SplitPane>
-            </Pane>
+            <SplitPane
+              className="right-split"
+              split=`horizontal
+              onDragFinished=(() => self.send(LayoutChange))>
+              <Pane>
+                <Editor
+                  file=self.state.files[self.state.activeFile]##name
+                  value=self.state.files[self.state.activeFile]##content
+                  onChange=(
+                    self.handle(changeEditorValue(self.state.activeFile))
+                  )
+                />
+              </Pane>
+              <Pane>
+                <SplitPane
+                  className="bottom-right-split"
+                  split=`vertical
+                  onDragFinished=(() => self.send(LayoutChange))>
+                  <Pane className="scroll">
+                    <Log
+                      level=self.state.log.level
+                      messages=self.state.log.messages
+                    />
+                  </Pane>
+                  <Pane className="scroll">
+                    <Querier
+                      messages=self.state.answers
+                      suggestions=self.state.types
+                    />
+                  </Pane>
+                </SplitPane>
+              </Pane>
+            </SplitPane>
           </SplitPane>
-        </SplitPane>
-      </div>,
+        </div>
+      </HotKeys>;
+    },
   };
 };
