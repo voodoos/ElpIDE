@@ -242,13 +242,21 @@ let make = (~message, _children) => {
     },
     render: self => {
       let keyMap =
-        HotKeys.[("test", simple([K.Mod(`command), K.Str("b")]))];
+        HotKeys.[("restart", K.simple([Mod(`command), Str("r")])),
+        ("build", K.simple([Mod(`command), Str("b")]))];
       let handlers = [
         (
-          "test",
+          "restart",
           e => {
             ReactEventRe.Synthetic.preventDefault(e);
-            Js.log("testsuccess");
+            self.handle(clickRestart)(e)
+          },
+        ),
+        (
+          "build",
+          e => {
+            ReactEventRe.Synthetic.preventDefault(e);
+            self.handle(clickPlay)(e)
           },
         ),
       ];

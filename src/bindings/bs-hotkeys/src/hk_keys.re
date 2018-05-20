@@ -40,3 +40,14 @@ type action = [ | `keypress | `keydown | `keyup];
 type keys =
   | Seq(array(keySeq))
   | SeqAction(array(keySeq), action);
+
+exception NoKeys;
+
+/** Some utilities to build usual keybindings */
+let simple = l =>
+  switch (l) {
+  | [] => raise(NoKeys)
+  | [h, ...tl] =>
+    /* todo: check if the first one is a command ? */
+    Seq([|List.fold_left((acc, k) => Plus(acc, Key(k)), Key(h), tl)|])
+  };

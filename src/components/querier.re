@@ -119,7 +119,7 @@ let make = (~suggestions, ~messages, _children) => {
         }
       },
     didMount: self => {
-      /* We load files from local storage if availible */
+      /* We load files from local storage if available */
       Js.Promise.(
         ignore(
           LocalForage.getItem("queristory")
