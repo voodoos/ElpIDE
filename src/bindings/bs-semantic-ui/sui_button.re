@@ -1,13 +1,8 @@
 open Sui_tools;
 
 [@bs.module "semantic-ui-react"]
-external suiButton : ReasonReact.reactClass = "Button";
+external react : ReasonReact.reactClass = "Button";
 
-[@bs.module "semantic-ui-react"] [@bs.scope "Button"]
-external suiButtonGroup : ReasonReact.reactClass = "Group";
-
-[@bs.module "semantic-ui-react"] [@bs.scope "Button"]
-external suiButtonContent : ReasonReact.reactClass = "Content";
 
 /* Using BS Special Creation Function help us with optionnal properties */
 /* See https://khoanguyen.me/writing-reason-react-bindings-the-right-way */
@@ -73,7 +68,7 @@ let make =
       children,
     ) =>
   ReasonReact.wrapJsForReason(
-    ~reactClass=suiButton,
+    ~reactClass=react,
     ~props=
       makeButtonProps(
         ~active=?fromBool(active),
@@ -107,6 +102,9 @@ let make =
 
 /* Bindings for *Button.Group* */
 module Group = {
+  [@bs.module "semantic-ui-react"] [@bs.scope "Button"]
+  external react : ReasonReact.reactClass = "Group";
+
   [@bs.obj]
   external makeButtonGroupProps :
     (
@@ -159,7 +157,7 @@ module Group = {
         children,
       ) =>
     ReasonReact.wrapJsForReason(
-      ~reactClass=suiButtonGroup,
+      ~reactClass=react,
       ~props=
         makeButtonGroupProps(
           ~_as?,
@@ -189,6 +187,10 @@ module Group = {
 
 /* Bindings for *Button.Group* */
 module Content = {
+
+  [@bs.module "semantic-ui-react"] [@bs.scope "Button"]
+  external react : ReasonReact.reactClass = "Content";
+
   [@bs.obj]
   external makeProps :
     (
@@ -204,7 +206,7 @@ module Content = {
   let make =
       (~_as=?, ~className=?, ~content=?, ~hidden=?, ~visible=?, children) =>
     ReasonReact.wrapJsForReason(
-      ~reactClass=suiButtonContent,
+      ~reactClass=react,
       ~props=
         makeProps(
           ~_as?,
@@ -220,6 +222,8 @@ module Content = {
 
 /* Bindings for *Button.Or* */
 module Or = {
+  [@bs.module "semantic-ui-react"] [@bs.scope "Button"]
+  external react : ReasonReact.reactClass = "Or";
   [@bs.obj]
   external makeProps :
     (
@@ -232,7 +236,7 @@ module Or = {
     "";
   let make = (~_as=?, ~className=?, ~text=?, children) =>
     ReasonReact.wrapJsForReason(
-      ~reactClass=suiButtonContent,
+      ~reactClass=react,
       ~props=makeProps(~_as?, ~className?, ~text=?fromNumOrString(text), ()),
       children,
     );

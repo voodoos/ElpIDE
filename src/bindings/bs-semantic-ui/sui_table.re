@@ -1,7 +1,7 @@
 open Sui_tools;
 
 [@bs.module "semantic-ui-react"]
-external suiTable : ReasonReact.reactClass = "Table";
+external react : ReasonReact.reactClass = "Table";
 
 /* Using BS Special Creation Function help us with optionnal properties */
 /* See https://khoanguyen.me/writing-reason-react-bindings-the-right-way */
@@ -67,7 +67,7 @@ let make =
       children,
     ) =>
   ReasonReact.wrapJsForReason(
-    ~reactClass=suiTable,
+    ~reactClass=react,
     ~props=
       makeTableProps(
         ~_as?,
@@ -100,7 +100,7 @@ let make =
 
 module Body = {
   [@bs.module "semantic-ui-react"] [@bs.scope "Table"]
-  external sui : ReasonReact.reactClass = "Body";
+  external react : ReasonReact.reactClass = "Body";
   [@bs.obj]
   external makeProps :
     (
@@ -112,7 +112,7 @@ module Body = {
     "";
   let make = (~_as=?, ~className=?, children) =>
     ReasonReact.wrapJsForReason(
-      ~reactClass=sui,
+      ~reactClass=react,
       ~props=makeProps(~_as?, ~className?, ()),
       children,
     );
@@ -120,7 +120,7 @@ module Body = {
 
 module Cell = {
   [@bs.module "semantic-ui-react"] [@bs.scope "Table"]
-  external sui : ReasonReact.reactClass = "Cell";
+  external react : ReasonReact.reactClass = "Cell";
   [@bs.obj]
   external makeProps :
     (
@@ -162,7 +162,7 @@ module Cell = {
         children,
       ) =>
     ReasonReact.wrapJsForReason(
-      ~reactClass=sui,
+      ~reactClass=react,
       ~props=
         makeProps(
           ~active=?fromBool(active),
@@ -186,7 +186,7 @@ module Cell = {
 
 module Row = {
   [@bs.module "semantic-ui-react"] [@bs.scope "Table"]
-  external sui : ReasonReact.reactClass = "Row";
+  external react : ReasonReact.reactClass = "Row";
   [@bs.obj]
   external makeProps :
     (
@@ -222,7 +222,7 @@ module Row = {
         children,
       ) =>
     ReasonReact.wrapJsForReason(
-      ~reactClass=sui,
+      ~reactClass=react,
       ~props=
         makeProps(
           ~active=?fromBool(active),

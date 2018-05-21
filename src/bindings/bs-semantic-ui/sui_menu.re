@@ -1,12 +1,12 @@
 open Sui_tools;
 
 [@bs.module "semantic-ui-react"]
-external suiMenu : ReasonReact.reactClass = "Menu";
+external react : ReasonReact.reactClass = "Menu";
 
 /* Using BS Special Creation Function help us with optionnal properties */
 /* See https://khoanguyen.me/writing-reason-react-bindings-the-right-way */
 [@bs.obj]
-external makeMenuProps :
+external makeProps :
   (
     ~_as: string=?, /* TODO: Can also be a function ! */
     ~attached: string=?,
@@ -59,9 +59,9 @@ let make =
       children,
     ) =>
   ReasonReact.wrapJsForReason(
-    ~reactClass=suiMenu,
+    ~reactClass=react,
     ~props=
-      makeMenuProps(
+      makeProps(
         ~_as?,
         ~attached=?fromAllDir(attached),
         ~borderless=?fromBool(borderless),
@@ -87,7 +87,7 @@ let make =
 
 module Item = {
   [@bs.module "semantic-ui-react"] [@bs.scope "Menu"]
-  external suiMenuItem : ReasonReact.reactClass = "Item";
+  external react : ReasonReact.reactClass = "Item";
   [@bs.obj]
   external makeMenuItemProps :
     (
@@ -126,7 +126,7 @@ module Item = {
         children,
       ) =>
     ReasonReact.wrapJsForReason(
-      ~reactClass=suiMenuItem,
+      ~reactClass=react,
       ~props=
         makeMenuItemProps(
           ~active=?fromBool(active),
@@ -149,7 +149,7 @@ module Item = {
 
 module Header = {
   [@bs.module "semantic-ui-react"] [@bs.scope "Menu"]
-  external suiMenuHeader : ReasonReact.reactClass = "Header";
+  external react : ReasonReact.reactClass = "Header";
   [@bs.obj]
   external makeProps :
     (
@@ -162,7 +162,7 @@ module Header = {
     "";
   let make = (~_as=?, ~className=?, ~content=?, children) =>
     ReasonReact.wrapJsForReason(
-      ~reactClass=suiMenuHeader,
+      ~reactClass=react,
       ~props=makeProps(~_as?, ~className?, ~content?, ()),
       children,
     );
@@ -170,7 +170,7 @@ module Header = {
 
 module Menu = {
   [@bs.module "semantic-ui-react"] [@bs.scope "Menu"]
-  external suiMenuMenu : ReasonReact.reactClass = "Menu";
+  external react : ReasonReact.reactClass = "Menu";
   [@bs.obj]
   external makeProps :
     (
@@ -184,7 +184,7 @@ module Menu = {
     "";
   let make = (~_as=?, ~className=?, ~content=?, ~position=?, children) =>
     ReasonReact.wrapJsForReason(
-      ~reactClass=suiMenuMenu,
+      ~reactClass=react,
       ~props=
         makeProps(
           ~_as?,

@@ -7,6 +7,8 @@ external jsOfBool : Js.boolean => js = "%identity";
 
 external jsOfString : string => js = "%identity";
 
+external jsOfReactClass : ReasonReact.reactClass => js = "%identity";
+
 external jsOfInt : int => js = "%identity";
 
 external jsOfFloat : float => js = "%identity";
@@ -49,6 +51,10 @@ let fromLabelPos = makeJsOptionMap(labelPosToJs);
 
 /* For width enums props */
 let fromWidth = makeJsOptionMap(widthToJs);
+
+let fromSBWidth = makeJsOptionMap(sbWidthToJs);
+
+let fromSBAnimation = makeJsOptionMap(sbAnimationToJs);
 
 /* For button animation enums props */
 let toAnimButaux = bORe =>
@@ -142,3 +148,12 @@ let fromBoolOrTopOrBottomAux = bORe =>
 
 let fromBoolOrTopOrBottom = b =>
   Js.Option.map((. a) => fromBoolOrTopOrBottomAux(a), b);
+  
+let fromStringOrReactClassAux = a =>
+switch (a) {
+| `react(r) => jsOfReactClass(r)
+| `str(s) => jsOfString(s)
+};
+
+let fromStringOrReactClass = b =>
+  Js.Option.map((. a) => fromStringOrReactClassAux(a), b);

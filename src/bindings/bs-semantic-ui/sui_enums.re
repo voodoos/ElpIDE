@@ -109,3 +109,11 @@ type width = [
   | `fifteen
   | `sixteen
 ];
+
+
+[@bs.deriving jsConverter]
+type sbWidth = [ | [@bs.as "very thin"] `verythin | `thin | `wide |  [@bs.as "very wide"] `verywide];
+
+
+[@bs.deriving jsConverter]
+type sbAnimation = [ | [@bs.as "scale down"] `scaledown | `overlay | `push |  [@bs.as "slide out"] `slideout | `uncover |  [@bs.as "slide along"] `slidealong];

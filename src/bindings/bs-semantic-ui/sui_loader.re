@@ -1,7 +1,7 @@
 open Sui_tools;
 
 [@bs.module "semantic-ui-react"]
-external sui : ReasonReact.reactClass = "Loader";
+external react : ReasonReact.reactClass = "Loader";
 
 [@bs.obj]
 external makeProps :
@@ -32,7 +32,7 @@ let make =
       children,
     ) =>
   ReasonReact.wrapJsForReason(
-    ~reactClass=sui,
+    ~reactClass=react,
     ~props=
       makeProps(
         ~active=?fromBool(active),

@@ -299,39 +299,56 @@ let make = (~message, _children) => {
                 onDeleteFile=(i => self.send(DeleteFile(i)))
               />
             </Pane>
-            <SplitPane
-              className="right-split"
-              split=`horizontal
-              onDragFinished=(() => self.send(LayoutChange))>
-              <Pane>
-                <Editor
-                  file=self.state.files[self.state.activeFile]##name
-                  value=self.state.files[self.state.activeFile]##content
-                  onChange=(
-                    self.handle(changeEditorValue(self.state.activeFile))
-                  )
-                />
-              </Pane>
-              <Pane>
-                <SplitPane
-                  className="bottom-right-split"
-                  split=`vertical
-                  onDragFinished=(() => self.send(LayoutChange))>
-                  <Pane className="scroll">
-                    <Log
-                      level=self.state.log.level
-                      messages=self.state.log.messages
-                    />
-                  </Pane>
-                  <Pane className="scroll">
-                    <Querier
-                      messages=self.state.answers
-                      suggestions=self.state.types
-                    />
-                  </Pane>
-                </SplitPane>
-              </Pane>
-            </SplitPane>
+            <SemanticUi.Sidebar
+            _as=`react(SemanticUi.Menu.react)
+            animation=`overlay
+            width=`thin
+            direction=`right
+            visible=true
+            icon="labeled"
+            vertical=true
+            inverted=true
+          >
+          <SemanticUi.Menu.Item name="home">
+              <SemanticUi.Icon name="home" />
+              (ReasonReact.stringToElement("Home"))
+            </SemanticUi.Menu.Item>
+          </SemanticUi.Sidebar>
+          <SemanticUi.Sidebar.Pusher>
+                  <SplitPane
+                    className="right-split"
+                    split=`horizontal
+                    onDragFinished=(() => self.send(LayoutChange))>
+                    <Pane>
+                      <Editor
+                        file=self.state.files[self.state.activeFile]##name
+                        value=self.state.files[self.state.activeFile]##content
+                        onChange=(
+                          self.handle(changeEditorValue(self.state.activeFile))
+                        )
+                      />
+                    </Pane>
+                    <Pane>
+                      <SplitPane
+                        className="bottom-right-split"
+                        split=`vertical
+                        onDragFinished=(() => self.send(LayoutChange))>
+                        <Pane className="scroll">
+                          <Log
+                            level=self.state.log.level
+                            messages=self.state.log.messages
+                          />
+                        </Pane>
+                        <Pane className="scroll">
+                          <Querier
+                            messages=self.state.answers
+                            suggestions=self.state.types
+                          />
+                        </Pane>
+                      </SplitPane>
+                    </Pane>
+                  </SplitPane>
+                  </SemanticUi.Sidebar.Pusher>
           </SplitPane>
           <div  className="after" />
         </div>

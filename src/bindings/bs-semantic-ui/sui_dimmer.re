@@ -1,7 +1,7 @@
 open Sui_tools;
 
 [@bs.module "semantic-ui-react"]
-external sui : ReasonReact.reactClass = "Dimmer";
+external react : ReasonReact.reactClass = "Dimmer";
 
 [@bs.obj]
 external makeProps :
@@ -34,7 +34,7 @@ let make =
       children,
     ) =>
   ReasonReact.wrapJsForReason(
-    ~reactClass=sui,
+    ~reactClass=react,
     ~props=
       makeProps(
         ~active=?fromBool(active),
@@ -53,7 +53,7 @@ let make =
 
 module Dimmable = {
   [@bs.module "semantic-ui-react"] [@bs.scope "Dimmer"]
-  external sui : ReasonReact.reactClass = "Dimmable";
+  external react : ReasonReact.reactClass = "Dimmable";
   [@bs.obj]
   external makeProps :
     (
@@ -67,7 +67,7 @@ module Dimmable = {
     "";
   let make = (~_as=?, ~blurring=?, ~className=?, ~dimmed=?, children) =>
     ReasonReact.wrapJsForReason(
-      ~reactClass=sui,
+      ~reactClass=react,
       ~props=
         makeProps(
           ~_as?,

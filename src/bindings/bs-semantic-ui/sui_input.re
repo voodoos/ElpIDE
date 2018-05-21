@@ -1,7 +1,7 @@
 open Sui_tools;
 
 [@bs.module "semantic-ui-react"]
-external sui : ReasonReact.reactClass = "Input";
+external react : ReasonReact.reactClass = "Input";
 
 [@bs.obj] /* TODO : Action, ActionPosition */
 external makeProps :
@@ -60,7 +60,7 @@ let make =
       children,
     ) =>
   ReasonReact.wrapJsForReason(
-    ~reactClass=sui,
+    ~reactClass=react,
     ~props=
       makeProps(
         ~_as?,
