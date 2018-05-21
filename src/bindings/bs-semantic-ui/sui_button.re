@@ -3,7 +3,6 @@ open Sui_tools;
 [@bs.module "semantic-ui-react"]
 external react : ReasonReact.reactClass = "Button";
 
-
 /* Using BS Special Creation Function help us with optionnal properties */
 /* See https://khoanguyen.me/writing-reason-react-bindings-the-right-way */
 [@bs.obj]
@@ -11,7 +10,7 @@ external makeButtonProps :
   (
     ~active: Js.boolean=?,
     ~animated: Sui_tools.js=?,
-    ~_as: string=?, /* TODO: Can also be a function ! */
+    ~_as: js=?,
     ~attached: string=?,
     ~basic: Js.boolean=?,
     ~circular: Js.boolean=?,
@@ -72,7 +71,7 @@ let make =
     ~props=
       makeButtonProps(
         ~active=?fromBool(active),
-        ~_as?,
+        ~_as=?fromStringOrReactClass(_as),
         ~attached=?fromAllDir(attached),
         ~animated=?fromAnimBut(animated),
         ~basic=?fromBool(basic),
@@ -104,11 +103,10 @@ let make =
 module Group = {
   [@bs.module "semantic-ui-react"] [@bs.scope "Button"]
   external react : ReasonReact.reactClass = "Group";
-
   [@bs.obj]
   external makeButtonGroupProps :
     (
-      ~_as: string=?, /* TODO: Can also be a function ! */
+      ~_as: js=?,
       ~attached: string=?,
       ~basic: Js.boolean=?,
       /* TODO: buttons 	{custom} Array of shorthand Button values. */
@@ -160,7 +158,7 @@ module Group = {
       ~reactClass=react,
       ~props=
         makeButtonGroupProps(
-          ~_as?,
+          ~_as=?fromStringOrReactClass(_as),
           ~attached=?fromAllDir(attached),
           ~basic=?fromBool(basic),
           ~className?, /* There is punning hapenning here (~className=?className) */
@@ -187,14 +185,12 @@ module Group = {
 
 /* Bindings for *Button.Group* */
 module Content = {
-
   [@bs.module "semantic-ui-react"] [@bs.scope "Button"]
   external react : ReasonReact.reactClass = "Content";
-
   [@bs.obj]
   external makeProps :
     (
-      ~_as: string=?, /* TODO: Can also be a function ! */
+      ~_as: js=?,
       ~className: string=?,
       ~content: ReasonReact.reactElement=?,
       ~hidden: Js.boolean=?,
@@ -209,7 +205,7 @@ module Content = {
       ~reactClass=react,
       ~props=
         makeProps(
-          ~_as?,
+          ~_as=?fromStringOrReactClass(_as),
           ~className?,
           ~content?,
           ~hidden=?fromBool(hidden),
@@ -226,18 +222,18 @@ module Or = {
   external react : ReasonReact.reactClass = "Or";
   [@bs.obj]
   external makeProps :
-    (
-      ~_as: string=?, /* TODO: Can also be a function ! */
-      ~className: string=?,
-      ~text: Sui_tools.js=?,
-      unit
-    ) =>
-    _ =
+    (~_as: js=?, ~className: string=?, ~text: Sui_tools.js=?, unit) => _ =
     "";
   let make = (~_as=?, ~className=?, ~text=?, children) =>
     ReasonReact.wrapJsForReason(
       ~reactClass=react,
-      ~props=makeProps(~_as?, ~className?, ~text=?fromNumOrString(text), ()),
+      ~props=
+        makeProps(
+          ~_as=?fromStringOrReactClass(_as),
+          ~className?,
+          ~text=?fromNumOrString(text),
+          (),
+        ),
       children,
     );
 };

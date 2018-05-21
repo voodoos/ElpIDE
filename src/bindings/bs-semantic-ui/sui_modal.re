@@ -7,7 +7,7 @@ external react : ReasonReact.reactClass = "Modal";
 external makeProps :
   (
     ~actions: array(ReasonReact.reactElement)=?,
-    ~_as: string=? /* TODO: Can also be a function ! */ /* TODO: actions */,
+    ~_as: js=? /* TODO: actions */,
     ~basic: Js.boolean=?,
     ~className: string=? /* TODO: closeIcon */,
     ~closeOnDimmerClick: Js.boolean=?,
@@ -22,7 +22,7 @@ external makeProps :
     ~onOpen: (ReactEventRe.Synthetic.t, Js.t({..})) => unit=?,
     ~onUnmount: unit => unit=?,
     ~_open: Js.boolean=?,
-    ~size: string=? /* TODO: style */ /* fullscreen large mini small tiny */,
+    ~size: string=? /* fullscreen large mini small tiny */ /* TODO: style */,
     ~trigger: ReasonReact.reactElement=?,
     unit
   ) =>
@@ -56,7 +56,7 @@ let make =
     ~props=
       makeProps(
         ~actions?,
-        ~_as?,
+        ~_as=?fromStringOrReactClass(_as),
         ~basic=?fromBool(basic),
         ~className?,
         ~closeOnDimmerClick=?fromBool(closeOnDimmerClick),
@@ -85,7 +85,7 @@ module Actions = {
   external makeProps :
     (
       ~actions: array(ReasonReact.reactElement)=?,
-      ~_as: string=? /* TODO: Can also be a function ! */,
+      ~_as: js=?,
       ~className: string=?,
       ~content: ReasonReact.reactElement=?,
       ~onActionClick: (ReactEventRe.Mouse.t, Js.t({..})) => unit=?,
@@ -107,7 +107,7 @@ module Actions = {
       ~props=
         makeProps(
           ~actions?,
-          ~_as?,
+          ~_as=?fromStringOrReactClass(_as),
           ~className?,
           ~content?,
           ~onActionClick?,
@@ -123,7 +123,7 @@ module Content = {
   [@bs.obj]
   external makeProps :
     (
-      ~_as: string=? /* TODO: Can also be a function ! */,
+      ~_as: js=?,
       ~className: string=?,
       ~content: ReasonReact.reactElement=?,
       ~image: Js.boolean=?,
@@ -138,7 +138,7 @@ module Content = {
       ~reactClass=react,
       ~props=
         makeProps(
-          ~_as?,
+          ~_as=?fromStringOrReactClass(_as),
           ~className?,
           ~content?,
           ~image=?fromBool(image),
@@ -155,7 +155,7 @@ module Description = {
   [@bs.obj]
   external makeProps :
     (
-      ~_as: string=? /* TODO: Can also be a function ! */,
+      ~_as: js=?,
       ~className: string=?,
       ~content: ReasonReact.reactElement=?,
       unit
@@ -165,7 +165,13 @@ module Description = {
   let make = (~_as=?, ~className=?, ~content=?, children) =>
     ReasonReact.wrapJsForReason(
       ~reactClass=react,
-      ~props=makeProps(~_as?, ~className?, ~content?, ()),
+      ~props=
+        makeProps(
+          ~_as=?fromStringOrReactClass(_as),
+          ~className?,
+          ~content?,
+          (),
+        ),
       children,
     );
 };
@@ -176,7 +182,7 @@ module Header = {
   [@bs.obj]
   external makeProps :
     (
-      ~_as: string=? /* TODO: Can also be a function ! */,
+      ~_as: js=?,
       ~className: string=?,
       ~content: ReasonReact.reactElement=?,
       unit
@@ -186,7 +192,13 @@ module Header = {
   let make = (~_as=?, ~className=?, ~content=?, children) =>
     ReasonReact.wrapJsForReason(
       ~reactClass=react,
-      ~props=makeProps(~_as?, ~className?, ~content?, ()),
+      ~props=
+        makeProps(
+          ~_as=?fromStringOrReactClass(_as),
+          ~className?,
+          ~content?,
+          (),
+        ),
       children,
     );
 };

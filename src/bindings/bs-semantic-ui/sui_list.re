@@ -9,7 +9,7 @@ external react : ReasonReact.reactClass = "List";
 external makeProps :
   (
     ~animated: Js.boolean=?,
-    ~_as: string=?, /* TODO: Can also be a function ! */
+    ~_as: js=?,
     ~bulleted: Js.boolean=?,
     ~celled: Js.boolean=?,
     ~className: string=?,
@@ -57,7 +57,7 @@ let make =
     ~props=
       makeProps(
         ~animated=?fromBool(animated),
-        ~_as?,
+        ~_as=?fromStringOrReactClass(_as),
         ~bulleted=?fromBool(bulleted),
         ~celled=?fromBool(celled),
         ~className?,
@@ -84,7 +84,7 @@ module Description = {
   [@bs.obj]
   external makeProps :
     (
-      ~_as: string=?, /* TODO: Can also be a function ! */
+      ~_as: js=?,
       ~className: string=?,
       ~content: ReasonReact.reactElement=?,
       unit
@@ -94,7 +94,13 @@ module Description = {
   let make = (~_as=?, ~className=?, ~content=?, children) =>
     ReasonReact.wrapJsForReason(
       ~reactClass=react,
-      ~props=makeProps(~_as?, ~className?, ~content?, ()),
+      ~props=
+        makeProps(
+          ~_as=?fromStringOrReactClass(_as),
+          ~className?,
+          ~content?,
+          (),
+        ),
       children,
     );
 };
@@ -105,7 +111,7 @@ module Header = {
   [@bs.obj]
   external makeProps :
     (
-      ~_as: string=?, /* TODO: Can also be a function ! */
+      ~_as: js=?,
       ~className: string=?,
       ~content: ReasonReact.reactElement=?,
       unit
@@ -115,7 +121,13 @@ module Header = {
   let make = (~_as=?, ~className=?, ~content=?, children) =>
     ReasonReact.wrapJsForReason(
       ~reactClass=react,
-      ~props=makeProps(~_as?, ~className?, ~content?, ()),
+      ~props=
+        makeProps(
+          ~_as=?fromStringOrReactClass(_as),
+          ~className?,
+          ~content?,
+          (),
+        ),
       children,
     );
 };
@@ -155,7 +167,7 @@ module Content = {
   [@bs.obj]
   external makeProps :
     (
-      ~_as: string=?, /* TODO: Can also be a function ! */
+      ~_as: js=?,
       ~className: string=?,
       ~content: ReasonReact.reactElement=?,
       ~description: ReasonReact.reactElement=?,
@@ -181,7 +193,7 @@ module Content = {
       ~reactClass=react,
       ~props=
         makeProps(
-          ~_as?,
+          ~_as=?fromStringOrReactClass(_as),
           ~className?,
           ~content?,
           ~description?,
@@ -201,7 +213,7 @@ module Item = {
   external makeProps :
     (
       ~active: Js.boolean=?,
-      ~_as: string=?, /* TODO: Can also be a function ! */
+      ~_as: js=?,
       ~className: string=?,
       ~content: ReasonReact.reactElement=?,
       ~description: ReasonReact.reactElement=?,
@@ -235,7 +247,7 @@ module Item = {
       ~props=
         makeProps(
           ~active=?fromBool(active),
-          ~_as?,
+          ~_as=?fromStringOrReactClass(_as),
           ~className?,
           ~content?,
           ~description?,
@@ -257,7 +269,7 @@ module List = {
   [@bs.obj]
   external makeProps :
     (
-      ~_as: string=?, /* TODO: Can also be a function ! */
+      ~_as: js=?,
       ~className: string=?,
       /* TODO: content */
       unit
@@ -267,7 +279,7 @@ module List = {
   let make = (~_as=?, ~className=?, children) =>
     ReasonReact.wrapJsForReason(
       ~reactClass=react,
-      ~props=makeProps(~_as?, ~className?, ()),
+      ~props=makeProps(~_as=?fromStringOrReactClass(_as), ~className?, ()),
       children,
     );
 };

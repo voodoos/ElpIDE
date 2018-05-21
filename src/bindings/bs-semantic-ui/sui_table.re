@@ -8,7 +8,7 @@ external react : ReasonReact.reactClass = "Table";
 [@bs.obj]
 external makeTableProps :
   (
-    ~_as: string=?, /* TODO: Can also be a function ! */
+    ~_as: js=?,
     ~attached: string=?,
     ~basic: js=?,
     ~celled: Js.boolean=?,
@@ -70,7 +70,7 @@ let make =
     ~reactClass=react,
     ~props=
       makeTableProps(
-        ~_as?,
+        ~_as=?fromStringOrReactClass(_as),
         ~attached=?fromTopOrBottom(attached),
         ~basic=?fromBoolOrVery(basic),
         ~celled=?fromBool(celled),
@@ -102,18 +102,11 @@ module Body = {
   [@bs.module "semantic-ui-react"] [@bs.scope "Table"]
   external react : ReasonReact.reactClass = "Body";
   [@bs.obj]
-  external makeProps :
-    (
-      ~_as: string=?, /* TODO: Can also be a function ! */
-      ~className: string=?,
-      unit
-    ) =>
-    _ =
-    "";
+  external makeProps : (~_as: js=?, ~className: string=?, unit) => _ = "";
   let make = (~_as=?, ~className=?, children) =>
     ReasonReact.wrapJsForReason(
       ~reactClass=react,
-      ~props=makeProps(~_as?, ~className?, ()),
+      ~props=makeProps(~_as=?fromStringOrReactClass(_as), ~className?, ()),
       children,
     );
 };
@@ -125,7 +118,7 @@ module Cell = {
   external makeProps :
     (
       ~active: Js.boolean=?,
-      ~_as: string=?, /* TODO: Can also be a function ! */
+      ~_as: js=?,
       /* TODO : cellAs, cells */
       ~className: string=?,
       ~collapsing: Js.boolean=?,
@@ -166,7 +159,7 @@ module Cell = {
       ~props=
         makeProps(
           ~active=?fromBool(active),
-          ~_as?,
+          ~_as=?fromStringOrReactClass(_as),
           ~className?,
           ~collapsing=?fromBool(collapsing),
           ~disabled=?fromBool(disabled),
@@ -191,7 +184,7 @@ module Row = {
   external makeProps :
     (
       ~active: Js.boolean=?,
-      ~_as: string=?, /* TODO: Can also be a function ! */
+      ~_as: js=?,
       /* TODO : cellAs, cells */
       ~className: string=?,
       ~disabled: Js.boolean=?,
@@ -226,7 +219,7 @@ module Row = {
       ~props=
         makeProps(
           ~active=?fromBool(active),
-          ~_as?,
+          ~_as=?fromStringOrReactClass(_as),
           ~className?,
           ~disabled=?fromBool(disabled),
           ~error=?fromBool(error),

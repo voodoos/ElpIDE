@@ -8,7 +8,7 @@ external react : ReasonReact.reactClass = "Popup";
 [@bs.obj]
 external makeProps :
   (
-    ~_as: string=?, /* TODO: Can also be a function ! */
+    ~_as: js=?,
     ~basic: Js.boolean=?,
     ~className: string=?,
     ~content: ReasonReact.reactElement=?,
@@ -37,7 +37,7 @@ external makeProps :
 
 let make =
     (
-      ~_as=?, /* TODO: Can also be a function ! */
+      ~_as=?,
       ~basic=?,
       ~className=?,
       ~content=?,
@@ -64,7 +64,7 @@ let make =
     ~reactClass=react,
     ~props=
       makeProps(
-        ~_as?,
+        ~_as=?fromStringOrReactClass(_as),
         ~basic=?fromBool(basic),
         ~className?,
         ~content?,
@@ -96,7 +96,7 @@ module Content = {
   [@bs.obj]
   external makeProps :
     (
-      ~_as: string=?, /* TODO: Can also be a function ! */
+      ~_as: js=?,
       ~className: string=?,
       ~content: ReasonReact.reactElement=?,
       unit
@@ -106,7 +106,13 @@ module Content = {
   let make = (~_as=?, ~className=?, ~content=?, children) =>
     ReasonReact.wrapJsForReason(
       ~reactClass=react,
-      ~props=makeProps(~_as?, ~className?, ~content?, ()),
+      ~props=
+        makeProps(
+          ~_as=?fromStringOrReactClass(_as),
+          ~className?,
+          ~content?,
+          (),
+        ),
       children,
     );
 };
@@ -117,7 +123,7 @@ module Header = {
   [@bs.obj]
   external makeProps :
     (
-      ~_as: string=?, /* TODO: Can also be a function ! */
+      ~_as: js=?,
       ~className: string=?,
       ~content: ReasonReact.reactElement=?,
       unit
@@ -127,7 +133,13 @@ module Header = {
   let make = (~_as=?, ~className=?, ~content=?, children) =>
     ReasonReact.wrapJsForReason(
       ~reactClass=react,
-      ~props=makeProps(~_as?, ~className?, ~content?, ()),
+      ~props=
+        makeProps(
+          ~_as=?fromStringOrReactClass(_as),
+          ~className?,
+          ~content?,
+          (),
+        ),
       children,
     );
 };

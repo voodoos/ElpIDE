@@ -65,25 +65,19 @@ module Pushable = {
   [@bs.obj]
   external makeProps :
     (
-      ~_as: string=?, /* TODO: Can also be a function ! */
+      ~_as: js=?,
       ~className: string=?,
-      ~content: ReasonReact.reactElement=?, 
+      ~content: ReasonReact.reactElement=?,
       unit
     ) =>
     _ =
     "";
-  let make =
-      (
-        ~_as=?,
-        ~className=?,
-        ~content=?,
-        children,
-      ) =>
+  let make = (~_as=?, ~className=?, ~content=?, children) =>
     ReasonReact.wrapJsForReason(
       ~reactClass=sui,
       ~props=
         makeProps(
-          ~_as?,
+          ~_as=?fromStringOrReactClass(_as),
           ~className?,
           ~content?,
           (),
@@ -98,27 +92,20 @@ module Pusher = {
   [@bs.obj]
   external makeProps :
     (
-      ~_as: string=?, /* TODO: Can also be a function ! */
+      ~_as: js=?,
       ~className: string=?,
-      ~content: ReasonReact.reactElement=?, 
+      ~content: ReasonReact.reactElement=?,
       ~dimmed: Js.boolean=?,
       unit
     ) =>
     _ =
     "";
-  let make =
-      (
-        ~_as=?,
-        ~className=?,
-        ~content=?,
-        ~dimmed=?,
-        children,
-      ) =>
+  let make = (~_as=?, ~className=?, ~content=?, ~dimmed=?, children) =>
     ReasonReact.wrapJsForReason(
       ~reactClass=sui,
       ~props=
         makeProps(
-          ~_as?,
+          ~_as=?fromStringOrReactClass(_as),
           ~className?,
           ~content?,
           ~dimmed=?fromBool(dimmed),

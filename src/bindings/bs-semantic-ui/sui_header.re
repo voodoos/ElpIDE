@@ -8,7 +8,7 @@ external react : ReasonReact.reactClass = "Header";
 [@bs.obj]
 external makeProps :
   (
-    ~_as: string=?, /* TODO: Can also be a function ! */
+    ~_as: js=?,
     ~attached: js=?,
     ~block: Js.boolean=?,
     ~className: string=?,
@@ -31,7 +31,7 @@ external makeProps :
 
 let make =
     (
-      ~_as=?, /* TODO: Can also be a function ! */
+      ~_as=?,
       ~attached=?,
       ~block=?,
       ~className=?,
@@ -53,7 +53,7 @@ let make =
     ~reactClass=react,
     ~props=
       makeProps(
-        ~_as?,
+        ~_as=?fromStringOrReactClass(_as),
         ~attached=?fromBoolOrTopOrBottom(attached),
         ~block=?fromBool(block),
         ~className?,
@@ -79,7 +79,7 @@ module Content = {
   [@bs.obj]
   external makeProps :
     (
-      ~_as: string=?, /* TODO: Can also be a function ! */
+      ~_as: js=?,
       ~className: string=?,
       ~content: ReasonReact.reactElement=?,
       unit
@@ -89,7 +89,13 @@ module Content = {
   let make = (~_as=?, ~className=?, ~content=?, children) =>
     ReasonReact.wrapJsForReason(
       ~reactClass=react,
-      ~props=makeProps(~_as?, ~className?, ~content?, ()),
+      ~props=
+        makeProps(
+          ~_as=?fromStringOrReactClass(_as),
+          ~className?,
+          ~content?,
+          (),
+        ),
       children,
     );
 };
@@ -100,7 +106,7 @@ module Subheader = {
   [@bs.obj]
   external makeProps :
     (
-      ~_as: string=?, /* TODO: Can also be a function ! */
+      ~_as: js=?,
       ~className: string=?,
       ~content: ReasonReact.reactElement=?,
       unit
@@ -110,7 +116,13 @@ module Subheader = {
   let make = (~_as=?, ~className=?, ~content=?, children) =>
     ReasonReact.wrapJsForReason(
       ~reactClass=react,
-      ~props=makeProps(~_as?, ~className?, ~content?, ()),
+      ~props=
+        makeProps(
+          ~_as=?fromStringOrReactClass(_as),
+          ~className?,
+          ~content?,
+          (),
+        ),
       children,
     );
 };

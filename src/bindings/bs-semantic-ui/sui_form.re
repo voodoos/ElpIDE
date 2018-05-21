@@ -7,7 +7,7 @@ external react : ReasonReact.reactClass = "Form";
 external makeProps :
   (
     ~action: string=?,
-    ~_as: string=?, /* TODO: Can also be a function ! */
+    ~_as: js=?,
     ~className: string=?,
     ~error: Js.boolean=?,
     ~inverted: Js.boolean=?,
@@ -47,7 +47,7 @@ let make =
     ~props=
       makeProps(
         ~action?,
-        ~_as?,
+        ~_as=?fromStringOrReactClass(_as),
         ~className?,
         ~error=?fromBool(error),
         ~inverted=?fromBool(inverted),
@@ -70,7 +70,7 @@ module Field = {
   [@bs.obj]
   external makeProps :
     (
-      ~_as: string=?, /* TODO: Can also be a function ! */
+      ~_as: js=?,
       ~className: string=?,
       ~content: ReasonReact.reactElement=?,
       ~control: ReasonReact.reactElement=?, /* TODO ? can also be a string ? */
@@ -104,7 +104,7 @@ module Field = {
       ~reactClass=react,
       ~props=
         makeProps(
-          ~_as?,
+          ~_as=?fromStringOrReactClass(_as),
           ~className?,
           ~content?,
           ~control?,
@@ -127,7 +127,7 @@ module Group = {
   [@bs.obj]
   external makeProps :
     (
-      ~_as: string=?, /* TODO: Can also be a function ! */
+      ~_as: js=?,
       ~className: string=?,
       /* TODO : grouped, inline */
       ~unstackable: Js.boolean=?,
@@ -141,7 +141,7 @@ module Group = {
       ~reactClass=react,
       ~props=
         makeProps(
-          ~_as?,
+          ~_as=?fromStringOrReactClass(_as),
           ~className?,
           ~unstackable=?fromBool(unstackable),
           ~widths=?fromWidth(widths),
@@ -158,7 +158,7 @@ module Group = {
      [@bs.obj]
      external makeProps :
        (
-         ~_as: string=?, /* TODO: Can also be a function ! */
+         ~_as: string=?,
          ~control: ReasonReact.reactElement=?, /* TODO ? can also be a string ? */
          unit
        ) =>

@@ -8,7 +8,7 @@ external react : ReasonReact.reactClass = "Menu";
 [@bs.obj]
 external makeProps :
   (
-    ~_as: string=?, /* TODO: Can also be a function ! */
+    ~_as: js=?,
     ~attached: string=?,
     ~borderless: Js.boolean=?,
     ~className: string=?,
@@ -62,7 +62,7 @@ let make =
     ~reactClass=react,
     ~props=
       makeProps(
-        ~_as?,
+        ~_as=?fromStringOrReactClass(_as),
         ~attached=?fromAllDir(attached),
         ~borderless=?fromBool(borderless),
         ~className?,
@@ -92,7 +92,7 @@ module Item = {
   external makeMenuItemProps :
     (
       ~active: Js.boolean=?,
-      ~_as: string=?, /* TODO: Can also be a function ! */
+      ~_as: js=?,
       ~className: string=?,
       ~color: string=?,
       ~content: string=?, /* TODO: is this only string ? */
@@ -130,7 +130,7 @@ module Item = {
       ~props=
         makeMenuItemProps(
           ~active=?fromBool(active),
-          ~_as?,
+          ~_as=?fromStringOrReactClass(_as),
           ~className?,
           ~color=?fromColor(color),
           ~content?,
@@ -153,7 +153,7 @@ module Header = {
   [@bs.obj]
   external makeProps :
     (
-      ~_as: string=?, /* TODO: Can also be a function ! */
+      ~_as: js=?,
       ~className: string=?,
       ~content: string=?, /* TODO: is this only string ? */
       unit
@@ -163,7 +163,13 @@ module Header = {
   let make = (~_as=?, ~className=?, ~content=?, children) =>
     ReasonReact.wrapJsForReason(
       ~reactClass=react,
-      ~props=makeProps(~_as?, ~className?, ~content?, ()),
+      ~props=
+        makeProps(
+          ~_as=?fromStringOrReactClass(_as),
+          ~className?,
+          ~content?,
+          (),
+        ),
       children,
     );
 };
@@ -174,7 +180,7 @@ module Menu = {
   [@bs.obj]
   external makeProps :
     (
-      ~_as: string=?, /* TODO: Can also be a function ! */
+      ~_as: js=?,
       ~className: string=?,
       ~content: string=?, /* TODO: is this only string ? */
       ~position: string=?,
@@ -187,7 +193,7 @@ module Menu = {
       ~reactClass=react,
       ~props=
         makeProps(
-          ~_as?,
+          ~_as=?fromStringOrReactClass(_as),
           ~className?,
           ~content?,
           ~position=?fromLeftOrRight(position),
