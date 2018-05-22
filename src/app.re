@@ -299,22 +299,6 @@ let make = (~message, _children) => {
                 onDeleteFile=(i => self.send(DeleteFile(i)))
               />
             </Pane>
-            <SemanticUi.Sidebar
-            _as=`react(SemanticUi.Menu.react)
-            animation=`overlay
-            width=`thin
-            direction=`right
-            visible=true
-            icon="labeled"
-            vertical=true
-            inverted=true
-          >
-          <SemanticUi.Menu.Item name="home">
-              <SemanticUi.Icon name="home" />
-              (ReasonReact.stringToElement("Home"))
-            </SemanticUi.Menu.Item>
-          </SemanticUi.Sidebar>
-          <SemanticUi.Sidebar.Pusher>
                   <SplitPane
                     className="right-split"
                     split=`horizontal
@@ -328,7 +312,7 @@ let make = (~message, _children) => {
                         )
                       />
                     </Pane>
-                    <Pane>
+                    <Pane> 
                       <SplitPane
                         className="bottom-right-split"
                         split=`vertical
@@ -348,7 +332,6 @@ let make = (~message, _children) => {
                       </SplitPane>
                     </Pane>
                   </SplitPane>
-                  </SemanticUi.Sidebar.Pusher>
           </SplitPane>
           <div  className="after" />
         </div>
