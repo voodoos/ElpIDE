@@ -22,6 +22,8 @@ module List = Sui_list;
 
 module Loader = Sui_loader;
 
+module Segment = Sui_segment;
+
 /* Collections */
 module Form = Sui_form;
 

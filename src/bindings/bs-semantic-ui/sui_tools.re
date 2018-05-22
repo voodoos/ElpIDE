@@ -142,18 +142,18 @@ let fromBoolOrTopOrBottomAux = bORe =>
   switch (bORe) {
   | `true_ => jsOfBool(Js.true_)
   | `false_ => jsOfBool(Js.true_)
-  | `top => jsOfString("tom")
+  | `top => jsOfString("top")
   | `bottom => jsOfString("bottom")
   };
 
 let fromBoolOrTopOrBottom = b =>
   Js.Option.map((. a) => fromBoolOrTopOrBottomAux(a), b);
-  
+
 let fromStringOrReactClassAux = a =>
-switch (a) {
-| `react(r) => jsOfReactClass(r)
-| `str(s) => jsOfString(s)
-};
+  switch (a) {
+  | `react(r) => jsOfReactClass(r)
+  | `str(s) => jsOfString(s)
+  };
 
 let fromStringOrReactClass = b =>
   Js.Option.map((. a) => fromStringOrReactClassAux(a), b);
