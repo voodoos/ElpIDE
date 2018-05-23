@@ -7,6 +7,7 @@ let make =
       ~onClickRestart,
       ~onClickPlay,
       ~onClickSave,
+      ~onClickTour,
       ~onLoadFiles,
       _children,
     ) => {
@@ -53,6 +54,16 @@ let make =
                 </Button>
               </Button.Group>
             </Menu.Item>
+            <Menu.Menu position=`right>
+              <Menu.Item>
+                <Button.Group inverted=false>
+                  <Button color=`teal onClick=onClickTour>
+                    (ReasonReact.stringToElement("Take the tour !"))
+                  </Button>
+                  <Button color=`blue icon=true> <Icon name="help" /> </Button>
+                </Button.Group>
+              </Menu.Item>
+            </Menu.Menu>
           </Menu>
         </div>
       ),

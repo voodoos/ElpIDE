@@ -26,6 +26,7 @@ type state = {
   flags: Hashtbl.t(string, bool),
   types: list(ElpiJs.typ),
   appClass: string,
+  tour: bool,
 };
 
 type action =
@@ -35,6 +36,7 @@ type action =
   | AddFiles(array(Editor.State.t))
   | SetFlag(string, bool)
   | SetAppClass(string)
+  | StartTour
   | SetTypes(array(ElpiJs.typ))
   | Log(Log.message)
   | NewAnswer(Log.message)
@@ -123,6 +125,7 @@ let make = (~message, _children) => {
         flags,
         types: [],
         appClass: "",
+        tour: false,
       };
     },
     reducer: (action, state) =>
@@ -142,6 +145,7 @@ let make = (~message, _children) => {
         Hashtbl.replace(flags, k, b);
         ReasonReact.Update({...state, flags});
       | SetAppClass(appClass) => ReasonReact.Update({...state, appClass})
+      | StartTour => ReasonReact.Update({...state, tour: true})
       | SetTypes(types) =>
         ReasonReact.Update({...state, types: Array.to_list(types)})
       | Log(message) =>
@@ -281,10 +285,11 @@ let make = (~message, _children) => {
         <Joyride
           steps=TourSteps.first
           callback=TourSteps.callback
-          run=true
+          run=self.state.tour
           continuous=true
           showProgress=true
           showSkipButton=true
+          spotlightClicks=true
         />
         <div
           id="app"
@@ -296,6 +301,7 @@ let make = (~message, _children) => {
             onClickPlay=(self.handle(clickPlay))
             onClickRestart=(self.handle(clickRestart))
             onClickSave=(self.handle(clickSave))
+            onClickTour=((_e, _d) => self.send(StartTour))
             onLoadFiles=(files => self.send(AddFiles(files)))
             playDisabled=(! Hashtbl.find(self.state.flags, "elpi_started"))
           />
