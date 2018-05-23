@@ -1,10 +1,12 @@
 type logLevel =
+  | Success
   | Info
   | Warning
   | Error;
 
 let stringOfLogLevel = lvl =>
   switch (lvl) {
+  | Success => "Success"
   | Info => "Info"
   | Warning => "Warning"
   | Error => "Error"
@@ -12,6 +14,7 @@ let stringOfLogLevel = lvl =>
 
 let logLevelOfString = lvl =>
   switch (lvl) {
+  | "success" => Success
   | "warning" => Warning
   | "error" => Error
   | _ => Info
@@ -30,6 +33,8 @@ let info = (~prefix=[], text) => message(Info, prefix, text);
 let warn = (~prefix=[], text) => message(Warning, prefix, text);
 
 let err = (~prefix=[], text) => message(Error, prefix, text);
+
+let success = (~prefix=[], text) => message(Success, prefix, text);
 
 module State = {
   type t = {
@@ -62,7 +67,10 @@ module List = {
         let prefix = List.map(p => "[" ++ p ++ "]", prefix);
         let txt = String.concat("", prefix) ++ " " ++ text;
         SemanticUi.(
-          <Table.Row warning=(lvl == Warning) error=(lvl == Error)>
+          <Table.Row
+            warning=(lvl == Warning)
+            error=(lvl == Error)
+            positive=(lvl == Success)>
             <Table.Cell> (Js.String.replace("\\n", "", txt)) </Table.Cell>
           </Table.Row>
         );

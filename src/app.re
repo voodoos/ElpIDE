@@ -55,7 +55,7 @@ let make = (~message, _children) => {
     Builder.build(self.ReasonReact.state.files)
     |> Js.Promise.then_(types => {
          self.send(SetTypes(types));
-         self.send(Log(Log.info("Ready")));
+         self.send(Log(Log.success("Ready")));
          Js.Promise.resolve(types);
        })
     |> Js.Promise.catch(err => {
@@ -79,7 +79,7 @@ let make = (~message, _children) => {
     Builder.restartElpi()
     |> Js.Promise.then_(mess => {
          self.send(SetFlag("elpi_started", true));
-         self.send(Log(Log.info("Elpi restarted")));
+         self.send(Log(Log.success("Elpi restarted")));
          Js.Promise.resolve(mess);
        })
     |> ignore;
@@ -240,7 +240,7 @@ let make = (~message, _children) => {
       Builder.launch(logger, answer)
       |> Js.Promise.then_(mess => {
            self.send(SetFlag("elpi_started", true));
-           self.send(Log(Log.message(Info, [], mess)));
+           self.send(Log(Log.success(mess)));
            Js.Promise.resolve(mess);
          })
       |> Js.Promise.catch(_err => {
