@@ -12,6 +12,7 @@
 %raw
 "window.ReactDOM = ReactDOM";
 
+
 %raw
 "import 'monaco-editor/esm/vs/editor/browser/controller/coreCommands.js'";
 %raw
@@ -21,26 +22,6 @@
 %raw
 "import 'monaco-editor/esm/vs/basic-languages/python/python.contribution.js'";
 
-[%bs.raw {|
-  self.MonacoEnvironment = {
-    getWorker: function (moduleId, label) {
-      if (label === 'json') {
-        return new Worker('../node_modules/monaco-editor/esm/vs/language/json/json.worker')
-      }
-      if (label === 'css') {
-        return new Worker('../node_modules/monaco-editor/esm/vs/language/css/css.worker')
-      }
-      if (label === 'html') {
-        return new Worker('../node_modules/monaco-editor/esm/vs/language/html/html.worker')
-      }
-      if (label === 'typescript' || label === 'javascript') {
-        return new Worker('../node_modules/monaco-editor/esm/vs/language/typescript/ts.worker')
-      }
-      return new Worker('../node_modules/monaco-editor/esm/vs/editor/editor.worker')
-    }
-  }
-  
-  |}];
 module SUI = SemanticUi;
 
 exception ElpiCompileError;
@@ -277,7 +258,7 @@ let make = (~message, _children) => {
            Js.Promise.resolve("arg");
          })
       |> ignore;
-
+/*
       [%bs.raw {|
         monaco.editor.create(document.getElementById('monaco'), {
           value: [
@@ -296,16 +277,16 @@ let make = (~message, _children) => {
           ].join('\n'),
           language: 'python'
         })
-        |}];
-    /*
+        |}];*/
+    
       switch (ReactDOMRe._getElementById("monaco")) {
       | Some(elt) =>
         MonacoEditor.create_monaco(
           elt,
-          {"value": "toto", "language": "javascript"},
+          {"value": "toto", "language": "python"},
         )
       | None => Js.log("Elt not found")
-      };*/
+      };
       ReasonReact.NoUpdate;
     },
     render: self => {
@@ -382,7 +363,7 @@ let make = (~message, _children) => {
               className="right-split"
               split=`horizontal
               onDragFinished=(() => self.send(LayoutChange))>
-              <Pane className="jr-editor"> <div id="monaco" /> </Pane>
+              <Pane className="jr-editor"> <div id="monaco" style=(ReactDOMRe.Style.make(~height="100%", ())) /> </Pane>
               /*<Editor
                   file=self.state.files[self.state.activeFile]##name
                   value=self.state.files[self.state.activeFile]##content
