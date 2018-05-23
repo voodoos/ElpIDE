@@ -13,17 +13,6 @@
 "window.ReactDOM = ReactDOM";
 
 
-%raw
-"import 'monaco-editor/esm/vs/editor/browser/controller/coreCommands.js'";
-%raw
-"import 'monaco-editor/esm/vs/editor/contrib/bracketMatching/bracketMatching.js'";
-%raw
-"import 'monaco-editor/esm/vs/editor/contrib/folding/folding.js'";
-%raw
-"import 'monaco-editor/esm/vs/editor/contrib/find/findController.js'";
-%raw
-"import * as monaco from 'monaco-editor/esm/vs/editor/editor.api.js'";
-
 module SUI = SemanticUi;
 
 exception ElpiCompileError;
@@ -260,7 +249,7 @@ let make = (~message, _children) => {
            Js.Promise.resolve("arg");
          })
       |> ignore;
-    
+         MonacoEditor.require();
       switch (ReactDOMRe._getElementById("monaco")) {
       | Some(elt) =>
         MonacoEditor.create_monaco(
