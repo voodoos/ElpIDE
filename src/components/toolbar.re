@@ -60,7 +60,9 @@ let make =
                   <Button color=`teal onClick=onClickTour>
                     (ReasonReact.stringToElement("Take the tour !"))
                   </Button>
-                  <Button color=`blue icon=true> <Icon name="help" /> </Button>
+                  <Button color=`blue icon=true className="jr-help">
+                    <Icon name="help" />
+                  </Button>
                 </Button.Group>
               </Menu.Item>
             </Menu.Menu>

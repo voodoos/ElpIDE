@@ -37,6 +37,7 @@ type action =
   | SetFlag(string, bool)
   | SetAppClass(string)
   | StartTour
+  | EndTour
   | SetTypes(array(ElpiJs.typ))
   | Log(Log.message)
   | NewAnswer(Log.message)
@@ -146,6 +147,7 @@ let make = (~message, _children) => {
         ReasonReact.Update({...state, flags});
       | SetAppClass(appClass) => ReasonReact.Update({...state, appClass})
       | StartTour => ReasonReact.Update({...state, tour: true})
+      | EndTour => ReasonReact.Update({...state, tour: false})
       | SetTypes(types) =>
         ReasonReact.Update({...state, types: Array.to_list(types)})
       | Log(message) =>
@@ -284,7 +286,7 @@ let make = (~message, _children) => {
       <HotKeys keyMap handlers>
         <Joyride
           steps=TourSteps.first
-          callback=TourSteps.callback
+          callback=(TourSteps.callback(() => self.send(EndTour)))
           run=self.state.tour
           continuous=true
           showProgress=true
