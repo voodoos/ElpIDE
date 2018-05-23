@@ -1204,6 +1204,10 @@ mkdirp@^0.5.0, mkdirp@^0.5.1:
   version "0.1.0"
   resolved "https://github.com/voodoos/mlts-js.git#69a4a492946e049e9ebbbb2eaa1755ec5a642d59"
 
+monaco-editor@^0.13.1:
+  version "0.13.1"
+  resolved "https://registry.yarnpkg.com/monaco-editor/-/monaco-editor-0.13.1.tgz#6b9ce20e4d1c945042d256825eb133cb23315a52"
+
 mousetrap@^1.5.2:
   version "1.6.1"
   resolved "https://registry.yarnpkg.com/mousetrap/-/mousetrap-1.6.1.tgz#2a085f5c751294c75e7e81f6ec2545b29cbf42d9"
