@@ -1,7 +1,5 @@
 [%bs.raw {|require('./css/main.css')|}];
 
-[%bs.raw {|require('monaco-editor/min/vs/editor/loader.js')|}];
-
 %raw
 "var React = require('react')";
 
@@ -14,6 +12,35 @@
 %raw
 "window.ReactDOM = ReactDOM";
 
+%raw
+"import 'monaco-editor/esm/vs/editor/browser/controller/coreCommands.js'";
+%raw
+"import 'monaco-editor/esm/vs/editor/contrib/find/findController.js'";
+%raw
+"import * as monaco from 'monaco-editor/esm/vs/editor/editor.api.js'";
+%raw
+"import 'monaco-editor/esm/vs/basic-languages/python/python.contribution.js'";
+
+[%bs.raw {|
+  self.MonacoEnvironment = {
+    getWorker: function (moduleId, label) {
+      if (label === 'json') {
+        return new Worker('../node_modules/monaco-editor/esm/vs/language/json/json.worker')
+      }
+      if (label === 'css') {
+        return new Worker('../node_modules/monaco-editor/esm/vs/language/css/css.worker')
+      }
+      if (label === 'html') {
+        return new Worker('../node_modules/monaco-editor/esm/vs/language/html/html.worker')
+      }
+      if (label === 'typescript' || label === 'javascript') {
+        return new Worker('../node_modules/monaco-editor/esm/vs/language/typescript/ts.worker')
+      }
+      return new Worker('../node_modules/monaco-editor/esm/vs/editor/editor.worker')
+    }
+  }
+  
+  |}];
 module SUI = SemanticUi;
 
 exception ElpiCompileError;
@@ -250,6 +277,27 @@ let make = (~message, _children) => {
            Js.Promise.resolve("arg");
          })
       |> ignore;
+
+      [%bs.raw {|
+        monaco.editor.create(document.getElementById('monaco'), {
+          value: [
+            'from banana import *',
+            '',
+            'class Monkey:',
+            '	# Bananas the monkey can eat.',
+            '	capacity = 10',
+            '	def eat(self, N):',
+            '		\'\'\'Make the monkey eat N bananas!\'\'\'',
+            '		capacity = capacity - N*banana.size',
+            '',
+            '	def feeding_frenzy(self):',
+            '		eat(9.25)',
+            '		return "Yum yum"',
+          ].join('\n'),
+          language: 'python'
+        })
+        |}];
+    /*
       switch (ReactDOMRe._getElementById("monaco")) {
       | Some(elt) =>
         MonacoEditor.create_monaco(
@@ -257,7 +305,7 @@ let make = (~message, _children) => {
           {"value": "toto", "language": "javascript"},
         )
       | None => Js.log("Elt not found")
-      };
+      };*/
       ReasonReact.NoUpdate;
     },
     render: self => {

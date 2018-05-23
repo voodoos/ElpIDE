@@ -1,5 +1,5 @@
 [@bs.module "semantic-ui-react"]
-external suiIcon : ReasonReact.reactClass = "Icon";
+external react : ReasonReact.reactClass = "Icon";
 
 let make =
     (
@@ -9,7 +9,7 @@ let make =
       children
     ) =>
   ReasonReact.wrapJsForReason(
-    ~reactClass=suiIcon,
+    ~reactClass=react,
     ~props={
       "className": className,
       "inverted": Js.Boolean.to_js_boolean(inverted),
