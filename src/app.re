@@ -16,11 +16,13 @@
 %raw
 "import 'monaco-editor/esm/vs/editor/browser/controller/coreCommands.js'";
 %raw
+"import 'monaco-editor/esm/vs/editor/contrib/bracketMatching/bracketMatching.js'";
+%raw
+"import 'monaco-editor/esm/vs/editor/contrib/folding/folding.js'";
+%raw
 "import 'monaco-editor/esm/vs/editor/contrib/find/findController.js'";
 %raw
 "import * as monaco from 'monaco-editor/esm/vs/editor/editor.api.js'";
-%raw
-"import 'monaco-editor/esm/vs/basic-languages/python/python.contribution.js'";
 
 module SUI = SemanticUi;
 
@@ -258,32 +260,12 @@ let make = (~message, _children) => {
            Js.Promise.resolve("arg");
          })
       |> ignore;
-/*
-      [%bs.raw {|
-        monaco.editor.create(document.getElementById('monaco'), {
-          value: [
-            'from banana import *',
-            '',
-            'class Monkey:',
-            '	# Bananas the monkey can eat.',
-            '	capacity = 10',
-            '	def eat(self, N):',
-            '		\'\'\'Make the monkey eat N bananas!\'\'\'',
-            '		capacity = capacity - N*banana.size',
-            '',
-            '	def feeding_frenzy(self):',
-            '		eat(9.25)',
-            '		return "Yum yum"',
-          ].join('\n'),
-          language: 'python'
-        })
-        |}];*/
     
       switch (ReactDOMRe._getElementById("monaco")) {
       | Some(elt) =>
         MonacoEditor.create_monaco(
           elt,
-          {"value": "toto", "language": "python"},
+          {"value": "toto", "language": "javascript"},
         )
       | None => Js.log("Elt not found")
       };
