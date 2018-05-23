@@ -27,23 +27,28 @@ let make =
                 <LoadModal
                   trigger=(
                     onClick =>
-                      <Button icon=true onClick>
+                      <Button icon=true onClick className="jr-load">
                         <Icon name="folder open" />
                       </Button>
                   )
                   onOk=onLoadFiles
                 />
-                <Button icon=true onClick=onClickSave>
+                <Button icon=true onClick=onClickSave className="jr-save">
                   <Icon name="download" />
                 </Button>
-                <Button icon=true onClick=onClickRestart loading=playDisabled>
+                <Button
+                  icon=true
+                  onClick=onClickRestart
+                  loading=playDisabled
+                  className="jr-restart">
                   <Icon name="refresh" />
                 </Button>
                 <Button
                   color=`blue
                   icon=true
                   onClick=onClickPlay
-                  disabled=playDisabled>
+                  disabled=playDisabled
+                  className="jr-build">
                   <Icon name="settings" />
                 </Button>
               </Button.Group>

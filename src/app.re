@@ -141,8 +141,7 @@ let make = (~message, _children) => {
         let flags = Hashtbl.copy(state.flags);
         Hashtbl.replace(flags, k, b);
         ReasonReact.Update({...state, flags});
-      | SetAppClass(appClass) => 
-        ReasonReact.Update({...state, appClass});
+      | SetAppClass(appClass) => ReasonReact.Update({...state, appClass})
       | SetTypes(types) =>
         ReasonReact.Update({...state, types: Array.to_list(types)})
       | Log(message) =>
@@ -247,25 +246,28 @@ let make = (~message, _children) => {
     },
     render: self => {
       let keyMap =
-        HotKeys.[("restart", K.simple([M(`command), K("r")])),("restart", K.simple([M(`ctrl), K("r")])),
-        ("build", K.simple([M(`command), K("b")])), ("build", K.simple([M(`ctrl), K("b")])),
-        ("konami", K.konami)];
+        HotKeys.[
+          ("restart", K.simple([M(`command), K("r")])),
+          ("restart", K.simple([M(`ctrl), K("r")])),
+          ("build", K.simple([M(`command), K("b")])),
+          ("build", K.simple([M(`ctrl), K("b")])),
+          ("konami", K.konami),
+        ];
       let handlers = [
         (
           "restart",
           e => {
             ReactEventRe.Synthetic.preventDefault(e);
-            self.handle(clickRestart)(e)
+            self.handle(clickRestart, e);
           },
         ),
         (
           "build",
           e => {
             ReactEventRe.Synthetic.preventDefault(e);
-            self.handle(clickPlay)(e)
+            self.handle(clickPlay, e);
           },
         ),
-
         (
           "konami",
           e => {
@@ -276,8 +278,19 @@ let make = (~message, _children) => {
         ),
       ];
       <HotKeys keyMap handlers>
-        <div id="app" onKeyDown=(self.handle(keyDown)) className=self.state.appClass>
-          <div  className="before" />
+        <Joyride
+          steps=TourSteps.first
+          callback=TourSteps.callback
+          run=true
+          continuous=true
+          showProgress=true
+          showSkipButton=true
+        />
+        <div
+          id="app"
+          onKeyDown=(self.handle(keyDown))
+          className=self.state.appClass>
+          <div className="before" />
           <Toolbar
             brand=message
             onClickPlay=(self.handle(clickPlay))
@@ -299,41 +312,41 @@ let make = (~message, _children) => {
                 onDeleteFile=(i => self.send(DeleteFile(i)))
               />
             </Pane>
-                  <SplitPane
-                    className="right-split"
-                    split=`horizontal
-                    onDragFinished=(() => self.send(LayoutChange))>
-                    <Pane>
-                      <Editor
-                        file=self.state.files[self.state.activeFile]##name
-                        value=self.state.files[self.state.activeFile]##content
-                        onChange=(
-                          self.handle(changeEditorValue(self.state.activeFile))
-                        )
-                      />
-                    </Pane>
-                    <Pane> 
-                      <SplitPane
-                        className="bottom-right-split"
-                        split=`vertical
-                        onDragFinished=(() => self.send(LayoutChange))>
-                        <Pane className="scroll">
-                          <Log
-                            level=self.state.log.level
-                            messages=self.state.log.messages
-                          />
-                        </Pane>
-                        <Pane className="scroll">
-                          <Querier
-                            messages=self.state.answers
-                            suggestions=self.state.types
-                          />
-                        </Pane>
-                      </SplitPane>
-                    </Pane>
-                  </SplitPane>
+            <SplitPane
+              className="right-split"
+              split=`horizontal
+              onDragFinished=(() => self.send(LayoutChange))>
+              <Pane className="jr-editor">
+                <Editor
+                  file=self.state.files[self.state.activeFile]##name
+                  value=self.state.files[self.state.activeFile]##content
+                  onChange=(
+                    self.handle(changeEditorValue(self.state.activeFile))
+                  )
+                />
+              </Pane>
+              <Pane>
+                <SplitPane
+                  className="bottom-right-split"
+                  split=`vertical
+                  onDragFinished=(() => self.send(LayoutChange))>
+                  <Pane className="scroll">
+                    <Log
+                      level=self.state.log.level
+                      messages=self.state.log.messages
+                    />
+                  </Pane>
+                  <Pane className="scroll jr-query">
+                    <Querier
+                      messages=self.state.answers
+                      suggestions=self.state.types
+                    />
+                  </Pane>
+                </SplitPane>
+              </Pane>
+            </SplitPane>
           </SplitPane>
-          <div  className="after" />
+          <div className="after" />
         </div>
       </HotKeys>;
     },
