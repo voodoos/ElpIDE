@@ -1,6 +1,6 @@
 type state = {
   opened: bool,
-  selectedFiles: list((ReasonReact.reactElement, Editor.State.t)),
+  selectedFiles: list((ReasonReact.reactElement, Monaco.State.t)),
 };
 
 type action =
@@ -35,7 +35,6 @@ let make = (~trigger, ~onOk, _children) => {
              zip
              |. forEach((_relativePath, zipEntry) =>
                   if (validate(zipEntry##name)) {
-                    
                     zipEntry
                     |. Object.asyncString()
                     |> Js.Promise.then_(content => {
@@ -91,7 +90,7 @@ let make = (~trigger, ~onOk, _children) => {
                   key=name
                 />
               ),
-              Editor.State.makeFile(name, content),
+              Monaco.State.makeFile(name, content),
             ),
             ...state.selectedFiles,
           ],

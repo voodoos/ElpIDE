@@ -60,8 +60,10 @@ let make = (~file, ~value, ~onChange, _children) => {
                  },
                );
           editor
-          |. IStandaloneCodeEditor.onDidChangeModelContent(_e =>
-               onChange(editor |. IStandaloneCodeEditor.getValue())
+          |. IStandaloneCodeEditor.onDidChangeModelContent(e =>
+               if (! Js.to_bool(e##isFlush)) {
+                 onChange(editor |. IStandaloneCodeEditor.getValue());
+               }
              )
           |. ignore;
           Some(editor);
@@ -73,12 +75,7 @@ let make = (~file, ~value, ~onChange, _children) => {
   didUpdate: ({oldSelf, newSelf}) =>
     switch (editor^) {
     | None => ()
-    | Some(e) =>
-      MonacoEditor.IStandaloneCodeEditor.(
-        if (e |. getValue() != value) {
-          e |. setValue(value);
-        }
-      )
+    | Some(e) => e |. MonacoEditor.IStandaloneCodeEditor.setValue(value)
     },
   render: self =>
     <div

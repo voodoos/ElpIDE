@@ -17,7 +17,11 @@ module IModelContentChange = {
 };
 
 module IModelContentChangedEvent = {
-  type t = {. "changes": array(IModelContentChange.t)};
+  type t = {
+    .
+    "changes": array(IModelContentChange.t),
+    "isFlush": Js.boolean,
+  };
 };
 
 module IStandaloneCodeEditor = {

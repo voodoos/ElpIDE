@@ -21,7 +21,7 @@ type state = {
   layout_update: int,
   log: Log.State.t,
   answers: array(Log.message),
-  files: array(Editor.State.t),
+  files: array(Monaco.State.t),
   activeFile: int,
   flags: Hashtbl.t(string, bool),
   types: list(ElpiJs.typ),
@@ -32,8 +32,8 @@ type state = {
 type action =
   | LayoutChange
   | SetActiveFile(int)
-  | SetFiles(array(Editor.State.t))
-  | AddFiles(array(Editor.State.t))
+  | SetFiles(array(Monaco.State.t))
+  | AddFiles(array(Monaco.State.t))
   | SetFlag(string, bool)
   | SetAppClass(string)
   | StartTour
@@ -118,7 +118,7 @@ let make = (~message, _children) => {
         layout_update: 0,
         log: Log.State.initialState,
         files: [|
-          Editor.State.initialState,
+          Monaco.State.initialState,
           {"name": "test2.elpi", "content": "world \"totoro\"."},
         |],
         activeFile: 0,
@@ -165,7 +165,7 @@ let make = (~message, _children) => {
         })
       | NewFile(name) =>
         let files =
-          Array.append(state.files, [|Editor.State.newFile(name)|]);
+          Array.append(state.files, [|Monaco.State.newFile(name)|]);
         /* Saving to local storage */
         ignore(LocalForage.setItem("files", files));
         ReasonReact.Update({...state, files});

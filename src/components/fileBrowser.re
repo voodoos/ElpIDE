@@ -1,8 +1,8 @@
-type file = Editor.State.t;
+type file = Monaco.State.t;
 
 type state = {active: file};
 
-type retainedProps = {files: array(Editor.State.t)};
+type retainedProps = {files: array(Monaco.State.t)};
 
 type action =
   | SetActive(file);
