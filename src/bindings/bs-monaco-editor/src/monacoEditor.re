@@ -2,12 +2,49 @@ type editor;
 
 type languages;
 
-type iDisposable;
-
 type monaco = {
   .
   "editor": editor,
   "languages": languages,
+};
+
+module IDisposable = {
+  type t;
+};
+
+module IModelContentChange = {
+  type t = {. "text": string};
+};
+
+module IModelContentChangedEvent = {
+  type t = {. "changes": array(IModelContentChange.t)};
+};
+
+module IStandaloneCodeEditor = {
+  type t;
+  [@bs.send]
+  external getValue :
+    (
+      t,
+      ~options: {
+                  .
+                  "lineEnding": string,
+                  "preserveBOM": Js.boolean,
+                }
+                  =?,
+      unit
+    ) =>
+    string =
+    "";
+  [@bs.send] external setValue : (t, string) => unit = "";
+  [@bs.send]
+  external onDidChangeModelContent :
+    (t, IModelContentChangedEvent.t => unit) => IDisposable.t =
+    "";
+};
+
+module ITextModel = {
+  type t;
 };
 
 let monacoRef: ref(option(monaco)) = ref(None);
@@ -15,10 +52,13 @@ let monacoRef: ref(option(monaco)) = ref(None);
 [@bs.send] external register : (languages, Js.t(_)) => unit = "";
 
 [@bs.send]
-external setMonarchTokensProvider : (languages, string, 'a) => iDisposable =
+external setMonarchTokensProvider : (languages, string, 'a) => IDisposable.t =
   "";
 
-[@bs.send] external create : (editor, Dom.element, 'a) => unit = "";
+[@bs.send]
+external create : (editor, Dom.element, 'a) => IStandaloneCodeEditor.t = "";
+
+[@bs.send] external getModel : editor => ITextModel.t = "";
 
 let require = () => {
   BaseJs.require(

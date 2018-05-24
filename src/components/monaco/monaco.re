@@ -25,39 +25,61 @@ world "world".|},
   let newFile = name => {"name": name, "content": "% File " ++ name ++ "\n"};
 };
 
+let editor: ref(option(MonacoEditor.IStandaloneCodeEditor.t)) = ref(None);
+
 let component = ReasonReact.statelessComponent("Monaco");
 
 let handleClick = (_event, _self) => Js.log("clickedtoto!");
 
 let make = (~file, ~value, ~onChange, _children) => {
   ...component,
-  didMount: self => {
+  didMount: _self => {
     /* Here we initialize the Monaco editor */
-    switch (ReactDOMRe._getElementById("monaco")) {
-    | Some(elt) =>
-      open MonacoEditor;
-      let mon = getMonaco();
-      mon##languages |. register({"id": "lprolog"});
-      mon##languages
-      |. setMonarchTokensProvider(
-           "lprolog",
-           BaseJs.requireAs("./monarch/lprolog.js"),
-         )
-      |. ignore;
-      mon##editor
-      |. create(
-           elt,
-           {
-             "value": value,
-             "language": "lprolog",
-             "theme": "vs-dark",
-             "automaticLayout": true,
-           },
-         );
-    | None => Js.log("Elt not found")
-    };
+    editor :=
+      (
+        switch (ReactDOMRe._getElementById("monaco")) {
+        | Some(elt) =>
+          open MonacoEditor;
+          let mon = getMonaco();
+          mon##languages |. register({"id": "lprolog"});
+          mon##languages
+          |. setMonarchTokensProvider(
+               "lprolog",
+               BaseJs.requireAs("./monarch/lprolog.js"),
+             )
+          |. ignore;
+          let editor =
+            mon##editor
+            |. create(
+                 elt,
+                 {
+                   "value": value,
+                   "language": "lprolog",
+                   "theme": "vs-dark",
+                   "automaticLayout": true,
+                 },
+               );
+          editor
+          |. IStandaloneCodeEditor.onDidChangeModelContent(_e =>
+               onChange(editor |. IStandaloneCodeEditor.getValue())
+             )
+          |. ignore;
+          Some(editor);
+        | None => None
+        }
+      );
     ReasonReact.NoUpdate;
   },
+  didUpdate: ({oldSelf, newSelf}) =>
+    switch (editor^) {
+    | None => ()
+    | Some(e) =>
+      MonacoEditor.IStandaloneCodeEditor.(
+        if (e |. getValue() != value) {
+          e |. setValue(value);
+        }
+      )
+    },
   render: self =>
     <div
       id="monaco"
