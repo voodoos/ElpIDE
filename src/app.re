@@ -12,7 +12,6 @@
 %raw
 "window.ReactDOM = ReactDOM";
 
-
 module SUI = SemanticUi;
 
 exception ElpiCompileError;
@@ -249,15 +248,6 @@ let make = (~message, _children) => {
            Js.Promise.resolve("arg");
          })
       |> ignore;
-         MonacoEditor.require();
-      switch (ReactDOMRe._getElementById("monaco")) {
-      | Some(elt) =>
-        MonacoEditor.create_monaco(
-          elt,
-          {"value": "toto", "language": "javascript"},
-        )
-      | None => Js.log("Elt not found")
-      };
       ReasonReact.NoUpdate;
     },
     render: self => {
@@ -334,7 +324,15 @@ let make = (~message, _children) => {
               className="right-split"
               split=`horizontal
               onDragFinished=(() => self.send(LayoutChange))>
-              <Pane className="jr-editor"> <div id="monaco" style=(ReactDOMRe.Style.make(~height="100%", ())) /> </Pane>
+              <Pane className="jr-editor">
+                <Monaco
+                  file=self.state.files[self.state.activeFile]##name
+                  value=self.state.files[self.state.activeFile]##content
+                  onChange=(
+                    self.handle(changeEditorValue(self.state.activeFile))
+                  )
+                />
+              </Pane>
               /*<Editor
                   file=self.state.files[self.state.activeFile]##name
                   value=self.state.files[self.state.activeFile]##content
