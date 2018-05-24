@@ -95,11 +95,11 @@ let require = () => {
     BaseJs.requireAs("monaco-editor/esm/vs/editor/editor.api.js");
   setMonacoEnvironment(self, { "getWorker": (moduleId, label) =>
     switch label {
-    | "json" => newWorker("./workers/json.worker")
-    | "css" => newWorker("./workers/css.worker")
-    | "html" => newWorker("./workers/html.worker")
-    | "typescript" | "javascript" => newWorker("./workers/ts.worker")
-    | _ => newWorker("./workers/editor.worker")
+    | "json" => newWorker("./workers/json.worker.js")
+    | "css" => newWorker("./workers/css.worker.js")
+    | "html" => newWorker("./workers/html.worker.js")
+    | "typescript" | "javascript" => newWorker("./workers/ts.worker.js")
+    | _ => newWorker("./workers/editor.worker.js")
     } 
   });
   monaco;
