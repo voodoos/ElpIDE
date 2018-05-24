@@ -62,7 +62,18 @@ external setMonarchTokensProvider : (languages, string, 'a) => IDisposable.t =
 [@bs.send]
 external create : (editor, Dom.element, 'a) => IStandaloneCodeEditor.t = "";
 
-[@bs.send] external getModel : editor => ITextModel.t = "";
+
+/* The next externals are needed to configure monaco's workers */
+type worker;
+[@bs.new] external newWorker : string => worker = "Worker";
+
+type self;
+[@bs.val]
+external self  : self = "self";
+
+[@bs.set]
+external setMonacoEnvironment  : (self, {. "getWorker": (string, string) => 'a }) => unit = "MonacoEnvironment";
+
 
 let require = () => {
   BaseJs.require(
@@ -80,6 +91,15 @@ let require = () => {
   );
   let monaco: monaco =
     BaseJs.requireAs("monaco-editor/esm/vs/editor/editor.api.js");
+  setMonacoEnvironment(self, { "getWorker": (moduleId, label) =>
+    switch label {
+    | "json" => newWorker("./workers/json.worker")
+    | "css" => newWorker("./workers/css.worker")
+    | "html" => newWorker("./workers/html.worker")
+    | "typescript" | "javascript" => newWorker("./workers/ts.worker")
+    | _ => newWorker("./workers/editor.worker")
+    } 
+  });
   monaco;
 };
 
