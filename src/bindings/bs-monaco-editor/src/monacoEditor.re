@@ -1,3 +1,5 @@
+/* TODO: patch the monaco-editor-sample wrong example... */
+
 type editor;
 
 type languages;
