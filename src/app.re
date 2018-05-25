@@ -124,8 +124,8 @@ let make = (~message, _children) => {
       {
         layout_update: 0,
         log: Log.State.initialState,
-        files: [|File.initialState|],
-        activeFile: 0,
+        files: [||],
+        activeFile: (-1),
         answers: [||],
         flags,
         types: [],
@@ -201,23 +201,36 @@ let make = (~message, _children) => {
         ReasonReact.Update({...state, files: copy});
       },
     didMount: self => {
-      /* We load files from local storage if availible */
-      Js.Promise.(
-        ignore(
-          LocalForage.getItem("files")
-          |> then_(files => {
-               switch (Js.Null.toOption(files)) {
-               | None => self.send(Log(Log.info("Starting new session")))
-               | Some(f) =>
-                 self.send(
-                   Log(Log.info("Session restored from local storage")),
-                 );
-                 self.send(SetFiles(f));
-               };
-               resolve(files);
-             }),
-        )
-      );
+      File.check_version()
+      |> Js.Promise.then_(didReset => {
+           /* We load files from local storage if availible */
+           open Js.Promise;
+           LocalForage.getItem("files")
+           |> then_(files => {
+                switch (Js.Null.toOption(files)) {
+                | None =>
+                  self.send(
+                    Log(Log.err("Failed to load files from local storage.")),
+                  )
+                | Some(f) =>
+                  self.send(
+                    Log(
+                      Log.info(
+                        if (didReset) {"New session"} else {
+                          "Session restored from local storage"
+                        },
+                      ),
+                    ),
+                  );
+                  self.send(SetFiles(f));
+                  self.send(SetActiveFile(0));
+                };
+                resolve(files);
+              })
+           |> ignore;
+           resolve(didReset);
+         })
+      |> ignore;
       /* We launch Elpi with appropriate callbacks
        * for logs and answers */
       let logger = (name, l, p, t) => {
@@ -329,7 +342,13 @@ let make = (~message, _children) => {
               onDragFinished=(() => self.send(LayoutChange))>
               <Pane className="jr-editor">
                 <Monaco
-                  file=self.state.files[self.state.activeFile]
+                  file=(
+                         if (self.state.activeFile >= 0) {
+                           self.state.files[self.state.activeFile];
+                         } else {
+                           {name: "", content: ""};
+                         }
+                       )
                   onChange=(self.handle(changeEditorValue))
                 />
               </Pane>

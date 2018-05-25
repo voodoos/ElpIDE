@@ -1,9 +1,9 @@
-type state = {active: File.t};
+type state = {active: int};
 
 type retainedProps = {files: array(File.t)};
 
 type action =
-  | SetActive(File.t);
+  | SetActive(int);
 
 let component = ReasonReact.reducerComponentWithRetainedProps("FileBrowser");
 
@@ -50,7 +50,7 @@ let make = (~files, ~onClickFile, ~onClickNew, ~onDeleteFile, _children) => {
   };
   {
     ...component,
-    initialState: () => {active: files[0]},
+    initialState: () => {active: (-1)},
     retainedProps: {
       files: files,
     },

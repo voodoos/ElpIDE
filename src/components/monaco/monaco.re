@@ -58,14 +58,13 @@ let make = (~file: File.t, ~onChange, _children) => {
   },
   shouldUpdate: ({oldSelf, newSelf}) => oldSelf.state.fileName != file.name,
   willUpdate: ({oldSelf, newSelf}) => newSelf.send(SetFileName(file.name)),
-  didUpdate: ({oldSelf, newSelf}) =>
+  didUpdate: _p =>
     switch (editor^) {
     | None => ()
     | Some(e) =>
-      Js.log("update");
-      e |. MonacoEditor.IStandaloneCodeEditor.setValue(file.content);
+      e |. MonacoEditor.IStandaloneCodeEditor.setValue(file.content)
     },
-  render: self =>
+  render: _self =>
     <div
       id="monaco"
       style=(ReactDOMRe.Style.make(~height="100%", ~overflow="hidden", ()))
