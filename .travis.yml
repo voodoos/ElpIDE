@@ -1,12 +1,12 @@
 language: node_js
 node_js:
   - "8"
-cache:
-  yarn: true
-  directories:
-    - "node_modules"
-    - "lib"
-    - "build"
+#cache:
+#  yarn: true
+#  directories:
+#    - "node_modules"
+#    - "lib"
+#    - "build"
 script: "yarn global add parcel-bundler && yarn build"
 deploy:
   provider: pages
