@@ -59,24 +59,24 @@ let make = (~file, ~value, ~onChange, _children) => {
                    "automaticLayout": true,
                  },
                );
-          editor
-          |. IStandaloneCodeEditor.onDidChangeModelContent(e =>
-               if (! Js.to_bool(e##isFlush)) {
-                 onChange(editor |. IStandaloneCodeEditor.getValue());
-               }
-             )
-          |. ignore;
+          /*editor
+            |. IStandaloneCodeEditor.onDidChangeModelContent(e =>
+                 if (! Js.to_bool(e##isFlush)) {
+                   onChange(editor |. IStandaloneCodeEditor.getValue());
+                 }
+               )
+            |. ignore;*/
           Some(editor);
         | None => None
         }
       );
     ReasonReact.NoUpdate;
   },
-  didUpdate: ({oldSelf, newSelf}) =>
+  /*didUpdate: ({oldSelf, newSelf}) =>
     switch (editor^) {
     | None => ()
     | Some(e) => e |. MonacoEditor.IStandaloneCodeEditor.setValue(value)
-    },
+    },*/
   render: self =>
     <div
       id="monaco"
