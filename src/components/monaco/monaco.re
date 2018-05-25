@@ -40,6 +40,7 @@ let make = (~file: File.t, ~onChange, _children) => {
                    "language": "lprolog",
                    "theme": "vs-dark",
                    "automaticLayout": true,
+                   "matchBrackets": true,
                  },
                );
           editor

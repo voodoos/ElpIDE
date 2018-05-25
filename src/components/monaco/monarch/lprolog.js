@@ -12,6 +12,7 @@ module.exports = {
     'prefixr', 'sig', 'type', 'typeabbrev', 'use_sig', 'useonly'
   ],
 
+
   moreKeywords: [
     'pi', 'sigma', ',', ';', '&', '=', '+', '-', '*', '/', '::',
     'nil', '~', '<', '>', '=<', '>='
@@ -48,8 +49,10 @@ module.exports = {
       // identifiers and keywords
       [/[a-z_$][\w+\-*\/^<>=`?@#$&!_~']*/, {
         cases: {
-          '@typeKeywords': 'keyword',
           '@keywords': 'keyword',
+          '@moreKeywords': 'keyword',
+          '@typeKeywords': 'keyword',
+          '@pervasives': 'keyword',
           '@ioPreds': 'keyword',
           '@default': 'identifier'
         }
@@ -60,8 +63,7 @@ module.exports = {
       { include: '@whitespace' },
 
       // delimiters and operators
-      [/[{}()\[\]]/, '@brackets'],
-      [/[<>](?!@symbols)/, '@brackets'],
+      [/[()\[\]]/, '@brackets'],
       [/@symbols/, {
         cases: {
           '@pervasives': 'operator',
