@@ -11,7 +11,7 @@ let handleClick = (_event, _self) => Js.log("clickedtoto!");
 
 let make = (~file: File.t, ~onChange, _children) => {
   ...component,
-  initialState: () => {fileName: file.name},
+  initialState: () => {fileName: "init"},
   reducer: (action, _state) =>
     switch (action) {
     | SetFileName(fileName) => ReasonReact.Update({fileName: fileName})
