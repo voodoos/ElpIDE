@@ -1,11 +1,9 @@
-type file = Monaco.State.t;
+type state = {active: File.t};
 
-type state = {active: file};
-
-type retainedProps = {files: array(Monaco.State.t)};
+type retainedProps = {files: array(File.t)};
 
 type action =
-  | SetActive(file);
+  | SetActive(File.t);
 
 let component = ReasonReact.reducerComponentWithRetainedProps("FileBrowser");
 
@@ -13,13 +11,13 @@ let make = (~files, ~onClickFile, ~onClickNew, ~onDeleteFile, _children) => {
   let fileList = files => {
     let lnth = Array.length(files);
     Array.mapi(
-      (i, f) =>
+      (i, f: File.t) =>
         SemanticUi.(
           <List.Item key=(string_of_int(i))>
             <List.Icon name="file" />
             <List.Content>
               <a onClick=(_e => onClickFile(i))>
-                <b> (ReasonReact.stringToElement(f##name)) </b>
+                <b> (ReasonReact.stringToElement(f.name)) </b>
               </a>
               (
                 if (lnth > 1) {

@@ -1,6 +1,6 @@
 exception MltsError;
 
-let translate = (logCB, files) => {
+let translate = (logCB, files: array(File.t)) => {
   let mlts = MltsJs.create(logCB);
   Js.Promise.make((~resolve, ~reject) =>
     switch (files) {
@@ -10,7 +10,7 @@ let translate = (logCB, files) => {
       |> Js.Promise.then_(mess => {
            logCB("info", "Mlts", mess);
            Js.Promise.all(
-             Array.map(f => mlts##transpile(f##content), files),
+             Array.map((f: File.t) => mlts##transpile(f.content), files),
            )
            |> Js.Promise.then_(vals => {
                 mlts##kill();
@@ -21,7 +21,9 @@ let translate = (logCB, files) => {
                     vals,
                   );
                 Js.log(code);
-                resolve(. [|{"name": "prog.mlts", "content": code}|]);
+                resolve(. [|
+                  File.toJs({File.name: "prog.mlts", content: code}),
+                |]);
                 Js.Promise.resolve(vals);
               })
            |> Js.Promise.catch(_err => {

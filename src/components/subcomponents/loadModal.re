@@ -1,6 +1,6 @@
 type state = {
   opened: bool,
-  selectedFiles: list((ReasonReact.reactElement, Monaco.State.t)),
+  selectedFiles: list((ReasonReact.reactElement, File.t)),
 };
 
 type action =
@@ -90,7 +90,7 @@ let make = (~trigger, ~onOk, _children) => {
                   key=name
                 />
               ),
-              Monaco.State.makeFile(name, content),
+              File.make(name, content),
             ),
             ...state.selectedFiles,
           ],

@@ -21,7 +21,7 @@ type state = {
   layout_update: int,
   log: Log.State.t,
   answers: array(Log.message),
-  files: array(Monaco.State.t),
+  files: array(File.t),
   activeFile: int,
   flags: Hashtbl.t(string, bool),
   types: list(ElpiJs.typ),
@@ -32,8 +32,8 @@ type state = {
 type action =
   | LayoutChange
   | SetActiveFile(int)
-  | SetFiles(array(Monaco.State.t))
-  | AddFiles(array(Monaco.State.t))
+  | SetFiles(array(File.t))
+  | AddFiles(array(File.t))
   | SetFlag(string, bool)
   | SetAppClass(string)
   | StartTour
@@ -52,7 +52,13 @@ let make = (~message, _children) => {
    *  It asks Elpi to compile all the files.
    */
   let clickPlay = (_event, self) =>
-    Builder.build(self.ReasonReact.state.files)
+    Builder.build(
+      {
+        Js.log(self.ReasonReact.state.files[0].name);
+        Js.log(Array.map(File.toJs, self.ReasonReact.state.files));
+        self.ReasonReact.state.files;
+      },
+    )
     |> Js.Promise.then_(types => {
          self.send(SetTypes(types));
          self.send(Log(Log.success("Ready")));
@@ -91,7 +97,8 @@ let make = (~message, _children) => {
     /* Building the zip */
     let zip = create();
     Array.iter(
-      file => ignore(zip |. write(file##name, `str(file##content))),
+      (file: File.t) =>
+        ignore(zip |. write(file.name, `str(file.content))),
       self.ReasonReact.state.files,
     );
     /* Saving the zip */
@@ -118,8 +125,8 @@ let make = (~message, _children) => {
         layout_update: 0,
         log: Log.State.initialState,
         files: [|
-          Monaco.State.initialState,
-          {"name": "test2.elpi", "content": "world \"totoro\"."},
+          File.initialState,
+          {name: "test2.elpi", content: "world \"totoro\"."},
         |],
         activeFile: 0,
         answers: [||],
@@ -164,8 +171,7 @@ let make = (~message, _children) => {
           answers: Array.append(state.answers, [|message|]),
         })
       | NewFile(name) =>
-        let files =
-          Array.append(state.files, [|Monaco.State.newFile(name)|]);
+        let files = Array.append(state.files, [|File.newFile(name)|]);
         /* Saving to local storage */
         ignore(LocalForage.setItem("files", files));
         ReasonReact.Update({...state, files});
@@ -191,7 +197,7 @@ let make = (~message, _children) => {
         ReasonReact.Update({...state, files, activeFile});
       | ChangeEditorValue(id, content) =>
         let copy = Array.copy(state.files);
-        copy[id] = {"name": copy[id]##name, "content": content};
+        copy[id] = {name: copy[id].name, content};
         /* Saving to local storage */
         ignore(LocalForage.setItem("files", copy));
         /* Updating state */
@@ -326,20 +332,12 @@ let make = (~message, _children) => {
               onDragFinished=(() => self.send(LayoutChange))>
               <Pane className="jr-editor">
                 <Monaco
-                  file=self.state.files[self.state.activeFile]##name
-                  value=self.state.files[self.state.activeFile]##content
+                  file=self.state.files[self.state.activeFile]
                   onChange=(
                     self.handle(changeEditorValue(self.state.activeFile))
                   )
                 />
               </Pane>
-              /*<Editor
-                  file=self.state.files[self.state.activeFile]##name
-                  value=self.state.files[self.state.activeFile]##content
-                  onChange=(
-                    self.handle(changeEditorValue(self.state.activeFile))
-                  )
-                />*/
               <Pane>
                 <SplitPane
                   className="bottom-right-split"

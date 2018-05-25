@@ -53,21 +53,27 @@ let build = files =>
   Js.Promise.make((~resolve, ~reject) =>
     (getMlts())(
       Array.of_list(
-        List.filter(f => Tools.isMltsFile(f##name), Array.to_list(files)),
+        List.filter(
+          (f: File.t) => Tools.isMltsFile(f.name),
+          Array.to_list(files),
+        ),
       ),
     )
     |> Js.Promise.then_(res => {
-         getElpi()##compile(
+         let files =
            Array.append(
              Array.of_list(
-               List.filter(
-                 f => Tools.isElpiFile(f##name),
-                 Array.to_list(files),
+               List.map(
+                 File.toJs,
+                 List.filter(
+                   (f: File.t) => Tools.isElpiFile(f.name),
+                   Array.to_list(files),
+                 ),
                ),
              ),
              res,
-           ),
-         )
+           );
+         getElpi()##compile(files)
          |> Js.Promise.then_(r => {
               switch (res) {
               | [||] => resolve(. r)
