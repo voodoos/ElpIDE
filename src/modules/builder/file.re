@@ -7,7 +7,7 @@ type t = {
 let toJs = tToJs;
 
 let initialState = {
-  name: "test.elpi",
+  name: "example.elpi",
   content: {|kind nat type.
   type z nat.
   type s nat -> nat.

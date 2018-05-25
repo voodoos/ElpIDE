@@ -124,10 +124,7 @@ let make = (~message, _children) => {
       {
         layout_update: 0,
         log: Log.State.initialState,
-        files: [|
-          File.initialState,
-          {name: "test2.elpi", content: "world \"totoro\"."},
-        |],
+        files: [|File.initialState|],
         activeFile: 0,
         answers: [||],
         flags,

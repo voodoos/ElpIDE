@@ -1,13 +1,21 @@
-type action = unit;
+type state = {fileName: string};
+
+type action =
+  | SetFileName(string);
 
 let editor: ref(option(MonacoEditor.IStandaloneCodeEditor.t)) = ref(None);
 
-let component = ReasonReact.statelessComponent("Monaco");
+let component = ReasonReact.reducerComponent("Monaco");
 
 let handleClick = (_event, _self) => Js.log("clickedtoto!");
 
 let make = (~file: File.t, ~onChange, _children) => {
   ...component,
+  initialState: () => {fileName: file.name},
+  reducer: (action, _state) =>
+    switch (action) {
+    | SetFileName(fileName) => ReasonReact.Update({fileName: fileName})
+    },
   didMount: _self => {
     /* Here we initialize the Monaco editor */
     editor :=
@@ -34,24 +42,28 @@ let make = (~file: File.t, ~onChange, _children) => {
                    "automaticLayout": true,
                  },
                );
-          /*editor
-            |. IStandaloneCodeEditor.onDidChangeModelContent(e =>
-                 if (! Js.to_bool(e##isFlush)) {
-                   onChange(editor |. IStandaloneCodeEditor.getValue());
-                 }
-               )
-            |. ignore;*/
+          editor
+          |. IStandaloneCodeEditor.onDidChangeModelContent(e =>
+               if (! Js.to_bool(e##isFlush)) {
+                 onChange(editor |. IStandaloneCodeEditor.getValue());
+               }
+             )
+          |. ignore;
           Some(editor);
         | None => None
         }
       );
     ReasonReact.NoUpdate;
   },
-  /*didUpdate: ({oldSelf, newSelf}) =>
+  shouldUpdate: ({oldSelf, newSelf}) => oldSelf.state.fileName != file.name,
+  willUpdate: ({oldSelf, newSelf}) => newSelf.send(SetFileName(file.name)),
+  didUpdate: ({oldSelf, newSelf}) =>
     switch (editor^) {
     | None => ()
-    | Some(e) => e |. MonacoEditor.IStandaloneCodeEditor.setValue(value)
-    },*/
+    | Some(e) =>
+      Js.log("update");
+      e |. MonacoEditor.IStandaloneCodeEditor.setValue(file.content);
+    },
   render: self =>
     <div
       id="monaco"
