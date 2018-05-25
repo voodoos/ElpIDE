@@ -147,7 +147,7 @@ let make = (~suggestions, ~messages, _children) => {
         SemanticUi.(
           <Form onSubmit=(self.handle(submit))>
 
-              <Form.Field>
+              <Form.Field className="jr-query">
                 <InlineSuggest
                   value=self.state.input_val
                   onComplete=(v => self.send(SetVal(v)))

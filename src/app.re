@@ -351,7 +351,7 @@ let make = (~message, _children) => {
                       messages=self.state.log.messages
                     />
                   </Pane>
-                  <Pane className="scroll jr-query">
+                  <Pane className="scroll">
                     <Querier
                       messages=self.state.answers
                       suggestions=self.state.types
