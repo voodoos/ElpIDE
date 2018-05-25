@@ -1,5 +1,4 @@
 /* TODO: patch the monaco-editor-sample wrong example... */
-
 type editor;
 
 type languages;
@@ -64,18 +63,19 @@ external setMonarchTokensProvider : (languages, string, 'a) => IDisposable.t =
 [@bs.send]
 external create : (editor, Dom.element, 'a) => IStandaloneCodeEditor.t = "";
 
-
 /* The next externals are needed to configure monaco's workers */
 type worker;
+
 [@bs.new] external newWorker : string => worker = "Worker";
 
 type self;
-[@bs.val]
-external self  : self = "self";
+
+[@bs.val] external self : self = "self";
 
 [@bs.set]
-external setMonacoEnvironment  : (self, {. "getWorker": (string, string) => 'a }) => unit = "MonacoEnvironment";
-
+external setMonacoEnvironment :
+  (self, {. "getWorker": (string, string) => 'a}) => unit =
+  "MonacoEnvironment";
 
 let require = () => {
   BaseJs.require(
@@ -93,15 +93,21 @@ let require = () => {
   );
   let monaco: monaco =
     BaseJs.requireAs("monaco-editor/esm/vs/editor/editor.api.js");
-  setMonacoEnvironment(self, { "getWorker": (moduleId, label) =>
-    switch label {
-    | "json" => newWorker("./workers/json.worker.js")
-    | "css" => newWorker("./workers/css.worker.js")
-    | "html" => newWorker("./workers/html.worker.js")
-    | "typescript" | "javascript" => newWorker("./workers/ts.worker.js")
-    | _ => newWorker("./workers/editor.worker.js")
-    } 
-  });
+  setMonacoEnvironment(
+    self,
+    {
+      "getWorker": (_moduleId, label) =>
+        /* TODO: weirdly on ly editor worker seems to work */
+        switch (label) {
+        | "json" => newWorker("./workers/json.worker.js")
+        | "css" => newWorker("./workers/css.worker.js")
+        | "html" => newWorker("./workers/html.worker.js")
+        | "typescript"
+        | "javascript" => newWorker("./workers/ts.worker.js")
+        | _ => newWorker("./workers/editor.worker.js")
+        },
+    },
+  );
   monaco;
 };
 
