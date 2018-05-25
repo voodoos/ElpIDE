@@ -12,6 +12,11 @@ module.exports = {
     'prefixr', 'sig', 'type', 'typeabbrev', 'use_sig', 'useonly'
   ],
 
+  moreKeywords: [
+    'pi', 'sigma', ',', ';', '&', '=', '+', '-', '*', '/', '::',
+    'nil', '~', '<', '>', '=<', '>='
+  ],
+
   typeKeywords: [
     'int', 'real', 'string', 'in_stream', 'out_stream', 'prop', 'list'
   ],
@@ -21,6 +26,14 @@ module.exports = {
     'truncate', '^', 'size', 'chr', 'string_of_int', 'substring',
     'int_to_string', 'real_to_string', 'std_in', 'std_out',
     'std_err', 'nil', '::', '<', '>', '=<', '=>'
+  ],
+
+  ioPreds: [
+    'is', 'time', 'getenv', 'open_in', 'open_out', 'open_append',
+    'open_string', 'close_in', 'close_out', 'term_to_string',
+    'string_to_term', 'input', 'output', 'input_line', 'lookahead',
+    'eof', 'flush', 'print', 'read', 'printterm', 'readterm',
+    'open_socket', 'system'
   ],
 
   // we include these common regular expressions
@@ -37,6 +50,7 @@ module.exports = {
         cases: {
           '@typeKeywords': 'keyword',
           '@keywords': 'keyword',
+          '@ioPreds': 'keyword',
           '@default': 'identifier'
         }
       }],
