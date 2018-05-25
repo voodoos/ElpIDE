@@ -78,26 +78,13 @@ external setMonacoEnvironment :
   "MonacoEnvironment";
 
 let require = () => {
-  /*BaseJs.require(
-      "monaco-editor/esm/vs/editor/browser/controller/coreCommands.js",
-    );
-    BaseJs.require(
-      "monaco-editor/esm/vs/editor/contrib/bracketMatching/bracketMatching.js",
-    );
-    BaseJs.require(
-      "monaco-editor/esm/vs/editor/contrib/suggest/suggestController.js",
-    );
-    BaseJs.require("monaco-editor/esm/vs/editor/contrib/folding/folding.js");
-    BaseJs.require(
-      "monaco-editor/esm/vs/editor/contrib/find/findController.js",
-    );*/
   let monaco: monaco =
     BaseJs.requireAs("monaco-editor/esm/vs/editor/editor.main.js");
   setMonacoEnvironment(
     self,
     {
       "getWorker": (_moduleId, label) =>
-        /* TODO: weirdly on ly editor worker seems to work */
+        /* TODO: weirdly only editor worker seems to work */
         switch (label) {
         | "json" => newWorker("./workers/json.worker.js")
         | "css" => newWorker("./workers/css.worker.js")
