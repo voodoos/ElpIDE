@@ -110,8 +110,8 @@ let make = (~message, _children) => {
        })
     |> ignore;
   };
-  let changeEditorValue = (id, content, self) =>
-    self.ReasonReact.send(ChangeEditorValue(id, content));
+  let changeEditorValue = (content, self) =>
+    self.ReasonReact.send(ChangeEditorValue(self.state.activeFile, content));
   let keyDown = (event: ReactEventRe.Keyboard.t, _self) =>
     switch (ReactEventRe.Keyboard.keyCode(event)) {
     | _ => ()
@@ -330,9 +330,7 @@ let make = (~message, _children) => {
               <Pane className="jr-editor">
                 <Monaco
                   file=self.state.files[self.state.activeFile]
-                  onChange=(
-                    self.handle(changeEditorValue(self.state.activeFile))
-                  )
+                  onChange=(self.handle(changeEditorValue))
                 />
               </Pane>
               <Pane>
