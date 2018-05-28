@@ -22,7 +22,7 @@
     -->
   <title>ElpIDE - λ-prolog editor</title>
   <style>
-    #root {
+    #root2 {
       height: 100%;
     }
 
@@ -59,9 +59,15 @@
 
     @keyframes spin {
       0% {
+        border-color: #3498db;
         transform: rotate(0deg);
       }
+      50% {
+        border-color: #db3434;
+        transform: rotate(180deg);
+      }
       100% {
+        border-color: #3498db;
         transform: rotate(360deg);
       }
     }
@@ -74,7 +80,7 @@
   </noscript>
 
   </div>
-  <div id="root">
+  <div id="root2">
     <div class="loader-container">
       <div class="txt">λ</div>
       <div class="loader"></div>
