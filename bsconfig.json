@@ -14,8 +14,9 @@
   "bs-dependencies": [
     "reason-react",
     "elpi-js",
-    "bs-react-split-pane",
-    "bs-jszip"
+    "bs-fetch",
+    "bs-jszip",
+    "bs-react-split-pane"
   ],
   "bsc-flags": [
     "-bs-super-errors"

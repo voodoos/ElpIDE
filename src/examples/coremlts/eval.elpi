@@ -154,7 +154,7 @@ matching Val (R::Rs) V :- applymatch [] [] Val R V    ; matching Val Rs V.
 applymatch Ns Vs Exp (all   R) V :- sigma X\ applymatch Ns (arity0 X::Vs) Exp (R X) V.
 applymatch Ns Vs Exp (all'  R) V :- sigma X\ applymatch Ns (arity1 X::Vs) Exp (R X) V. %'
 applymatch Ns Vs Exp (all'' R) V :- sigma X\ applymatch Ns (arity2 X::Vs) Exp (R X) V.
-applymatch Ns Vs Exp (nab   R) V :- pi x\    applymatch [(copy _ x)|Ns] Vs Exp (R x) V.
+applymatch Ns Vs Exp (nab   R) V :- pi x\    applymatch [(copy N_ x)|Ns] Vs Exp (R x) V.
 applymatch Ns Vs Exp (Exp' ==> Result) V :-
   ((pi N\ pi X\ (copy N X) :- member (copy N X) Ns) => (pi N\ copy N N :- nom N) => (copy Exp Exp')),
   mappred (A\N\ sigma X\ ((copy N X) = A)) Ns Noms,
@@ -200,8 +200,8 @@ copy (cns X Y) (cns U V) :- copy X U, copy Y V.
 eval_spec cons    (U::V::[]) (cns V U).
 special 1 car    & special 1 cdr    & special 2 cons  & special 1 nullp & special 1 consp.
 %   Deconstructors and predicates are not needed now that we have pattern matching.
-eval_spec car     ((cns V _)::[]) V.
-eval_spec cdr     ((cns _ U)::[]) U.
+eval_spec car     ((cns V _U)::[]) V.
+eval_spec cdr     ((cns _V U)::[]) U.
 eval_spec nullp   (U::[]) V :- if (U = null) (V = tt) (V = ff).
 eval_spec consp   (U::[]) V :- if (U = null) (V = ff) (V = tt).
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%

@@ -18,12 +18,12 @@ type mappred                    (A -> B -> prop) -> list A -> list B -> prop.
 type rev list A -> list A -> list A -> prop.
 
 member X [X|_].
-member X [_|R] :- member X R.
+member X [_Y|R] :- member X R.
 
 append [] K K.
 append (X::L) K (X::M) :- append L K M.
 
-foreach _ [].
+foreach _P [].
 foreach P (X::L) :- P X, foreach P L.
 
 forsome P (X::L) :- P X; forsome P L.
@@ -35,14 +35,14 @@ reverse L K :- rev L [] K.
 rev [] L L.
 rev (X::L) K M :- rev L (X::K) M.
 
-foldl _ [] X X.
+foldl _P [] X X.
 foldl P (Z::L) X Y :- P Z X W, foldl P L W Y.
 
 length [] 0.
-length (_::Q) N :- length Q N', N is N' + 1.
+length (_Z::Q) N :- length Q N', N is N' + 1.
 
 distinct [].
 distinct [X|L] :- not(member X L), distinct L.
 
-mappred _ [] [].
+mappred _P [] [].
 mappred P (X::L) (Y::K) :- P X Y, mappred P L K.

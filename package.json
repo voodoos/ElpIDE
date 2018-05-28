@@ -5,6 +5,7 @@
   "author": "voodoos",
   "license": "MIT",
   "dependencies": {
+    "bs-fetch": "^0.3.0",
     "bs-jszip": "https://github.com/voodoos/bs-jszip",
     "elpi-js": "https://github.com/voodoos/elpi-js",
     "file-saver": "^1.3.8",

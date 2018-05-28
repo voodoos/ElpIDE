@@ -11,7 +11,40 @@ type action =
 let component = ReasonReact.reducerComponent("LoadModal");
 
 let make = (~trigger, ~onOk, _children) => {
+  let validate = name =>
+    Js.Re.test(name, [%bs.re "/^[^\\.]+\\.(?:elpi|mlts|mod|sig)$/gm"]);
   let openM = (_e, self) => self.ReasonReact.send(Opened(true));
+  let addMlts = (_e, self) => {
+    open Js.Promise;
+    /* weird trick to please Parcel */
+    let t = BaseJs.requireAs("../../examples/coremlts.zip");
+    Fetch.fetch(t)
+    |> then_(Fetch.Response.blob)
+    |> then_(f => Zip.(
+          create()
+          |. loadAsync(`blob(BaseJs.fromFetchBlob(f)))
+          |> Js.Promise.then_(zip => {
+              zip
+              |. forEach((_relativePath, zipEntry) =>
+                    if (validate(zipEntry##name)) {
+                      zipEntry
+                      |. Object.asyncString()
+                      |> Js.Promise.then_(content => {
+                          self.ReasonReact.send(
+                            AddFile(zipEntry##name, content),
+                          );
+                          Js.Promise.resolve(content);
+                        })
+                      |> ignore;
+                    }
+                  );
+              /*Js.log(zipEntry##name));*/
+              Js.Promise.resolve(zip);
+            })
+          |> ignore
+    ) |> resolve)
+    |> ignore;
+  };
   let closeM = (_e, self) => {
     self.ReasonReact.send(EmptyFiles);
     self.send(Opened(false));
@@ -25,8 +58,6 @@ let make = (~trigger, ~onOk, _children) => {
   };
   let change = (event, self) => {
     self.ReasonReact.send(EmptyFiles);
-    let validate = name =>
-      Js.Re.test(name, [%bs.re "/^[^\\.]+\\.(?:elpi|mlts|mod|sig)$/gm"]);
     let readZip = f =>
       Zip.(
         create()
@@ -126,6 +157,14 @@ let make = (~trigger, ~onOk, _children) => {
             />
           </Modal.Content>
           <Modal.Actions>
+            <Button
+              color=`blue
+              basic=true
+              inverted=true
+              onClick=((e, _d) => self.handle(addMlts, e))>
+              <Icon name="plus" />
+              (ReasonReact.stringToElement("Add MTLS kernel"))
+            </Button>
             <Button
               color=`red
               basic=true

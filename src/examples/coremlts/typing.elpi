@@ -37,14 +37,14 @@ typeof (pr X Y)  (prty A B) :- typeof X A, typeof Y B.
 
 typeof tt bool & typeof and (arr bool (arr bool bool)).
 typeof ff bool & typeof or  (arr bool (arr bool bool)).
-typeof equal (arr _ (arr _ bool)).
+typeof equal (arr _A (arr _A' bool)).
 
-typeof null  (lst _)             & typeof cons  (arr _A (arr (lst _A) (lst _A))).%'
+typeof null  (lst _A)             & typeof cons  (arr _A (arr (lst _A) (lst _A))).%'
 typeof car   (arr (lst A) A)     & typeof cdr   (arr (lst A) (lst A)).
-typeof consp (arr (lst _) bool)  & typeof nullp (arr (lst _) bool).
+typeof consp (arr (lst _A) bool)  & typeof nullp (arr (lst _A) bool).
 %typeof pair  (arr A (arr B (prty A B))).
 
-typeof (i _) int                        & typeof zerop   (arr int bool).
+typeof (i _I) int                        & typeof zerop   (arr int bool).
 typeof greater (arr int (arr int bool)) & typeof minus   (arr int (arr int int)).
 typeof sum     (arr int (arr int int))  & typeof times   (arr int (arr int int)).
 
@@ -52,7 +52,7 @@ typeof sum     (arr int (arr int int))  & typeof times   (arr int (arr int int))
 %%%% New features to MLTS
 
 % Below, typing of new and nab allows for introducing a new nominal of any type.
-typeof (new R) A     :- pi x\ typeof x _   => typeof (R x) A.
+typeof (new R) A     :- pi x\ typeof x B_   => typeof (R x) A.
 %typeof (abt R) utm   :- pi x\ typeof x utm => typeof (R x) utm.
 %typeof (ab  R) utm   :- pi x\ typeof x utm => typeof (R x) utm.
 %typeof (ap M N) utm  :- typeof M utm, typeof N utm.
@@ -61,10 +61,10 @@ typeof (match Exp Rules) B :- typeof Exp A, typematch A Rules B.
 
 typematch A (R::Rs) B :- typematchrulex A R B, typematch A Rs B',
 	  (B = B', !; err_wrong_type (Rs) B B' "matching", fail).%'
-typematch _ [] _. 
+typematch _A [] _B. 
 
 typematchrulex A (Exp ==> Result) B :- typeof Exp A, typeof Result B. 
-typematchrulex A (nab   R) B :- pi x\ typeof x _                           => typematchrulex A (R x) B.
-typematchrulex A (all   R) B :- pi x\ typeof x _                           => typematchrulex A (R x) B.
-typematchrulex A (all'  R) B :- pi x\ (pi u\ typeof (x u) _ :- typeof u _) => typematchrulex A (R x) B. %'
-typematchrulex A (all'' R) B :- pi x\ (pi u\ pi v\ typeof (x u v) _ :- typeof u _, typeof v _) => typematchrulex A (R x) B.
+typematchrulex A (nab   R) B :- pi x\ typeof x C_                           => typematchrulex A (R x) B.
+typematchrulex A (all   R) B :- pi x\ typeof x C_                           => typematchrulex A (R x) B.
+typematchrulex A (all'  R) B :- pi x\ (pi u\ typeof (x u) C_ :- typeof u D_) => typematchrulex A (R x) B. %'
+typematchrulex A (all'' R) B :- pi x\ (pi u\ pi v\ typeof (x u v) C_ :- typeof u D_, typeof v E_) => typematchrulex A (R x) B.
