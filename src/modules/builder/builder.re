@@ -8,6 +8,15 @@ exception NoElpi;
 
 exception NoMlts;
 
+exception BuildError(string);
+
+let handleFailure =
+  [@bs.open]
+  (
+    fun
+    | BuildError(s) => s
+  );
+
 let elpiWorker: ref(option(ElpiJs.elpi)) = ref(None);
 
 let mltsTrans = ref(None);
@@ -60,6 +69,7 @@ let build = files =>
       ),
     )
     |> Js.Promise.then_(res => {
+         Js.log("notcatched");
          let files =
            Array.append(
              Array.of_list(
@@ -75,6 +85,7 @@ let build = files =>
            );
          getElpi()##compile(files)
          |> Js.Promise.then_(r => {
+              Js.log("compileok");
               switch (res) {
               | [||] => resolve(. r)
               | _ =>
@@ -85,22 +96,29 @@ let build = files =>
                    })
                 |> Js.Promise.catch(_err => {
                      resolve(. r);
-                     Js.Promise.reject(raise(ElpiFailed));
+                     Js.Promise.reject(ElpiFailed);
                    })
                 |> ignore
               };
               Js.Promise.resolve(r);
             })
          |> Js.Promise.catch(_r => {
-              reject(. raise(ElpiFailed));
-              Js.Promise.reject(raise(ElpiFailed));
+              Js.log("compilefail");
+              reject(. ElpiFailed);
+              Js.Promise.reject(ElpiFailed);
             })
          |> ignore;
          Js.Promise.resolve(res);
        })
-    |> Js.Promise.catch(_r => {
-         reject(. raise(MltsFailed));
-         Js.Promise.reject(raise(MltsFailed));
+    |> Js.Promise.catch(err => {
+         Js.log("catched");
+         let mess =
+           switch (MltsBuilder.handleFailure(err)) {
+           | Some(s) => s
+           | _ => "Unknown (mlts) translation error"
+           };
+         reject(. BuildError(mess));
+         Js.Promise.reject(BuildError(mess));
        })
     |> ignore
   );

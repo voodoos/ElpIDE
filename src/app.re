@@ -14,8 +14,6 @@
 
 module SUI = SemanticUi;
 
-exception ElpiCompileError;
-
 type state = {
   /* The following is a dummy to trigger re-rendering when layout is dragged */
   layout_update: int,
@@ -65,11 +63,16 @@ let make = (~message, _children) => {
          Js.Promise.resolve(types);
        })
     |> Js.Promise.catch(err => {
-         let m = Js.Exn.message(ElpiJs.exnOfError(err));
-         switch (m) {
-         | Some(t) => self.send(Log(Log.err(t)))
+         switch (Builder.handleFailure(err)) {
+         | Some(s) => self.send(Log(Log.err(s)))
          | _ => ()
          };
+         /*
+          let m = Js.Exn.message(ElpiJs.exnOfError(err));
+          switch (m) {
+          | Some(t) => self.send(Log(Log.err(t)))
+          | _ => ()
+          };*/
          self.send(
            Log(
              Log.err(
@@ -77,7 +80,7 @@ let make = (~message, _children) => {
              ),
            ),
          );
-         Js.Promise.reject(raise(ElpiCompileError));
+         Js.Promise.reject(Builder.BuildError(""));
        })
     |> ignore;
   let clickRestart = (_event, self) => {

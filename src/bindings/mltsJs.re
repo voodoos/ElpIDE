@@ -1,5 +1,3 @@
-external exnOfError : Js.Promise.error => Js.Exn.t = "%identity";
-
 type mlts = {
   .
   [@bs.meth]
@@ -17,6 +15,8 @@ type mlts = {
   "start": Js.Promise.t(string),
   [@bs.meth] "kill": unit => unit,
 };
+
+external exnOfError : Js.Promise.error => Js.Exn.t = "%identity";
 
 [@bs.new] [@bs.module "mlts-js"]
 /* Logging callback */

@@ -1,4 +1,11 @@
-exception MltsError;
+exception Error(string);
+
+let handleFailure =
+  [@bs.open]
+  (
+    fun
+    | Error(s) => s
+  );
 
 let translate = (logCB, files: array(File.t)) => {
   let mlts = MltsJs.create(logCB);
@@ -13,6 +20,7 @@ let translate = (logCB, files: array(File.t)) => {
              Array.map((f: File.t) => mlts##transpile(f.content), files),
            )
            |> Js.Promise.then_(vals => {
+                Js.log("allok");
                 mlts##kill();
                 let code =
                   Array.fold_left(
@@ -20,24 +28,31 @@ let translate = (logCB, files: array(File.t)) => {
                     "",
                     vals,
                   );
-                Js.log(code);
                 resolve(. [|
                   File.toJs({File.name: "prog.mlts", content: code}),
                 |]);
                 Js.Promise.resolve(vals);
               })
-           |> Js.Promise.catch(_err => {
+           |> Js.Promise.catch(err => {
+                let exn = MltsJs.exnOfError(err);
+                let mess =
+                  switch (Js.Exn.message(exn)) {
+                  | Some(s) => s
+                  | _ => "Unknown (mlts) translation error"
+                  };
                 mlts##kill();
-                reject(. raise(MltsError));
-                Js.Promise.resolve(raise(MltsError));
+                Js.log2("tranlsatefail", mess);
+                reject(. Error(mess));
+                Js.Promise.reject(Error(mess));
               })
            |> ignore;
            Js.Promise.resolve(mess);
          })
       |> Js.Promise.catch(_err => {
            mlts##kill();
-           reject(. raise(MltsError));
-           Js.Promise.resolve("Mlts translation failed");
+           Js.log("badstart");
+           reject(. Error("Mlts translation failed"));
+           Js.Promise.reject(Error("Mlts translation failed"));
          })
       |> ignore
     }
