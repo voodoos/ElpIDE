@@ -50,13 +50,7 @@ let make = (~message, _children) => {
    *  It asks Elpi to compile all the files.
    */
   let clickPlay = (_event, self) =>
-    Builder.build(
-      {
-        Js.log(self.ReasonReact.state.files[0].name);
-        Js.log(Array.map(File.toJs, self.ReasonReact.state.files));
-        self.ReasonReact.state.files;
-      },
-    )
+    Builder.build(self.ReasonReact.state.files)
     |> Js.Promise.then_(types => {
          self.send(SetTypes(types));
          self.send(Log(Log.success("Ready")));

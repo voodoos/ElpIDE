@@ -69,7 +69,6 @@ let build = files =>
       ),
     )
     |> Js.Promise.then_(res => {
-         Js.log("notcatched");
          let files =
            Array.append(
              Array.of_list(
@@ -83,9 +82,15 @@ let build = files =>
              ),
              res,
            );
-         getElpi()##compile(files)
+         getElpi()##compile(
+           files,
+           /** If mlts is in use, we don't perform static check
+            * on build because an other one will happen right
+            * after when the query starts
+            **/
+           Js.Boolean.to_js_boolean(Array.length(res) <= 0),
+         )
          |> Js.Promise.then_(r => {
-              Js.log("compileok");
               switch (res) {
               | [||] => resolve(. r)
               | _ =>
@@ -103,7 +108,6 @@ let build = files =>
               Js.Promise.resolve(r);
             })
          |> Js.Promise.catch(_r => {
-              Js.log("compilefail");
               reject(. ElpiFailed);
               Js.Promise.reject(ElpiFailed);
             })
@@ -111,7 +115,6 @@ let build = files =>
          Js.Promise.resolve(res);
        })
     |> Js.Promise.catch(err => {
-         Js.log("catched");
          let mess =
            switch (MltsBuilder.handleFailure(err)) {
            | Some(s) => s
