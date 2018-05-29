@@ -55,7 +55,7 @@ let make =
                   onClick=onClickPlay
                   disabled=(playDisabled || buildInProgress)
                   className="jr-build">
-                  <Icon name="settings" />
+                  <Icon name="play" />
                 </Button>
               </Button.Group>
             </Menu.Item>
