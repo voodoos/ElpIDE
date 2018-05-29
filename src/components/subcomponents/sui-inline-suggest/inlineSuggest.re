@@ -70,9 +70,9 @@ let make =
             )
           )
           <div className="is-suggestion">
-            (ReasonReact.stringToElement(suggestion))
+            (ReasonReact.string(suggestion))
             <span className="is-info">
-              (ReasonReact.stringToElement(info))
+              (ReasonReact.string(info))
             </span>
           </div>
         </div>

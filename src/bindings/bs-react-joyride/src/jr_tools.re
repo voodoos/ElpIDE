@@ -12,9 +12,6 @@ type plcmtB = [ | `top | `bottom | `left | `right];
 /* For maximum code factorization (and unreadability) the following lines make use of *partial function application* */
 let makeJsOptionMap = (f, b) => Js.Option.map((. a) => f(a), b);
 
-/* For boolean props */
-let fromBool = makeJsOptionMap(Js.Boolean.to_js_boolean);
-
 let fromEvt = makeJsOptionMap(evtToJs);
 
 let fromPlcmt = makeJsOptionMap(plcmtToJs);

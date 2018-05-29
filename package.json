@@ -18,12 +18,13 @@
     "react-split-pane": "https://github.com/voodoos/react-split-pane#v2",
     "react-treebeard": "^2.1.0",
     "semantic-ui-css": "^2.3.1",
-    "semantic-ui-react": "^0.79.1"
+    "semantic-ui-react": "^0.80.2"
   },
   "scripts": {
-    "install": "bsb -make-world",
-    "start": "(bsb -w &) && parcel public/index.html",
-    "build": "bsb -make-world && parcel build public/index.html --public-url ./ -d build/",
+    "install": "./node_modules/bs-platform/lib/bsb -make-world",
+    "clean": "./node_modules/bs-platform/lib/bsb -clean",
+    "start": "(./node_modules/bs-platform/lib/bsb -w &) && parcel public/index.html",
+    "build": "./node_modules/bs-platform/lib/bsb -make-world && parcel build public/index.html --public-url ./ -d build/",
     "test": "return 0"
   },
   "devDependencies": {
@@ -33,11 +34,11 @@
     "babel-plugin-transform-object-rest-spread": "^6.26.0",
     "babel-preset-es2015": "^6.24.1",
     "babel-preset-react": "^6.24.1",
-    "bs-platform": "^2.2.3",
+    "bs-platform": "^3.1.4",
     "bs-react-split-pane": "https://github.com/voodoos/bs-react-split-pane",
     "bs-semantic-ui-react": "https://github.com/voodoos/bs-semantic-ui-react",
-    "bsb-js": "^1.0.2",
+    "bsb-js": "^1.1.3",
     "less": "^3.0.2",
-    "reason-react": "^0.3.4"
+    "reason-react": "^0.4.2"
   }
 }

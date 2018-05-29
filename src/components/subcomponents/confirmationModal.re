@@ -31,10 +31,10 @@ let make = (~trigger, ~message, ~onOk, ~onNope=() => (), _children) => {
           <Header
             icon={<Icon name="warning" />}
             size=`huge
-            content=(ReasonReact.stringToElement("Warning"))
+            content=(ReasonReact.string("Warning"))
           />
           <Modal.Content>
-            <p> (ReasonReact.stringToElement(message)) </p>
+            <p> (ReasonReact.string(message)) </p>
           </Modal.Content>
           <Modal.Actions>
             <Button
@@ -43,11 +43,11 @@ let make = (~trigger, ~message, ~onOk, ~onNope=() => (), _children) => {
               inverted=true
               onClick=((e, _d) => self.handle(closeM, e))>
               <Icon name="remove" />
-              (ReasonReact.stringToElement("Cancel"))
+              (ReasonReact.string("Cancel"))
             </Button>
             <Button color=`green onClick=((e, _d) => self.handle(submit, e))>
               <Icon name="checkmark" />
-              (ReasonReact.stringToElement("Comfirm"))
+              (ReasonReact.string("Comfirm"))
             </Button>
           </Modal.Actions>
         </Modal>

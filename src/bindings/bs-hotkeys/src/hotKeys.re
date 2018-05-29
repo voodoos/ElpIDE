@@ -10,7 +10,7 @@ external makeProps :
   (
     ~keyMap: keymap=?,
     ~handlers: handlers=?, /* todo: Not satisfying */
-    ~focused: Js.boolean=?,
+    ~focused: bool=?,
     ~attach: 'a=?, /* todo: dangerous */
     ~onFocus: unit => unit=?,
     ~onBlur: unit => unit=?,
@@ -35,7 +35,7 @@ let make =
       makeProps(
         ~keyMap=?fromListKM(keyMap),
         ~handlers=?fromListHL(handlers),
-        ~focused=?fromBool(focused),
+        ~focused?,
         ~attach?,
         ~onFocus?,
         ~onBlur?,

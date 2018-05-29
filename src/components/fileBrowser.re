@@ -17,7 +17,7 @@ let make = (~files, ~onClickFile, ~onClickNew, ~onDeleteFile, _children) => {
             <List.Icon name="file" />
             <List.Content>
               <a onClick=(_e => onClickFile(i))>
-                <b> (ReasonReact.stringToElement(f.name)) </b>
+                <b> (ReasonReact.string(f.name)) </b>
               </a>
               (
                 if (lnth > 1) {
@@ -39,7 +39,7 @@ let make = (~files, ~onClickFile, ~onClickNew, ~onDeleteFile, _children) => {
                     onOk=(() => onDeleteFile(i))
                   />;
                 } else {
-                  ReasonReact.nullElement;
+                  ReasonReact.null;
                 }
               )
             </List.Content>

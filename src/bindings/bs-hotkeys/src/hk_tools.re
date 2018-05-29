@@ -32,9 +32,6 @@ let keysToJs = k =>
 
 let makeJsOptionMap = (f, b) => Js.Option.map((. a) => f(a), b);
 
-/* option(bool) => option(Js.boolean)*/
-let fromBool = makeJsOptionMap(Js.Boolean.to_js_boolean);
-
 /** Tool to make lists or pairs into object
  * In these bindings a keymap is a list of pairs :
  * list((string, keySequence))

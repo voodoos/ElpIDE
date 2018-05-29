@@ -261,7 +261,6 @@ let make = (~message, _children) => {
            Js.Promise.resolve("arg");
          })
       |> ignore;
-      ReasonReact.NoUpdate;
     },
     render: self => {
       let keyMap =

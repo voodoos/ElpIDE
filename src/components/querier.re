@@ -118,7 +118,7 @@ let make = (~suggestions, ~messages, _children) => {
         | _ => ReasonReact.Update({...state, pos: (-1), input_val: ""})
         }
       },
-    didMount: self => {
+    didMount: self =>
       /* We load files from local storage if available */
       Js.Promise.(
         ignore(
@@ -131,9 +131,7 @@ let make = (~suggestions, ~messages, _children) => {
                resolve(hist);
              }),
         )
-      );
-      ReasonReact.NoUpdate;
-    },
+      ),
     shouldUpdate: ({oldSelf, newSelf}) =>
       oldSelf.state.loading !== newSelf.state.loading
       || oldSelf.state.input_val !== newSelf.state.input_val
@@ -158,8 +156,8 @@ let make = (~suggestions, ~messages, _children) => {
                   suggestions
                   props={
                     "placeholder": {j|⇅ Query...|j},
-                    "disabled": Js.Boolean.to_js_boolean(self.state.loading),
-                    "loading": Js.Boolean.to_js_boolean(self.state.loading),
+                    "disabled": self.state.loading,
+                    "loading": self.state.loading,
                   }
                 />
               </Form.Field>

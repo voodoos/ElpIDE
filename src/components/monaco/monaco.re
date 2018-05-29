@@ -16,7 +16,7 @@ let make = (~file: File.t, ~onChange, _children) => {
     switch (action) {
     | SetFileName(fileName) => ReasonReact.Update({fileName: fileName})
     },
-  didMount: _self => {
+  didMount: _self =>
     /* Here we initialize the Monaco editor */
     editor :=
       (
@@ -53,9 +53,7 @@ let make = (~file: File.t, ~onChange, _children) => {
           Some(editor);
         | None => None
         }
-      );
-    ReasonReact.NoUpdate;
-  },
+      ),
   shouldUpdate: ({oldSelf, newSelf}) => oldSelf.state.fileName != file.name,
   willUpdate: ({oldSelf, newSelf}) => newSelf.send(SetFileName(file.name)),
   didUpdate: _p =>

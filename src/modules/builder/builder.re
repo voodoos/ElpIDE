@@ -88,7 +88,8 @@ let build = files =>
             * on build because an other one will happen right
             * after when the query starts
             **/
-           Js.Boolean.to_js_boolean(Array.length(res) <= 0),
+           Array.length(res)
+           <= 0,
          )
          |> Js.Promise.then_(r => {
               switch (res) {

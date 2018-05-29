@@ -27,7 +27,7 @@ let make =
         <div id="navbar">
           <Menu className="header" inverted=false borderless=true>
             <Menu.Item header=true>
-              (ReasonReact.stringToElement(brand))
+              (ReasonReact.string(brand))
             </Menu.Item>
             <Menu.Item>
               <Button.Group inverted=false>
@@ -64,7 +64,7 @@ let make =
               <Menu.Item>
                 <Button.Group inverted=false>
                   <Button color=`teal onClick=onClickTour>
-                    (ReasonReact.stringToElement("Take the tour !"))
+                    (ReasonReact.string("Take the tour !"))
                   </Button>
                   <Button color=`blue icon=true className="jr-help">
                     <Icon name="help" />

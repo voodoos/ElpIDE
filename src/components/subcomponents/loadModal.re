@@ -117,7 +117,7 @@ let make = (~trigger, ~onOk, _children) => {
               SemanticUi.(
                 <List.Item
                   icon="file"
-                  content=(ReasonReact.stringToElement(name))
+                  content=(ReasonReact.string(name))
                   key=name
                 />
               ),
@@ -140,7 +140,7 @@ let make = (~trigger, ~onOk, _children) => {
           <Header
             icon={<Icon name="folder open" />}
             size=`huge
-            content=(ReasonReact.stringToElement("Load file from disk"))
+            content=(ReasonReact.string("Load file from disk"))
           />
           <Modal.Content>
             <Form.Field>
@@ -163,7 +163,7 @@ let make = (~trigger, ~onOk, _children) => {
               inverted=true
               onClick=((e, _d) => self.handle(addMlts, e))>
               <Icon name="plus" />
-              (ReasonReact.stringToElement("Add MTLS kernel"))
+              (ReasonReact.string("Add MTLS kernel"))
             </Button>
             <Button
               color=`red
@@ -171,14 +171,14 @@ let make = (~trigger, ~onOk, _children) => {
               inverted=true
               onClick=((e, _d) => self.handle(closeM, e))>
               <Icon name="remove" />
-              (ReasonReact.stringToElement("Cancel"))
+              (ReasonReact.string("Cancel"))
             </Button>
             <Button
               color=`green
               onClick=((e, _d) => self.handle(submit, e))
               disabled=(self.state.selectedFiles == [])>
               <Icon name="checkmark" />
-              (ReasonReact.stringToElement("Comfirm"))
+              (ReasonReact.string("Comfirm"))
             </Button>
           </Modal.Actions>
         </Modal>

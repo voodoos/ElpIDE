@@ -21,7 +21,7 @@ module IModelContentChangedEvent = {
   type t = {
     .
     "changes": array(IModelContentChange.t),
-    "isFlush": Js.boolean,
+    "isFlush": bool,
   };
 };
 
@@ -34,7 +34,7 @@ module IStandaloneCodeEditor = {
       ~options: {
                   .
                   "lineEnding": string,
-                  "preserveBOM": Js.boolean,
+                  "preserveBOM": bool,
                 }
                   =?,
       unit

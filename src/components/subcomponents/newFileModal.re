@@ -92,7 +92,7 @@ let make = (~onSubmit, _children) => {
           <Header
             icon={<Icon name="file outline" />}
             size=`huge
-            content=(ReasonReact.stringToElement("New source file"))
+            content=(ReasonReact.string("New source file"))
           />
           <Modal.Content>
             <Form.Field>
@@ -121,14 +121,14 @@ let make = (~onSubmit, _children) => {
               inverted=true
               onClick=((e, _d) => self.handle(closeM, e))>
               <Icon name="remove" />
-              (ReasonReact.stringToElement("Cancel"))
+              (ReasonReact.string("Cancel"))
             </Button>
             <Button
               color=`green
               onClick=((e, _d) => self.handle(submit, e))
               disabled=(! self.state.valid)>
               <Icon name="checkmark" />
-              (ReasonReact.stringToElement("Comfirm"))
+              (ReasonReact.string("Comfirm"))
             </Button>
           </Modal.Actions>
         </Modal>
