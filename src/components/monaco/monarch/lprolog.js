@@ -14,8 +14,8 @@ module.exports = {
 
 
   moreKeywords: [
-    'pi', 'sigma', ',', ';', '&', '=', '+', '-', '*', '/', '::',
-    'nil', '~', '<', '>', '=<', '>='
+    'pi', 'sigma',
+    'nil'
   ],
 
   typeKeywords: [
@@ -38,7 +38,9 @@ module.exports = {
   ],
 
   // we include these common regular expressions
-  symbols: /[\.:\->]+/,
+  symbols: /[\.:\->\\\=\&\,\;+\*\/\~\<\!]+/,
+
+  operators: [',', ';', '&', '=', '+', '-', '*', '/', '::', '~', '<', '>', '=<', '>=', '!'],
 
   // C# style strings
   escapes: /\\(?:[abfnrtv\\"]|x[0-9A-Fa-f]{1,4}|u[0-9A-Fa-f]{4}|U[0-9A-Fa-f]{8})/,
@@ -49,15 +51,15 @@ module.exports = {
       // identifiers and keywords
       [/[a-z_$][\w+\-*\/^<>=`?@#$&!_~']*/, {
         cases: {
-          '@keywords': 'keyword',
           '@moreKeywords': 'keyword',
+          '@keywords': 'keyword',
           '@typeKeywords': 'keyword',
           '@pervasives': 'keyword',
           '@ioPreds': 'keyword',
           '@default': 'identifier'
         }
       }],
-      [/[A-Z][\w\$]*/, 'variable'],
+      [/[A-Z][\w\$']*/, 'variable'],
 
       // whitespace
       { include: '@whitespace' },
@@ -66,7 +68,7 @@ module.exports = {
       [/[()\[\]]/, '@brackets'],
       [/@symbols/, {
         cases: {
-          '@pervasives': 'operator',
+          '@operators': 'operator',
           '@default': ''
         }
       }],
