@@ -1,5 +1,3 @@
-let schemaVersion = 1;
-
 [@bs.deriving jsConverter]
 type t = {
   name: string,
@@ -27,6 +25,13 @@ let initialState = {
 let make = (name, content) => {name, content};
 
 let newFile = name => {name, content: "% File " ++ name ++ "\n"};
+
+/* Some changes to the way files are stored could require
+ * a wipe of local storage or a specific update, the following
+ * function is wiping localStorage when the schemaVersion
+ * mismatchs. A function applying an appropriate update
+ * without destroying data would be of course preferable... */
+let schemaVersion = 1;
 
 let check_version = () =>
   Js.Promise.make((~resolve as res, ~reject as rej) =>
