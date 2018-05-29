@@ -20,7 +20,6 @@ let translate = (logCB, files: array(File.t)) => {
              Array.map((f: File.t) => mlts##transpile(f.content), files),
            )
            |> Js.Promise.then_(vals => {
-                Js.log("allok");
                 mlts##kill();
                 let code =
                   Array.fold_left(

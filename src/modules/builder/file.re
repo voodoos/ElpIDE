@@ -29,7 +29,7 @@ let newFile = name => {name, content: "% File " ++ name ++ "\n"};
 /* Some changes to the way files are stored could require
  * a wipe of local storage or a specific update, the following
  * function is wiping localStorage when the schemaVersion
- * mismatchs. A function applying an appropriate update
+ * mismatchs. A method applying an appropriate update
  * without destroying data would be of course preferable... */
 let schemaVersion = 1;
 

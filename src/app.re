@@ -49,14 +49,17 @@ let make = (~message, _children) => {
   /** Callback used when the "run" button is pressed
    *  It asks Elpi to compile all the files.
    */
-  let clickPlay = (_event, self) =>
+  let clickPlay = (_event, self) => {
+    self.ReasonReact.send(SetFlag("building", true));
     Builder.build(self.ReasonReact.state.files)
     |> Js.Promise.then_(types => {
          self.send(SetTypes(types));
+         self.send(SetFlag("building", false));
          self.send(Log(Log.success("Ready")));
          Js.Promise.resolve(types);
        })
     |> Js.Promise.catch(err => {
+         self.send(SetFlag("building", false));
          switch (Builder.handleFailure(err)) {
          | Some(s) => self.send(Log(Log.err(s)))
          | _ => ()
@@ -77,6 +80,7 @@ let make = (~message, _children) => {
          Js.Promise.reject(Builder.BuildError(""));
        })
     |> ignore;
+  };
   let clickRestart = (_event, self) => {
     self.ReasonReact.send(SetFlag("elpi_started", false));
     Builder.restartElpi()
@@ -90,6 +94,7 @@ let make = (~message, _children) => {
   let clickSave = (_event, self) => {
     /* Saving means zipping everything
      * and downloading the zip. */
+
     open Zip;
     /* Building the zip */
     let zip = create();
@@ -118,6 +123,7 @@ let make = (~message, _children) => {
     initialState: () => {
       let flags = Hashtbl.create(10);
       Hashtbl.add(flags, "elpi_started", false);
+      Hashtbl.add(flags, "building", false);
       {
         layout_update: 0,
         log: Log.State.initialState,
@@ -201,6 +207,7 @@ let make = (~message, _children) => {
       File.check_version()
       |> Js.Promise.then_(didReset => {
            /* We load files from local storage if availible */
+
            open Js.Promise;
            LocalForage.getItem("files")
            |> then_(files => {
@@ -318,6 +325,7 @@ let make = (~message, _children) => {
             onClickTour=((_e, _d) => self.send(StartTour))
             onLoadFiles=(files => self.send(AddFiles(files)))
             playDisabled=(! Hashtbl.find(self.state.flags, "elpi_started"))
+            buildInProgress=(Hashtbl.find(self.state.flags, "building"))
           />
           <SplitPane
             className="main-split"

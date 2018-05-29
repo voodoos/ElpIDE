@@ -3,6 +3,7 @@ let component = ReasonReact.statelessComponent("Toolbar");
 let make =
     (
       ~brand,
+      ~buildInProgress,
       ~playDisabled,
       ~onClickRestart,
       ~onClickPlay,
@@ -26,9 +27,7 @@ let make =
       SemanticUi.(
         <div id="navbar">
           <Menu className="header" inverted=false borderless=true>
-            <Menu.Item header=true>
-              (ReasonReact.string(brand))
-            </Menu.Item>
+            <Menu.Item header=true> (ReasonReact.string(brand)) </Menu.Item>
             <Menu.Item>
               <Button.Group inverted=false>
                 <LoadModal
@@ -54,7 +53,7 @@ let make =
                   color=`blue
                   icon=true
                   onClick=onClickPlay
-                  disabled=playDisabled
+                  disabled=(playDisabled || buildInProgress)
                   className="jr-build">
                   <Icon name="settings" />
                 </Button>
