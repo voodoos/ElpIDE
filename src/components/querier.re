@@ -6,7 +6,7 @@ let answer = argsassignements => {
       argass => argass##arg ++ ": " ++ argass##ass,
       Array.to_list(argsassignements),
     );
-  Log.message(Log.Info, [], String.concat("\n", l));
+  Log.info(String.concat("\n", l));
 };
 
 /* The main log component */

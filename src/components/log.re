@@ -65,13 +65,18 @@ module List = {
       ...component, /* spread the template's other defaults into here  */
       render: _self => {
         let prefix = List.map(p => "[" ++ p ++ "]", prefix);
-        let txt = String.concat("", prefix) ++ " " ++ text;
+        let txt =
+          if (prefix != []) {
+            String.concat("", prefix) ++ " " ++ text;
+          } else {
+            text;
+          };
         SemanticUi.(
           <Table.Row
             warning=(lvl == Warning)
             error=(lvl == Error)
             positive=(lvl == Success)>
-            <Table.Cell> (Js.String.replace("\\n", "", txt)) </Table.Cell>
+            <Table.Cell> <pre> (ReasonReact.string(txt)) </pre> </Table.Cell>
           </Table.Row>
         );
       },
