@@ -142,9 +142,13 @@ let make = (~messages, _children) => {
       SemanticUi.(
         <Menu size=`tiny inverted=false borderless=true className="p-log-menu">
           <Menu.Item header=true icon="unordered list" />
-          <Menu.Item header=true> "Log" </Menu.Item>
           <Menu.Menu position=`right>
+            <Button icon=true className="no-border" basic=true>
+              <Icon name="trash" />
+            </Button>
             <Dropdown
+              className="no-border"
+              button=true
               placeholder="level"
               selection=true
               value=(stringOfLogLevel(self.state.level))
