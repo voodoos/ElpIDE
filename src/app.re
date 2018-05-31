@@ -313,11 +313,7 @@ let make = (~message, _children) => {
             playDisabled=(! Hashtbl.find(self.state.flags, "elpi_started"))
             buildInProgress=(Hashtbl.find(self.state.flags, "building"))
           />
-          <SplitPane
-            className="main-split"
-            split=`vertical
-            defaultSize=200
-            onDragFinished=(() => self.send(LayoutChange))>
+          <SplitPane className="main-split" split=`vertical defaultSize=200>
             <Pane initialSize="200px" className="left-column">
               <FileBrowser
                 files=self.state.files
@@ -326,10 +322,7 @@ let make = (~message, _children) => {
                 onDeleteFile=(i => self.send(DeleteFile(i)))
               />
             </Pane>
-            <SplitPane
-              className="right-split"
-              split=`horizontal
-              onDragFinished=(() => self.send(LayoutChange))>
+            <SplitPane className="right-split" split=`horizontal>
               <Pane className="jr-editor">
                 <Monaco
                   file=(
@@ -343,10 +336,7 @@ let make = (~message, _children) => {
                 />
               </Pane>
               <Pane>
-                <SplitPane
-                  className="bottom-right-split"
-                  split=`vertical
-                  onDragFinished=(() => self.send(LayoutChange))>
+                <SplitPane className="bottom-right-split" split=`vertical>
                   <Pane className="scroll">
                     <Log
                       level=self.state.log.level

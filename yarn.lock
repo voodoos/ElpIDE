@@ -586,7 +586,7 @@ bs-platform@^3.1.4:
 
 "bs-react-split-pane@https://github.com/voodoos/bs-react-split-pane":
   version "0.1.0"
-  resolved "https://github.com/voodoos/bs-react-split-pane#3e7fe6d1b55c32f0309d1eed366f7b4720b02a6a"
+  resolved "https://github.com/voodoos/bs-react-split-pane#fe623cbb87ccdd63c72e4098915991afba8b9b07"
   dependencies:
     react-split-pane "https://github.com/voodoos/react-split-pane#v2"
 
