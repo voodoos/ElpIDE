@@ -9,6 +9,7 @@ type state = {
   types: list(ElpiJs.typ),
   appClass: string,
   tour: bool,
+  help: bool,
 };
 
 type action =
@@ -24,7 +25,8 @@ type action =
   | NewAnswer(Log.message)
   | NewFile(string)
   | DeleteFile(int)
-  | ChangeEditorValue(int, string);
+  | ChangeEditorValue(int, string)
+  | ToggleHelp;
 
 let component = ReasonReact.reducerComponent("App");
 
@@ -108,14 +110,15 @@ let make = (~message, _children) => {
       Hashtbl.add(flags, "elpi_started", false);
       Hashtbl.add(flags, "building", false);
       {
-        log: Log.State.initialState,
-        files: [||],
         activeFile: (-1),
         answers: [||],
-        flags,
-        types: [],
         appClass: "",
+        files: [||],
+        flags,
+        help: false,
+        log: Log.State.initialState,
         tour: false,
+        types: [],
       };
     },
     reducer: (action, state) =>
@@ -182,6 +185,7 @@ let make = (~message, _children) => {
         ignore(LocalForage.setItem("files", copy));
         /* Updating state */
         ReasonReact.Update({...state, files: copy});
+      | ToggleHelp => ReasonReact.Update({...state, help: ! state.help})
       },
     didMount: self => {
       File.check_version()
@@ -299,6 +303,7 @@ let make = (~message, _children) => {
           <div className="before" />
           <Toolbar
             brand=message
+            onClickHelp=((_e, _d) => self.send(ToggleHelp))
             onClickPlay=(self.handle(clickPlay))
             onClickRestart=(self.handle(clickRestart))
             onClickSave=(self.handle(clickSave))
@@ -308,48 +313,64 @@ let make = (~message, _children) => {
             buildInProgress=(Hashtbl.find(self.state.flags, "building"))
           />
           <SplitPane className="main-split" split=`vertical defaultSize=200>
-            <Pane initialSize="200px" className="left-column">
-              <FileBrowser
-                files=self.state.files
-                onClickFile=(i => self.send(SetActiveFile(i)))
-                onClickNew=(name => self.send(NewFile(name)))
-                onDeleteFile=(i => self.send(DeleteFile(i)))
-              />
-            </Pane>
-            <SplitPane className="right-split" split=`horizontal>
-              <Pane className="jr-editor">
-                <Monaco
-                  file=(
-                         if (self.state.activeFile >= 0) {
-                           self.state.files[self.state.activeFile];
-                         } else {
-                           {name: "", content: ""};
-                         }
-                       )
-                  onChange=(self.handle(changeEditorValue))
+
+              <Pane initialSize="200px" className="left-column">
+                <FileBrowser
+                  files=self.state.files
+                  onClickFile=(i => self.send(SetActiveFile(i)))
+                  onClickNew=(name => self.send(NewFile(name)))
+                  onDeleteFile=(i => self.send(DeleteFile(i)))
                 />
               </Pane>
-              <Pane>
-                <SplitPane className="bottom-right-split" split=`vertical>
-                  <Pane className="scroll">
-                    <Log
-                      level=self.state.log.level
-                      messages=self.state.log.messages
-                    />
-                  </Pane>
-                  <Pane className="scroll">
-                    <Querier
-                      messages=self.state.answers
-                      suggestions=self.state.types
-                    />
-                  </Pane>
-                </SplitPane>
-              </Pane>
+              <SplitPane className="right-split" split=`horizontal>
+                <Pane className="jr-editor">
+                  <Monaco
+                    file=(
+                           if (self.state.activeFile >= 0) {
+                             self.state.files[self.state.activeFile];
+                           } else {
+                             {name: "", content: ""};
+                           }
+                         )
+                    onChange=(self.handle(changeEditorValue))
+                  />
+                </Pane>
+                <Pane>
+                  <SplitPane className="bottom-right-split" split=`vertical>
+                    <Pane className="scroll">
+                      <Log
+                        level=self.state.log.level
+                        messages=self.state.log.messages
+                      />
+                    </Pane>
+                    <Pane className="scroll">
+                      <Querier
+                        messages=self.state.answers
+                        suggestions=self.state.types
+                      />
+                    </Pane>
+                  </SplitPane>
+                </Pane>
+              </SplitPane>
             </SplitPane>
-            <Pane initialSize="10px" className="help-column">
-              (ReasonReact.string("help"))
-            </Pane>
-          </SplitPane>
+            /*<Pane
+                minSize=(
+                          if (self.state.help) {
+                            "300px";
+                          } else {
+                            "0px";
+                          }
+                        )
+                maxSize=(
+                          if (self.state.help) {
+                            "300px";
+                          } else {
+                            "0px";
+                          }
+                        )
+                className="help-column">
+                (ReasonReact.string("help"))
+              </Pane>*/
           <div className="after" />
         </div>
       </HotKeys>;

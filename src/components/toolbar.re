@@ -5,6 +5,7 @@ let make =
       ~brand,
       ~buildInProgress,
       ~playDisabled,
+      ~onClickHelp,
       ~onClickRestart,
       ~onClickPlay,
       ~onClickSave,
@@ -65,7 +66,11 @@ let make =
                   <Button color=`teal onClick=onClickTour>
                     (ReasonReact.string("Take the tour !"))
                   </Button>
-                  <Button color=`blue icon=true className="jr-help">
+                  <Button
+                    color=`blue
+                    icon=true
+                    className="jr-help"
+                    onClick=onClickHelp>
                     <Icon name="help" />
                   </Button>
                 </Button.Group>
