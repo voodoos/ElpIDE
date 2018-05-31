@@ -1,8 +1,6 @@
 module SUI = SemanticUi;
 
 type state = {
-  /* The following is a dummy to trigger re-rendering when layout is dragged */
-  layout_update: int,
   log: Log.State.t,
   answers: array(Log.message),
   files: array(File.t),
@@ -14,7 +12,6 @@ type state = {
 };
 
 type action =
-  | LayoutChange
   | SetActiveFile(int)
   | SetFiles(array(File.t))
   | AddFiles(array(File.t))
@@ -111,7 +108,6 @@ let make = (~message, _children) => {
       Hashtbl.add(flags, "elpi_started", false);
       Hashtbl.add(flags, "building", false);
       {
-        layout_update: 0,
         log: Log.State.initialState,
         files: [||],
         activeFile: (-1),
@@ -124,8 +120,6 @@ let make = (~message, _children) => {
     },
     reducer: (action, state) =>
       switch (action) {
-      | LayoutChange =>
-        ReasonReact.Update({...state, layout_update: state.layout_update + 1})
       | SetFiles(files) => ReasonReact.Update({...state, files})
       | AddFiles(files) =>
         ReasonReact.Update({
