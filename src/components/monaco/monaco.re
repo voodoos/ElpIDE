@@ -45,7 +45,7 @@ let make = (~file: File.t, ~onChange, _children) => {
                );
           editor
           |. IStandaloneCodeEditor.onDidChangeModelContent(e =>
-               if (! Js.to_bool(e##isFlush)) {
+               if (! e##isFlush) {
                  onChange(editor |. IStandaloneCodeEditor.getValue());
                }
              )
@@ -54,8 +54,14 @@ let make = (~file: File.t, ~onChange, _children) => {
         | None => None
         }
       ),
-  shouldUpdate: ({oldSelf, newSelf}) => oldSelf.state.fileName != file.name,
-  willUpdate: ({oldSelf, newSelf}) => newSelf.send(SetFileName(file.name)),
+  shouldUpdate: ({oldSelf, newSelf}) => {
+    ignore(newSelf);
+    oldSelf.state.fileName != file.name;
+  },
+  willUpdate: ({oldSelf, newSelf}) => {
+    ignore(oldSelf);
+    newSelf.send(SetFileName(file.name));
+  },
   didUpdate: _p =>
     switch (editor^) {
     | None => ()

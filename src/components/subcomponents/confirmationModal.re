@@ -5,7 +5,7 @@ type action =
 
 let component = ReasonReact.reducerComponent("DeleteFileModal");
 
-let make = (~trigger, ~message, ~onOk, ~onNope=() => (), _children) => {
+let make = (~trigger, ~message, ~onOk, _children) => {
   let openM = (_e, self) => self.ReasonReact.send(Opened(true));
   let closeM = (_e, self) => self.ReasonReact.send(Opened(false));
   let submit = (e, self) => {
@@ -15,9 +15,9 @@ let make = (~trigger, ~message, ~onOk, ~onNope=() => (), _children) => {
   {
     ...component, /* spread the template's other defaults into here  */
     initialState: () => {opened: false},
-    reducer: (action, state) =>
+    reducer: (action, _state) =>
       switch (action) {
-      | Opened(opened) => ReasonReact.Update({...state, opened})
+      | Opened(opened) => ReasonReact.Update({opened: opened})
       },
     render: self =>
       SemanticUi.(

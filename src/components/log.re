@@ -111,31 +111,35 @@ module List = {
   };
 };
 
-type retainedProps = {
+/* The main log component */
+
+type state = {
   level: logLevel,
   messages: array(message),
 };
 
-/* The main log component */
-let component = ReasonReact.statelessComponentWithRetainedProps("Log");
+type action =
+  | SetLevel(logLevel);
 
-let make = (~level, ~messages, _children) => {
+let component = ReasonReact.reducerComponent("Log");
+
+let make = (~messages, _children) => {
   ...component,
-  retainedProps: {
-    level,
-    messages,
-  },
+  initialState: () => {level: Info, messages},
+  reducer: (action, state) =>
+    switch (action) {
+    | SetLevel(level) => ReasonReact.Update({...state, level})
+    },
+  willReceiveProps: self => {...self.state, messages},
   shouldUpdate: ({oldSelf, newSelf}) => {
-    let differentLvl =
-      oldSelf.retainedProps.level !== newSelf.retainedProps.level;
-    let differentMess =
-      oldSelf.retainedProps.messages !== newSelf.retainedProps.messages;
+    let differentLvl = oldSelf.state.level !== newSelf.state.level;
+    let differentMess = oldSelf.state.messages !== newSelf.state.messages;
     differentLvl || differentMess;
   },
-  render: _self =>
+  render: self =>
     /* The log is a basic table */
     <AlwaysBottom className="p-console fullpanel">
-      <List level messages />
+      <List level=self.state.level messages />
     </AlwaysBottom>,
 };
 /* We need a way to give this component to goldenlayout :

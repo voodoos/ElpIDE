@@ -18,13 +18,7 @@ let make =
   let onClickSave = (_e, _d) => onClickSave();
   {
     ...component,
-    render: _self => {
-      let options = [|
-        {"key": ".elpi", "text": ".elpi", "value": ".elpi"},
-        {"key": ".mlts", "text": ".mlts", "value": ".mlts"},
-        {"key": ".mod", "text": ".mod", "value": ".mod"},
-        {"key": ".sig", "text": ".sig", "value": ".sig"},
-      |];
+    render: _self =>
       SemanticUi.(
         <div id="navbar">
           <Menu className="header" inverted=false borderless=true>
@@ -78,7 +72,6 @@ let make =
             </Menu.Menu>
           </Menu>
         </div>
-      );
-    },
+      ),
   };
 };

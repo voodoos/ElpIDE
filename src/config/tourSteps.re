@@ -36,7 +36,7 @@ let callback = (onEnd, s) =>
   try (
     switch (s##step##target) {
     | ".jr-build" => Js.log("build")
-    | s => ()
+    | _ => ()
     }
   ) {
   | _ => onEnd()

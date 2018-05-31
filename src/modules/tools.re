@@ -1,9 +1,10 @@
-let to_js_bool = b => b ? Js.true_ : Js.false_;
-
 let isMimeZip = mime =>
-  switch mime {
-    | "application/x-compressed"| "application/x-zip-compressed" | "application/zip" | "multipart/x-zip" | "application/zip-compressed" 
-  => true
+  switch (mime) {
+  | "application/x-compressed"
+  | "application/x-zip-compressed"
+  | "application/zip"
+  | "multipart/x-zip"
+  | "application/zip-compressed" => true
   | _ => false
   };
 

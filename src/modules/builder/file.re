@@ -34,7 +34,7 @@ let newFile = name => {name, content: "% File " ++ name ++ "\n"};
 let schemaVersion = 1;
 
 let check_version = () =>
-  Js.Promise.make((~resolve as res, ~reject as rej) =>
+  Js.Promise.make((~resolve as res, ~reject as _rej) =>
     Js.Promise.(
       LocalForage.getItem("schemaVersion")
       |> then_(sv => {

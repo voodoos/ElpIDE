@@ -6,13 +6,13 @@ external react : ReasonReact.reactClass = "Loader";
 [@bs.obj]
 external makeProps :
   (
-    ~active: Js.boolean=?,
+    ~active: bool=?,
     ~_as: js=?,
     ~className: string=? /* TODO: content */,
-    ~disabled: Js.boolean=?,
-    ~indeterminate: Js.boolean=?,
+    ~disabled: bool=?,
+    ~indeterminate: bool=?,
     ~inline: js=?,
-    ~inverted: Js.boolean=?,
+    ~inverted: bool=?,
     ~size: string=?,
     unit
   ) =>
@@ -35,13 +35,13 @@ let make =
     ~reactClass=react,
     ~props=
       makeProps(
-        ~active=?fromBool(active),
+        ~active?,
         ~_as=?fromStringOrReactClass(_as),
         ~className?,
-        ~disabled=?fromBool(disabled),
-        ~indeterminate=?fromBool(indeterminate),
+        ~disabled?,
+        ~indeterminate?,
         ~inline=?fromBoolOrCentered(inline),
-        ~inverted=?fromBool(inverted),
+        ~inverted?,
         ~size=?fromSize(size),
         (),
       ),

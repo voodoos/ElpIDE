@@ -6,15 +6,15 @@ external react : ReasonReact.reactClass = "Dimmer";
 [@bs.obj]
 external makeProps :
   (
-    ~active: Js.boolean=?,
+    ~active: bool=?,
     ~_as: js=?,
     ~className: string=? /* TODO: content */,
-    ~disabled: Js.boolean=?,
-    ~inverted: Js.boolean=?,
+    ~disabled: bool=?,
+    ~inverted: bool=?,
     ~onClick: (ReactEventRe.Mouse.t, Js.t({..})) => unit=?,
     ~onClickOutside: (ReactEventRe.Mouse.t, Js.t({..})) => unit=?,
-    ~page: Js.boolean=?,
-    ~simple: Js.boolean=?,
+    ~page: bool=?,
+    ~simple: bool=?,
     unit
   ) =>
   _ =
@@ -37,15 +37,15 @@ let make =
     ~reactClass=react,
     ~props=
       makeProps(
-        ~active=?fromBool(active),
+        ~active?,
         ~_as=?fromStringOrReactClass(_as),
         ~className?,
-        ~disabled=?fromBool(disabled),
-        ~inverted=?fromBool(inverted),
+        ~disabled?,
+        ~inverted?,
         ~onClick?,
         ~onClickOutside?,
-        ~page=?fromBool(page),
-        ~simple=?fromBool(simple),
+        ~page?,
+        ~simple?,
         (),
       ),
     children,
@@ -58,9 +58,9 @@ module Dimmable = {
   external makeProps :
     (
       ~_as: js=?,
-      ~blurring: Js.boolean=?,
+      ~blurring: bool=?,
       ~className: string=? /* TODO: content */,
-      ~dimmed: Js.boolean=?,
+      ~dimmed: bool=?,
       unit
     ) =>
     _ =
@@ -71,9 +71,9 @@ module Dimmable = {
       ~props=
         makeProps(
           ~_as=?fromStringOrReactClass(_as),
-          ~blurring=?fromBool(blurring),
+          ~blurring?,
           ~className?,
-          ~dimmed=?fromBool(dimmed),
+          ~dimmed?,
           (),
         ),
       children,

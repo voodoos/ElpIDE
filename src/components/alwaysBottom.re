@@ -13,35 +13,36 @@ let setBottomRef = (theRef, {ReasonReact.state}) =>
 let make = (~className, children: array(ReasonReact.reactElement)) => {
   ...component,
   initialState: () => {bottomRef: ref(None)},
-
   retainedProps: {
     childs: children,
   },
   reducer: (_action: action, _state) => ReasonReact.NoUpdate,
-  willUpdate: ({oldSelf, newSelf}) =>
+  willUpdate: ({oldSelf, newSelf}) => {
     /* Scrolling to bottom on update ugly-fix...
      * TODO : This is wrong, works but trigger warnings :
-     *  Warning: Can't call setState (or forceUpdate) on an unmounted component. 
-     * This is a no-op, but it indicates a memory leak in your application. 
+     *  Warning: Can't call setState (or forceUpdate) on an unmounted component.
+     * This is a no-op, but it indicates a memory leak in your application.
      * To fix, cancel all subscriptions and asynchronous tasks in the componentWillUnmount method.
      * */
+    ignore(oldSelf);
     switch (newSelf.state.bottomRef^) {
     | Some(r) =>
       ReactDOMRe.domElementToObj(r)##scrollIntoView({"behavior": "smooth"}) /* unsafe */
     | _ => ()
-    },
-  didUpdate: ({oldSelf, newSelf}) =>{
+    };
+  },
+  didUpdate: ({oldSelf, newSelf}) => {
     /* Scrolling to bottom on update
      * Thanks to the Bottom div */
-
+    ignore(oldSelf);
     switch (newSelf.state.bottomRef^) {
     | Some(r) =>
       ReactDOMRe.domElementToObj(r)##scrollIntoView({"behavior": "smooth"}) /* unsafe */
     | _ => ()
-    }},
-    shouldUpdate: ({oldSelf, newSelf}) => {
-      oldSelf.retainedProps.childs !== newSelf.retainedProps.childs;
-    },
+    };
+  },
+  shouldUpdate: ({oldSelf, newSelf}) =>
+    oldSelf.retainedProps.childs !== newSelf.retainedProps.childs,
   render: self => {
     let childs =
       ReasonReact.createDomElement(

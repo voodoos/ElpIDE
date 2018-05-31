@@ -8,29 +8,29 @@ external react : ReasonReact.reactClass = "Dropdown";
 external makeProps :
   (
     ~_as: js=?,
-    ~basic: Js.boolean=?,
-    ~button: Js.boolean=?,
+    ~basic: bool=?,
+    ~button: bool=?,
     ~className: string=?,
-    ~closeOnBlur: Js.boolean=?,
-    ~closeOnChange: Js.boolean=?,
-    ~compact: Js.boolean=?,
-    ~deburr: Js.boolean=?,
-    ~defaultOpen: Js.boolean=?,
+    ~closeOnBlur: bool=?,
+    ~closeOnChange: bool=?,
+    ~compact: bool=?,
+    ~deburr: bool=?,
+    ~defaultOpen: bool=?,
     ~defaultSearchQuery: string=?,
     /* TODO: defaultSelectedLabel */
     ~defaultValue: 'a=?, /* TODO: narrow this type... */
     ~direction: string=?,
-    ~disabled: Js.boolean=?,
-    ~error: Js.boolean=?,
-    ~floating: Js.boolean=?,
-    ~fluid: Js.boolean=?, /* TODO: header */
+    ~disabled: bool=?,
+    ~error: bool=?,
+    ~floating: bool=?,
+    ~fluid: bool=?, /* TODO: header */
     ~icon: string=?,
-    ~inline: Js.boolean=?,
-    ~item: Js.boolean=?,
-    ~labeled: Js.boolean=?,
-    ~loading: Js.boolean=?,
+    ~inline: bool=?,
+    ~item: bool=?,
+    ~labeled: bool=?,
+    ~loading: bool=?,
     ~minCharacters: int=?,
-    ~multiple: Js.boolean=?,
+    ~multiple: bool=?,
     ~noResultsMessage: string=?,
     ~onAddItem: (ReactEventRe.Synthetic.t, Js.t({..})) => unit=?,
     ~onBlur: (ReactEventRe.Synthetic.t, Js.t({..})) => unit=?,
@@ -42,18 +42,18 @@ external makeProps :
     ~onMouseDown: (ReactEventRe.Mouse.t, Js.t({..})) => unit=?,
     ~onOpen: (ReactEventRe.Synthetic.t, Js.t({..})) => unit=?,
     ~onSearchChange: (ReactEventRe.Synthetic.t, Js.t({..})) => unit=?,
-    ~_open: Js.boolean=?,
-    ~openOnFocus: Js.boolean=?,
+    ~_open: bool=?,
+    ~openOnFocus: bool=?,
     ~options: array(Js.t({..}))=?,
     ~placeholder: string=?, /* TODO: pointing, renderLabel, search, searchInput */
     ~searchQuery: string=?,
-    ~selectOnBlur: Js.boolean=?,
-    ~selectOnNavigation: Js.boolean=?,
+    ~selectOnBlur: bool=?,
+    ~selectOnNavigation: bool=?,
     /* TODO: selectedLabel, selection */
-    ~simple: Js.boolean=?, /* TODO: tabIndex */
+    ~simple: bool=?, /* TODO: tabIndex */
     ~text: string=?, /* TODO: trigger */
-    ~upward: Js.boolean=?, /* TODO: value */
-    ~wrapSelection: Js.boolean=?,
+    ~upward: bool=?, /* TODO: value */
+    ~wrapSelection: bool=?,
     unit
   ) =>
   _ =
@@ -115,29 +115,29 @@ let make =
     ~props=
       makeProps(
         ~_as=?fromStringOrReactClass(_as),
-        ~basic=?fromBool(basic),
-        ~button=?fromBool(button),
+        ~basic?,
+        ~button?,
         ~className?,
-        ~closeOnBlur=?fromBool(closeOnBlur),
-        ~closeOnChange=?fromBool(closeOnChange),
-        ~compact=?fromBool(compact),
-        ~deburr=?fromBool(deburr),
-        ~defaultOpen=?fromBool(defaultOpen),
+        ~closeOnBlur?,
+        ~closeOnChange?,
+        ~compact?,
+        ~deburr?,
+        ~defaultOpen?,
         ~defaultSearchQuery?,
         /* TODO: defaultSelectedLabel */
         ~defaultValue?,
         ~direction=?fromLeftOrRight(direction),
-        ~disabled=?fromBool(disabled),
-        ~error=?fromBool(error),
-        ~floating=?fromBool(floating),
-        ~fluid=?fromBool(fluid), /* TODO: header */
+        ~disabled?,
+        ~error?,
+        ~floating?,
+        ~fluid?, /* TODO: header */
         ~icon?,
-        ~inline=?fromBool(inline),
-        ~item=?fromBool(item),
-        ~labeled=?fromBool(labeled),
-        ~loading=?fromBool(loading),
+        ~inline?,
+        ~item?,
+        ~labeled?,
+        ~loading?,
         ~minCharacters?,
-        ~multiple=?fromBool(multiple),
+        ~multiple?,
         ~noResultsMessage?,
         ~onAddItem?,
         ~onBlur?,
@@ -149,18 +149,18 @@ let make =
         ~onMouseDown?,
         ~onOpen?,
         ~onSearchChange?,
-        ~_open=?fromBool(_open),
-        ~openOnFocus=?fromBool(openOnFocus),
+        ~_open?,
+        ~openOnFocus?,
         ~options?,
         ~placeholder?, /* TODO: pointing, renderLabel, search, searchInput */
         ~searchQuery?,
-        ~selectOnBlur=?fromBool(selectOnBlur),
-        ~selectOnNavigation=?fromBool(selectOnNavigation),
+        ~selectOnBlur?,
+        ~selectOnNavigation?,
         /* TODO: selectedLabel, selection */
-        ~simple=?fromBool(simple), /* TODO: tabIndex */
+        ~simple?, /* TODO: tabIndex */
         ~text?, /* TODO: trigger */
-        ~upward=?fromBool(upward), /* TODO: value */
-        ~wrapSelection=?fromBool(wrapSelection),
+        ~upward?, /* TODO: value */
+        ~wrapSelection?,
         (),
       ),
     children,
@@ -213,16 +213,16 @@ module Item = {
   [@bs.obj]
   external makeProps :
     (
-      ~active: Js.boolean=?,
+      ~active: bool=?,
       ~_as: js=?,
       ~className: string=?,
       ~content: ReasonReact.reactElement=?,
       ~description: ReasonReact.reactElement=?,
-      ~disabled: Js.boolean=?,
+      ~disabled: bool=?,
       ~flag: string=?,
       ~icon: string=?, /* TODO: image, label */
       ~onClick: (ReactEventRe.Mouse.t, Js.t({..})) => unit=?,
-      ~selected: Js.boolean=?,
+      ~selected: bool=?,
       ~text: string=?, /* TODO: value */
       unit
     ) =>
@@ -252,11 +252,11 @@ module Item = {
           ~className?,
           ~content?,
           ~description?,
-          ~disabled=?fromBool(disabled),
+          ~disabled?,
           ~flag?,
           ~icon?,
           ~onClick?,
-          ~selected=?fromBool(selected),
+          ~selected?,
           ~text?,
           (),
         ),
@@ -274,8 +274,8 @@ module Menu = {
       ~className: string=?,
       ~content: ReasonReact.reactElement=?,
       ~direction: string=?,
-      ~_open: Js.boolean=?,
-      ~scrolling: Js.boolean=?,
+      ~_open: bool=?,
+      ~scrolling: bool=?,
       unit
     ) =>
     _ =
@@ -298,8 +298,8 @@ module Menu = {
           ~className?,
           ~content?,
           ~direction=?fromLeftOrRight(direction),
-          ~_open=?fromBool(_open),
-          ~scrolling=?fromBool(scrolling),
+          ~_open?,
+          ~scrolling?,
           (),
         ),
       children,
