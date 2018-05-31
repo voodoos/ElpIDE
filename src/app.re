@@ -362,6 +362,9 @@ let make = (~message, _children) => {
                 </SplitPane>
               </Pane>
             </SplitPane>
+            <Pane initialSize="10px" className="help-column">
+              (ReasonReact.string("help"))
+            </Pane>
           </SplitPane>
           <div className="after" />
         </div>
