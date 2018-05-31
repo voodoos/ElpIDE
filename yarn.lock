@@ -581,8 +581,8 @@ bs-fetch@^0.3.0:
     jszip "^3.1.5"
 
 bs-platform@^3.1.4:
-  version "3.1.4"
-  resolved "https://registry.yarnpkg.com/bs-platform/-/bs-platform-3.1.4.tgz#fe8495443b35aff73dfb61cba1e6d7b88311910b"
+  version "3.1.5"
+  resolved "https://registry.yarnpkg.com/bs-platform/-/bs-platform-3.1.5.tgz#fb34ee4702bc9163848d5537096c4f31ebaeed40"
 
 "bs-react-split-pane@https://github.com/voodoos/bs-react-split-pane":
   version "0.1.0"
@@ -680,8 +680,8 @@ css-to-react-native@^2.0.3:
     postcss-value-parser "^3.3.0"
 
 csstype@^2.2.0:
-  version "2.5.2"
-  resolved "https://registry.yarnpkg.com/csstype/-/csstype-2.5.2.tgz#4534308476ceede8fbe148b9b99f9baf1c80fa06"
+  version "2.5.3"
+  resolved "https://registry.yarnpkg.com/csstype/-/csstype-2.5.3.tgz#2504152e6e1cc59b32098b7f5d6a63f16294c1f7"
 
 dashdash@^1.12.0:
   version "1.14.1"
@@ -737,7 +737,7 @@ ecc-jsbn@~0.1.1:
 
 "elpi-js@https://github.com/voodoos/elpi-js":
   version "0.1.0"
-  resolved "https://github.com/voodoos/elpi-js#437e665343d0051161d426cedbb20871b2475203"
+  resolved "https://github.com/voodoos/elpi-js#2cede82942a10c339646a93f51ee77cd2243c7de"
 
 encoding@^0.1.11:
   version "0.1.12"
@@ -1297,7 +1297,7 @@ rafl@~1.2.1:
   dependencies:
     global "~4.3.0"
 
-"react-dom@>=15.0.0 || >=16.0.0", react-dom@^16.3.0:
+"react-dom@>=15.0.0 || >=16.0.0", react-dom@^16.3.0, react-dom@^16.4.0:
   version "16.4.0"
   resolved "https://registry.yarnpkg.com/react-dom/-/react-dom-16.4.0.tgz#099f067dd5827ce36a29eaf9a6cdc7cbf6216b1e"
   dependencies:
@@ -1353,8 +1353,8 @@ react-proptype-conditional-require@^1.0.4:
   resolved "https://registry.yarnpkg.com/react-proptype-conditional-require/-/react-proptype-conditional-require-1.0.4.tgz#69c2d5741e6df5e08f230f36bbc2944ee1222555"
 
 "react-split-pane@https://github.com/voodoos/react-split-pane#v2":
-  version "2.0.0"
-  resolved "https://github.com/voodoos/react-split-pane#628daf59b5cdf2a7ceb5b80afb54e1410b688b3a"
+  version "2.0.2"
+  resolved "https://github.com/voodoos/react-split-pane#434b469f4f9437f5d10de3befbea026e3517c10a"
   dependencies:
     glamor "^2.20.40"
     glamorous "^4.11.2"
@@ -1384,7 +1384,7 @@ react-treebeard@^2.1.0:
     shallowequal "^0.2.2"
     velocity-react "^1.3.1"
 
-"react@>=15.0.0 || >=16.0.0", react@^16.3.0:
+"react@>=15.0.0 || >=16.0.0", react@^16.3.0, react@^16.4.0:
   version "16.4.0"
   resolved "https://registry.yarnpkg.com/react/-/react-16.4.0.tgz#402c2db83335336fba1962c08b98c6272617d585"
   dependencies:
