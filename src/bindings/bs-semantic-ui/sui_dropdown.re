@@ -49,10 +49,12 @@ external makeProps :
     ~searchQuery: string=?,
     ~selectOnBlur: bool=?,
     ~selectOnNavigation: bool=?,
+    ~selection: bool=?,
     /* TODO: selectedLabel, selection */
     ~simple: bool=?, /* TODO: tabIndex */
     ~text: string=?, /* TODO: trigger */
-    ~upward: bool=?, /* TODO: value */
+    ~upward: bool=?,
+    ~value: 'a=?,
     ~wrapSelection: bool=?,
     unit
   ) =>
@@ -103,10 +105,12 @@ let make =
       ~searchQuery=?,
       ~selectOnBlur=?,
       ~selectOnNavigation=?,
+      ~selection=?,
       /* TODO: selectedLabel, selection */
       ~simple=?, /* TODO: tabIndex */
       ~text=?, /* TODO: trigger */
-      ~upward=?, /* TODO: value */
+      ~upward=?,
+      ~value=?,
       ~wrapSelection=?,
       children,
     ) =>
@@ -156,10 +160,12 @@ let make =
         ~searchQuery?,
         ~selectOnBlur?,
         ~selectOnNavigation?,
-        /* TODO: selectedLabel, selection */
+        ~selection?,
+        /* TODO: selectedLabel */
         ~simple?, /* TODO: tabIndex */
         ~text?, /* TODO: trigger */
-        ~upward?, /* TODO: value */
+        ~upward?,
+        ~value?,
         ~wrapSelection?,
         (),
       ),

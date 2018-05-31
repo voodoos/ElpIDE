@@ -6,10 +6,10 @@ type logLevel =
 
 let stringOfLogLevel = lvl =>
   switch (lvl) {
-  | Success => "Success"
-  | Info => "Info"
-  | Warning => "Warning"
-  | Error => "Error"
+  | Success => "success"
+  | Info => "info"
+  | Warning => "warning"
+  | Error => "error"
   };
 
 let logLevelOfString = lvl =>
@@ -138,9 +138,32 @@ let make = (~messages, _children) => {
   },
   render: self =>
     /* The log is a basic table */
-    <AlwaysBottom className="p-console fullpanel">
-      <List level=self.state.level messages />
-    </AlwaysBottom>,
+    <div className="p-console">
+      SemanticUi.(
+        <Menu size=`tiny inverted=false borderless=true className="p-log-menu">
+          <Menu.Item header=true icon="unordered list" />
+          <Menu.Item header=true> "Log" </Menu.Item>
+          <Menu.Menu position=`right>
+            <Dropdown
+              placeholder="level"
+              selection=true
+              value=(stringOfLogLevel(self.state.level))
+              onChange=(
+                (_e, d) => self.send(SetLevel(logLevelOfString(d##value)))
+              )
+              options=[|
+                {"text": "Info", "value": "info"},
+                {"text": "Warning", "value": "warning"},
+                {"text": "Error", "value": "error"},
+              |]
+            />
+          </Menu.Menu>
+        </Menu>
+      )
+      <AlwaysBottom className="p-log-messages fullpanel">
+        <List level=self.state.level messages />
+      </AlwaysBottom>
+    </div>,
 };
 /* We need a way to give this component to goldenlayout :
    let default = ReasonReact.wrapReasonForJs(~component, _jsProps => make([||]));*/

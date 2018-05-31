@@ -99,7 +99,7 @@ module Item = {
       ~disabled: bool=?,
       /* TODO: fitted */
       ~header: bool=?,
-      /* TODO: icon */
+      ~icon: string=?,
       ~index: js=?,
       ~link: bool=?,
       ~name: string=?,
@@ -118,6 +118,7 @@ module Item = {
         ~content=?,
         ~disabled=?,
         ~header=?,
+        ~icon=?,
         ~index=?,
         ~link=?,
         ~name=?,
@@ -136,6 +137,7 @@ module Item = {
           ~content?,
           ~disabled?,
           ~header?,
+          ~icon?,
           ~index=?fromNum(index),
           ~link?,
           ~position=?fromLeftOrRight(position),

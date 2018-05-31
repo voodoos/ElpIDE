@@ -8,11 +8,37 @@
 }
 
 .p-console {
+    width: 100%;
+    height: 100%;
+
+    display: flex;
+    flex-direction: column;
+    flex-wrap: nowrap;
+    justify-content: flex-start;
+    align-content: stretch;
+    align-items: flex-start;
+
     margin-top: auto;
 
     color: white;
 
     background-color: #F6F6F6;
+
+    .p-log-menu {
+        width: 100%;
+        order: 0;
+        flex: 0 0 auto;
+        align-self: flex-start;
+
+        margin-bottom: 0;
+    }
+
+    .p-log-messages {
+        width: 100%;
+        order: 0;
+        flex: 1 1 auto;
+        align-self: auto;
+    }
 
     .log-table {
         border: 0 !important;
