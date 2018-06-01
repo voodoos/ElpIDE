@@ -349,24 +349,17 @@ let make = (~message, _children) => {
               </Pane>
             </SplitPane>
           </SplitPane>
-          /*<Pane
-              minSize=(
-                        if (self.state.help) {
-                          "300px";
-                        } else {
-                          "0px";
-                        }
-                      )
-              maxSize=(
-                        if (self.state.help) {
-                          "300px";
-                        } else {
-                          "0px";
-                        }
-                      )
-              className="help-column">
-              (ReasonReact.string("help"))
-            </Pane>*/
+          <Pane
+            size=(
+                   if (self.state.help) {
+                     "300.0";
+                   } else {
+                     "0.0";
+                   }
+                 )
+            className="help-column">
+            (ReasonReact.string("help"))
+          </Pane>
           <div className="after" />
         </div>
       </HotKeys>;
