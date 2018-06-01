@@ -58,17 +58,22 @@ let monacoRef: ref(option(monaco)) = ref(None);
 /*******************
  **** LANGUAGES ****
  *******************/
-[@bs.send] external register : (languages, Js.t(_)) => unit = "";
+[@bs.send]
+external register : (languages, /* language */ Js.t(_)) => unit = "";
 
 [@bs.send]
-external setMonarchTokensProvider : (languages, string, 'a) => IDisposable.t =
+external setMonarchTokensProvider :
+  (languages, /* languageId */ string, /* languageDef */ 'a) => IDisposable.t =
   "";
 
 /******************
  ***** EDITOR *****
  ******************/
 [@bs.send]
-external create : (editor, Dom.element, 'a) => IStandaloneCodeEditor.t = "";
+external create :
+  (editor, Dom.element, /* TODO: restrict ! */ Js.t(_)) =>
+  IStandaloneCodeEditor.t =
+  "";
 
 [@bs.send]
 external createModel :
