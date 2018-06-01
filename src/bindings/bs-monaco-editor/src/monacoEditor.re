@@ -1,4 +1,5 @@
 /* TODO: patch the monaco-editor-sample wrong example... */
+type todo;
 type editor;
 
 type languages;
@@ -54,16 +55,30 @@ module ITextModel = {
 
 let monacoRef: ref(option(monaco)) = ref(None);
 
+/*******************
+ **** LANGUAGES ****
+ *******************/
 [@bs.send] external register : (languages, Js.t(_)) => unit = "";
 
 [@bs.send]
 external setMonarchTokensProvider : (languages, string, 'a) => IDisposable.t =
   "";
 
+/******************
+ ***** EDITOR *****
+ ******************/
 [@bs.send]
 external create : (editor, Dom.element, 'a) => IStandaloneCodeEditor.t = "";
 
-/* The next externals are needed to configure monaco's workers */
+[@bs.send]
+external createModel :
+  (editor, /* value */ string, ~language: string=?, ~uri: todo=?, unit) =>
+  ITextModel.t =
+  "";
+
+/******************
+ ***** WORKER *****
+ ******************/
 type worker;
 
 [@bs.new] external newWorker : string => worker = "Worker";

@@ -31,13 +31,14 @@ let make = (~file: File.t, ~onChange, _children) => {
                BaseJs.requireAs("./monarch/lprolog.js"),
              )
           |. ignore;
+          let prologModel =
+            mon##editor |. createModel(file.content, ~language="lprolog", ());
           let editor =
             mon##editor
             |. create(
                  elt,
                  {
-                   "value": file.content,
-                   "language": "lprolog",
+                   "model": prologModel,
                    "theme": "vs-dark",
                    "automaticLayout": true,
                    "matchBrackets": true,

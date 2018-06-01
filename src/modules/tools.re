@@ -1,3 +1,8 @@
+type fileKinds =
+  | Elpi
+  | Mlts
+  | Unknown;
+
 let isMimeZip = mime =>
   switch (mime) {
   | "application/x-compressed"
@@ -18,3 +23,12 @@ let isSupportedFile = name => isElpiFile(name) || isMltsFile(name);
 
 let notAlreadyLoadedMess = name =>
   ! Js.Re.test(name, [%bs.re "/(?:already loaded)/gm"]);
+
+let fileKind = filename =>
+  if (isElpiFile(filename)) {
+    Elpi;
+  } else if (isMltsFile(filename)) {
+    Mlts;
+  } else {
+    Unknown;
+  };
