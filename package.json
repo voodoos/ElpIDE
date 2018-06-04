@@ -25,7 +25,7 @@
   },
   "scripts": {
     "install": "./node_modules/bs-platform/lib/bsb -make-world",
-    "clean": "./node_modules/bs-platform/lib/bsb -clean",
+    "clean": "./node_modules/bs-platform/lib/bsb -clean && rm -rf .cache",
     "start": "(./node_modules/bs-platform/lib/bsb -w &) && parcel public/index.html",
     "build": "./node_modules/bs-platform/lib/bsb -make-world && parcel build public/index.html --public-url ./ -d build/",
     "test": "return 0"

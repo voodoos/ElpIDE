@@ -510,7 +510,7 @@ babel-register@^6.26.0:
     mkdirp "^0.5.1"
     source-map-support "^0.4.15"
 
-babel-runtime@^6.18.0, babel-runtime@^6.22.0, babel-runtime@^6.23.0, babel-runtime@^6.25.0, babel-runtime@^6.26.0:
+babel-runtime@^6.18.0, babel-runtime@^6.22.0, babel-runtime@^6.23.0, babel-runtime@^6.26.0:
   version "6.26.0"
   resolved "https://registry.yarnpkg.com/babel-runtime/-/babel-runtime-6.26.0.tgz#965c7058668e82b55d7bfe04ff2337bc8b5647fe"
   dependencies:
@@ -599,16 +599,16 @@ bs-platform@^3.1.4:
 
 "bs-react-split-pane@https://github.com/voodoos/bs-react-split-pane":
   version "0.1.0"
-  resolved "https://github.com/voodoos/bs-react-split-pane#4d45c056f74cb1c706c83b322aab206f6a335d45"
+  resolved "https://github.com/voodoos/bs-react-split-pane#e41a8ab83c9cc73885767d8ad04b21509e5c917a"
   dependencies:
     react-split-pane "https://github.com/voodoos/react-split-pane#v2"
 
 "bs-semantic-ui-react@https://github.com/voodoos/bs-semantic-ui-react":
-  version "0.1.0"
-  resolved "https://github.com/voodoos/bs-semantic-ui-react#8c327060ea86f858e7f89e6ba5417d8c6e523c8c"
+  version "0.2.0"
+  resolved "https://github.com/voodoos/bs-semantic-ui-react#127d5098d9bd4755ed12b9f09fe68412b6e610b4"
   dependencies:
     semantic-ui-css "^2.3.1"
-    semantic-ui-react "^0.79.0"
+    semantic-ui-react "^0.80.2"
 
 bsb-js@^1.1.3:
   version "1.1.3"
@@ -849,8 +849,8 @@ glamor@^2.20.40:
     through "^2.3.8"
 
 glamorous@^4.11.2:
-  version "4.13.0"
-  resolved "https://registry.yarnpkg.com/glamorous/-/glamorous-4.13.0.tgz#4ac5cb05633aa49a0396d409f665dd9b614f1b5a"
+  version "4.13.1"
+  resolved "https://registry.yarnpkg.com/glamorous/-/glamorous-4.13.1.tgz#8909afcbc7f09133c6eb26bedcc1250c1f774312"
   dependencies:
     brcast "^3.0.0"
     csstype "^2.2.0"
@@ -1195,8 +1195,8 @@ monaco-editor@^0.13.1:
   resolved "https://registry.yarnpkg.com/monaco-editor/-/monaco-editor-0.13.1.tgz#6b9ce20e4d1c945042d256825eb133cb23315a52"
 
 mousetrap@^1.5.2:
-  version "1.6.1"
-  resolved "https://registry.yarnpkg.com/mousetrap/-/mousetrap-1.6.1.tgz#2a085f5c751294c75e7e81f6ec2545b29cbf42d9"
+  version "1.6.2"
+  resolved "https://registry.yarnpkg.com/mousetrap/-/mousetrap-1.6.2.tgz#caadd9cf886db0986fb2fee59a82f6bd37527587"
 
 ms@2.0.0:
   version "2.0.0"
@@ -1367,7 +1367,7 @@ react-proptype-conditional-require@^1.0.4:
 
 "react-split-pane@https://github.com/voodoos/react-split-pane#v2":
   version "2.0.2"
-  resolved "https://github.com/voodoos/react-split-pane#434b469f4f9437f5d10de3befbea026e3517c10a"
+  resolved "https://github.com/voodoos/react-split-pane#b16b784bb7992dab52f45775981fb136d18d5387"
   dependencies:
     glamor "^2.20.40"
     glamorous "^4.11.2"
@@ -1517,16 +1517,6 @@ semantic-ui-css@^2.3.1:
   dependencies:
     jquery x.*
 
-semantic-ui-react@^0.79.0:
-  version "0.79.1"
-  resolved "https://registry.yarnpkg.com/semantic-ui-react/-/semantic-ui-react-0.79.1.tgz#80bd0ccfb3b3c1184a1b1b3f6067ab1225aed5f0"
-  dependencies:
-    babel-runtime "^6.25.0"
-    classnames "^2.2.5"
-    fbjs "^0.8.16"
-    lodash "^4.17.4"
-    prop-types "^15.5.10"
-
 semantic-ui-react@^0.80.2:
   version "0.80.2"
   resolved "https://registry.yarnpkg.com/semantic-ui-react/-/semantic-ui-react-0.80.2.tgz#a584f6dc485b0617438adc4baf6d1858e54bb930"
@@ -1591,8 +1581,8 @@ strip-ansi@^3.0.0:
     ansi-regex "^2.0.0"
 
 styled-components@^2.4.0:
-  version "2.4.0"
-  resolved "https://registry.yarnpkg.com/styled-components/-/styled-components-2.4.0.tgz#086d0fd483d54638837fca3ea546a030b94adf75"
+  version "2.4.1"
+  resolved "https://registry.yarnpkg.com/styled-components/-/styled-components-2.4.1.tgz#663bd0485d4b6ab46f946210dc03d2398d1ade74"
   dependencies:
     buffer "^5.0.3"
     css-to-react-native "^2.0.3"
