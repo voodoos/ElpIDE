@@ -36,6 +36,8 @@ module Dimmer = Sui_dimmer;
 
 module Dropdown = Sui_dropdown;
 
+module Message = Sui_message;
+
 module Modal = Sui_modal;
 
 module Sidebar = Sui_sidebar;
